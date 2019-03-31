@@ -27,13 +27,15 @@
         <div class="jiben">
           <p class="title">基本信息</p>
           <p>简称：武汉科前生物股份有限公司</p>
-          <p>行业：制药/生物工程</p>
+          <p style="margin: 30px 0">行业：制药/生物工程</p>
           <p>地址：武汉市东湖新技术开发区高新二路419号</p>
         </div>
         <div class="xiangguan">
           <p class="title">相关新闻</p>
           <ul>
-            <li>
+            <li
+              v-for="(text,index) in newsList"
+              :key="index">
               <a href="">周末影响市场重要资讯回顾</a>
               <span>来源：新浪财经 2019-03-24 15:12:48</span>
             </li>
@@ -58,39 +60,45 @@
       return{
         collectFlag:false,
         pathIndex:0,
+        newsList:[{},{},{}],
         pathList: [
           {
-            path: "/enterprise",
+            path: "/companyDetails/essential",
             text: "基本信息",
             active: false
           },
           {
-            path: "/publicOpinion",
+            path: "/companyDetails/risk",
             text: "风险信息",
             active: false
           },
           {
-            path: "/patent",
+            path: "/companyDetails/intellectual",
             text: "知识产权",
             active: false
           },
           {
-            path: "/patent",
+            path: "/companyDetails/annualReports",
             text: "企业年报",
             active: false
           },
           {
-            path: "/patent",
+            path: "/companyDetails/management",
             text: "经营信息",
             active: false
           },
           {
-            path: "/patent",
+            path: "/companyDetails/financial",
             text: "财务信息",
             active: false
           },
           {
-            path: "/patent",
+            path: "/companyDetails/publicOpinion",
+            text: "舆情信息",
+            active: false
+          },
+          {
+            path: "/companyDetails/userDefined",
             text: "自定义页",
             active: false
           }
@@ -103,10 +111,7 @@
       },
       to(path, index){
         this.pathIndex = index
-        console.log(this.flag)
-        this.$router.push({
-          path: `${this.flag}${path}`
-        })
+        this.$router.push(path)
       },
     }
   }
@@ -146,7 +151,11 @@
   .company-cover{
     width: 1200px;
     margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
     .company-content-left {
+      min-width: 680px;
       background-color: #fff;
       width: 860px;
       .company-nav {
@@ -155,7 +164,6 @@
         line-height: 40px;
         font-size: 14px;
         background-color: #ececf5;
-        margin-top: 20px;
         text-align: left;
         span {
           margin-left: 30px;
@@ -170,10 +178,43 @@
     }
     .company-content-right{
       background-color: #fff;
-      width: 340px;
-      margin-left: 20px;
+      width: 320px;
+      color: #838895;
+      font-size: 14px;
+      a{
+        color: #838895;
+        display: block;
+        font-size: 14px;
+      }
+      &>div{
+        padding: 20px 30px;
+        box-sizing: border-box;
+      }
+      &>div .title{
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      &>div .title:before{
+        display: inline-block;
+        content: "";
+        width: 5px;
+        margin-right: 5px;
+        height: 14px;
+        background-color: #557bf7;
+        transform: translateY(1px);
+      }
       .jiben{
-        border-bottom: 1px solid #f3f5fb;
+        border-bottom: 2px solid #f3f5fb;
+      }
+      .xiangguan ul li span{
+        display: inline-block;
+        color: #cad0dd;
+        font-size: 12px;
+        margin: 10px 0 20px 0;
+      }
+      .xiangguan ul li{
+        border-bottom: 1px solid #ececf5;
+        margin-bottom: 10px;
       }
     }
   }

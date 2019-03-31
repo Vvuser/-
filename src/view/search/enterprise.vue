@@ -28,7 +28,7 @@ import {mapMutations, mapGetters} from 'vuex'
 export default {
   data() {
     return {
-      searchText: ""
+
     }
   },
   computed: {
