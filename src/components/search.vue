@@ -25,7 +25,7 @@
             size="mini"
           >{{text}}</el-button>
         </div>
-        <div class="table_cover">
+        <div class="table_cover" v-if="!companyDetailsFlag">
           <div class="table_nav">
             <span
               v-for="(item,index) in pathList"
@@ -41,9 +41,11 @@
 </template>
 
 <script>
+import {mapMutations, mapGetters} from 'vuex'
 export default {
   data() {
     return {
+      companyDetailsFlag: false,
       flag: "/home",
       searchText: "",
       historySearchList: [],
@@ -69,9 +71,12 @@ export default {
   },
   methods: {
     historyFind(text){
-        sessionStorage.setItem("searchText", text);
+        this.setSearchText(text)
         this.$router.push({
-            path: "/search/enterprise"
+            path: "/search/enterprise",
+            query: {
+              search: text
+            }
         });
     },
     to(path, index){
@@ -93,7 +98,7 @@ export default {
         }
         localStorage.setItem("historySearch", JSON.stringify(historySearch));
       }
-      sessionStorage.setItem("searchText", this.searchText);
+      this.setSearchText(this.searchText)
       this.getHistorySearchList();
       this.$router.push({
         path: "/search/enterprise"
@@ -107,9 +112,14 @@ export default {
     initialize() {
       let path = this.$route.path
       if(path.indexOf("home") == -1) {
-          this.flag = '/search'
+        this.flag = '/search'
+      } else if (path.indexOf("companyDetails") > -1) {
+        this.companyDetailsFlag = true
       }
-    }
+    },
+    ...mapMutations([
+      'setSearchText'
+    ])
   },
   created() {
     this.getHistorySearchList();
