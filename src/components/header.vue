@@ -3,14 +3,46 @@
         <p>科创板审查综合检索系统</p>
         <div>
             <span>当前用户：23451</span>
-            <b><img src="../assets/image/close.jpg" alt=""></b>
+            <b @click="logout"><img src="../assets/image/close.jpg" alt=""></b>
         </div>
     </header>
 </template>
 
 <script>
   export default {
-    name: "header"
+    name: "header",
+    data(){
+      return{
+
+      }
+    },
+    methods:{
+      logout() {
+        this.$confirm('确认退出当前用户？', '退出登录', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.logoutAjax()
+        })
+      },
+      logoutAjax(){
+        this.$get('/api/loginOut',{
+          token:sessionStorage.getItem("SHANGJIAOSUOUSERTOKEN")
+        }).then(data=>{
+            console.log(data);
+            if (data.status == 200) {
+              sessionStorage.removeItem("SHANGJIAOSUOUSER")
+              sessionStorage.removeItem("SHANGJIAOSUOUSERTOKEN")
+              this.$router.replace("/login")
+            }
+          })
+          .catch(error=>{
+            this.$message.error('退出登陆失败')
+            console.log(error);
+          })
+      }
+    }
   }
 </script>
 
@@ -35,6 +67,7 @@
             height: 60px;
             line-height: 60px;
             text-align: right;
+            cursor: pointer;
             img{
                 vertical-align: middle;
             }

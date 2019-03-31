@@ -25,7 +25,7 @@
             size="mini"
           >{{text}}</el-button>
         </div>
-        <div class="table_cover">
+        <div class="table_cover" v-if="!companyDetailsFlag">
           <div class="table_nav">
             <span
               v-for="(item,index) in pathList"
@@ -41,9 +41,11 @@
 </template>
 
 <script>
+import {mapMutations, mapGetters} from 'vuex'
 export default {
   data() {
     return {
+      companyDetailsFlag: false,
       flag: "/home",
       searchText: "",
       historySearchList: [],
@@ -69,9 +71,12 @@ export default {
   },
   methods: {
     historyFind(text){
-        sessionStorage.setItem("searchText", text);
+        this.setSearchText(text)
         this.$router.push({
-            path: "/search/enterprise"
+            path: "/search/enterprise",
+            query: {
+              search: text
+            }
         });
     },
     to(path, index){
@@ -93,7 +98,7 @@ export default {
         }
         localStorage.setItem("historySearch", JSON.stringify(historySearch));
       }
-      sessionStorage.setItem("searchText", this.searchText);
+      this.setSearchText(this.searchText)
       this.getHistorySearchList();
       this.$router.push({
         path: "/search/enterprise"
@@ -107,9 +112,15 @@ export default {
     initialize() {
       let path = this.$route.path
       if(path.indexOf("home") == -1) {
-          this.flag = '/search'
+        this.flag = '/search'
       }
-    }
+      if (path.indexOf("companyDetails") > -1) {
+        this.$nextTick(()=>{this.companyDetailsFlag = true})    
+      }
+    },
+    ...mapMutations([
+      'setSearchText'
+    ])
   },
   created() {
     this.getHistorySearchList();
@@ -120,10 +131,10 @@ export default {
 
 <style scope type="text/scss" lang="scss">
 .wrapper {
-  background: -webkit-linear-gradient(#eff0f9, #fff); /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(#eff0f9, #fff); /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(#eff0f9, #fff); /* Firefox 3.6 - 15 */
-  background: linear-gradient(#eff0f9, #fff); /* 标准的语法 */
+  background: -webkit-linear-gradient(#eef0f9, #fcfcff); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(#eef0f9, #fcfcff); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(#eef0f9, #fcfcff); /* Firefox 3.6 - 15 */
+  background: linear-gradient(#eef0f9, #fcfcff); /* 标准的语法 */
   width: 100%;
   .content {
     width: 1200px;
