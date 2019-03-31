@@ -25,7 +25,7 @@ import userDefined from '@/view/companyDetails/userDefined'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     // 登录
     {
@@ -125,3 +125,15 @@ export default new Router({
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  if (sessionStorage.getItem('SHANGJIAOSUOUSER')) {
+    next()
+  } else {
+    if(to.path === '/login'){
+        next()
+    }else {
+      next({ path: '/login' })
+    }
+  }
+})
+export default router

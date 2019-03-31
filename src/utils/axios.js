@@ -1,25 +1,25 @@
 import axios from 'axios';
+import router from 'vue-router'
 import { Message } from 'element-ui';
 
-axios.defaults.timeout = 5000;
-axios.defaults.baseURL ='';
+axios.defaults.timeout = 10000;
+axios.defaults.baseURL ='http://192.168.34.37:30500';
 
 
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
-    // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
+
+    const token =  sessionStorage.getItem("SHANGJIAOSUOUSERTOKEN")
     // config.data = JSON.stringify(config.data);
-    config.headers = {
-      'Content-Type':'application/json'
+    if(token != null){
+      config.headers['token'] = token
     }
-    // if(token){
-    //   config.params = {'token':token}
-    // }
+    config.headers['Content-Type'] = 'application/json'
     return config;
   },
   error => {
-    return Promise.reject(err);
+    return Promise.reject(error);
   }
 );
 
@@ -27,6 +27,9 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
+    if (response.token) {
+      sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.token)
+    }
     // 登录失效
     // if(response.data.errCode == 2){
     //   router.push({
