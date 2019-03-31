@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "舆情信息"
+  
 }
 </script>
 

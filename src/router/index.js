@@ -27,6 +27,11 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
+    // 默认
+    {
+      path: '/',
+      component: login
+    },
     // 登录
     {
       path: '/login',
@@ -122,7 +127,12 @@ const router = new Router({
           component: userDefined,
         }
       ]
-    }
+    },
+    // 缺省
+    {
+      path: '/*',
+      component: login
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
