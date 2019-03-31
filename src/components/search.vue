@@ -113,8 +113,9 @@ export default {
       let path = this.$route.path
       if(path.indexOf("home") == -1) {
         this.flag = '/search'
-      } else if (path.indexOf("companyDetails") > -1) {
-        this.companyDetailsFlag = true
+      }
+      if (path.indexOf("companyDetails") > -1) {
+        this.$nextTick(()=>{this.companyDetailsFlag = true})    
       }
     },
     ...mapMutations([
@@ -130,10 +131,10 @@ export default {
 
 <style scope type="text/scss" lang="scss">
 .wrapper {
-  background: -webkit-linear-gradient(#eff0f9, #fff); /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(#eff0f9, #fff); /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(#eff0f9, #fff); /* Firefox 3.6 - 15 */
-  background: linear-gradient(#eff0f9, #fff); /* 标准的语法 */
+  background: -webkit-linear-gradient(#eef0f9, #fcfcff); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(#eef0f9, #fcfcff); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(#eef0f9, #fcfcff); /* Firefox 3.6 - 15 */
+  background: linear-gradient(#eef0f9, #fcfcff); /* 标准的语法 */
   width: 100%;
   .content {
     width: 1200px;
