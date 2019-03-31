@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "专利数据"
+  
 }
 </script>
 
