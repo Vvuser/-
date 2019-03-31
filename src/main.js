@@ -13,12 +13,14 @@ Vue.use(ElementUI);
 import {get, post} from './utils/axios.js'
 Vue.prototype.$post=post;
 Vue.prototype.$get=get;
-
 import '../static/css/default.css'
+//引入vuex
+import store from './store/index'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
