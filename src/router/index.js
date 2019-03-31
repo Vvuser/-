@@ -27,6 +27,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    // 默认
+    {
+      path: '/',
+      component: login
+    },
     // 登录
     {
       path: '/login',
@@ -122,6 +127,11 @@ export default new Router({
           component: userDefined,
         }
       ]
-    }
+    },
+    // 缺省
+    {
+      path: '/*',
+      component: login
+    },
   ]
 })
