@@ -1,19 +1,18 @@
 <template>
   <div class="publicOpinion">
     <div class="box">
-      <div class="item">
-        <h3>子啊顺道收个发货到是</h3>
-        <p>www.iasaas.com</p>
-        <p>基地啊师姐殴打教案设计的撒娇哦多久啊是京东i阿瑟将军打死经济案件到死见到就是动静啊送佛阿森纳都的撒娇哦多久啊是京东i阿瑟将军打死经济案件到死见到就是动静啊送佛阿森纳都的撒娇哦多久啊是京东i阿瑟将军打死经济案件到死见到就是动静啊送佛阿森纳都的撒娇哦多久啊是京东i阿瑟将军打死经济案件到死见到就是动静啊送佛阿森纳都的撒娇哦多久啊是京东i阿瑟将军打死经济案件到死见到就是动静啊送佛阿森纳都的撒娇哦多久啊是京东i阿瑟将军打死经济案件到死见到就是动静啊送佛阿森纳都撒娇案件到时间东京阿松i的骄傲松井大嵩i发爱的静安寺哦降低哦就扫</p>
+      <div class="item" v-for="(item,index) in list" :key="index">
+        <h3 @click="href(item.url)">{{item.titleZh}}</h3>
+        <p>{{item.domain}}&nbsp;&nbsp;&nbsp;{{item.created}}</p>
+        <p>{{item.abstractZh}}</p>
         <div class="i_footer">
           <div>
-            <span>中文</span>
-            <span>矿业</span>
-            <span>工业</span>
+            <span>{{item.languageTname}}</span>
+            <span class="bord" v-for="(c_item,index) in item.keywordsZh" :key="index">{{c_item}}</span>
           </div>
           <div>
-            <img v-show="false" src="../../assets/image/collect3.jpg">
-            <img src="../../assets/image/collect4.jpg">
+            <el-button icon="el-icon-star-off" v-if="false" size="mini">收藏</el-button>
+            <el-button type="primary" icon="el-icon-star-on" v-if="true" size="mini">已收藏</el-button>
           </div>
         </div>
       </div>
@@ -22,74 +21,98 @@
 </template>
 
 <script>
-import {mapMutations, mapGetters} from 'vuex'
+import { mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      searchText: ""
-    }
+      searchText: "",
+      page: 1,
+      pageSize: 10,
+      list:[]
+    };
   },
   computed: {
-      ...mapGetters([
-        'getSeacherText'
-      ])
+    ...mapGetters(["getSeacherText"])
   },
-  watch:{
+  watch: {
     getSeacherText() {
-      console.log(this.getSeacherText)
+      console.log(this.getSeacherText);
     }
   },
-  methods:{
+  methods: {
+    /**
+     * 外联
+     */
+    href(url){
+      location.href = url
+    },
     /**
      * 获取检索信息
      */
     getPOList() {
-      this.$get('/patent/invoke').then(res => {
-        console.log(res)
-      })
+      let obj = {
+        keyWord: this.getSeacherText,
+        pageSize: 10,
+        pageNo: 1,
+        ysType: 0
+      };
+      this.$post("/yess/invoke",obj).then(res => {
+        console.log(res);
+        this.list = res.data.resultList
+      });
     }
   },
   created() {
-
+    this.getPOList();
   }
-}
+};
 </script>
 
 <style scoped type="text/scss" lang="scss">
-.publicOpinion{
+.publicOpinion {
   margin-top: 20px;
   width: 1200px;
   margin: 0 auto;
   background: #ffffff;
-  .box{
+  .box {
     margin-top: 20px;
-    .item{
+    .item {
       margin: 0 30px;
       padding: 20px 0;
       border-bottom: 1px solid #edecf1;
       color: #838895;
-      h3{
+      h3 {
         font-size: 16px;
         font-weight: bold;
+        cursor: pointer;
       }
-      p:nth-child(2){
+      h3:hover{
+        color: #5180ff;
+      }
+      p:nth-child(2) {
         color: #cad0dd;
         font-size: 12px;
         margin: 10px 0;
       }
-      p:nth-child(3){
+      p:nth-child(3) {
         font-size: 14px;
-        overflow:hidden; 
-        text-overflow:ellipsis;
-        display:-webkit-box; 
-        -webkit-box-orient:vertical;
-        -webkit-line-clamp:2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
         margin-bottom: 15px;
       }
-      div{
+      .i_footer {
         display: flex;
         justify-content: space-between;
-
+        .bord{
+          border: 1px solid #c26d10;
+          color: #c26d10;
+          border-radius: 4px;
+          padding: 2px 10px;
+          margin-left: 10px;
+        }
       }
     }
   }

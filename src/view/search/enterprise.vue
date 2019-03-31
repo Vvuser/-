@@ -9,7 +9,7 @@
     <div class="item">
       <div>
         <img src="../../assets/image/collect.jpg"/>
-        <img src="../../assets/logo.png">
+        <img src="../../assets/image/logo.png">
       </div>
       <div>
         <h3>武安科前生物</h3>
