@@ -52,8 +52,8 @@
       login(){
         this.$post('/api/login',{
           name: this.ruleForm.name,
-          password: this.ruleForm.password
-          // password: md5(this.ruleForm.password)
+          // password: this.ruleForm.password
+          password: md5(this.ruleForm.password)
         }).then(data => {
           if(data.status == 200){
             sessionStorage.setItem("SHANGJIAOSUOUSER","SHANGJIAOSUOUSER")

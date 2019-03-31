@@ -3,7 +3,7 @@ import router from 'vue-router'
 import { Message } from 'element-ui';
 
 axios.defaults.timeout = 10000;
-axios.defaults.baseURL ='http://192.168.34.37:30500';
+axios.defaults.baseURL ='http://192.168.18.29:30500';
 
 
 //http request 拦截器
@@ -27,8 +27,11 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-    if (response.token) {
-      sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.token)
+    console.log(response);
+    if (response.data.hasOwnProperty("data")) {
+      if(response.data.data.hasOwnProperty("token")){
+        sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.data.data.token)
+      }
     }
     // 登录失效
     // if(response.data.errCode == 2){

@@ -23,9 +23,24 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          sessionStorage.removeItem("SHANGJIAOSUOUSER")
-          this.$router.replace("/login")
+          this.logoutAjax()
         })
+      },
+      logoutAjax(){
+        this.$get('/api/loginOut',{
+          token:sessionStorage.getItem("SHANGJIAOSUOUSERTOKEN")
+        }).then(data=>{
+            console.log(data);
+            if (data.status == 200) {
+              sessionStorage.removeItem("SHANGJIAOSUOUSER")
+              sessionStorage.removeItem("SHANGJIAOSUOUSERTOKEN")
+              this.$router.replace("/login")
+            }
+          })
+          .catch(error=>{
+            this.$message.error('退出登陆失败')
+            console.log(error);
+          })
       }
     }
   }
