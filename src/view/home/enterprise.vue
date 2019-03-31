@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       pathIndex: 0,
-      isshow: false,
+      isshow: true,
       dd: true
     };
   },
@@ -63,9 +63,21 @@ export default {
       this.isshow = false;
     },
     bdcan() {
-      var url = "http://192.168.18.29:30500";
-      axios.post();
+      this.$post('/patent/invoke',{
+          
+        }).then(data => {
+          if(data.status == 200){
+            
+            this.$message.error(data.message);
+          } 
+        }).catch(error => {
+          this.$message.error('1');
+          console.log(error);
+        })
     }
+  },
+  created(){
+    this.bdcan();
   }
 };
 </script>

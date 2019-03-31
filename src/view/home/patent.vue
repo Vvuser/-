@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       pathIndex: 0,
-      isshow: false,
+      isshow: true,
       dd: true
     };
   },
