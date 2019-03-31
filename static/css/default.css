@@ -23,7 +23,7 @@ small { font-size: 12px; } /* 小于 12px 的中文很难阅读, 让 small 正�
 ul, ol { list-style: none; }
 /** 重置文本格式元素 **/
 a { text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { color: #557bf7 !important;}
 sup { vertical-align: text-top; } /* 重置, 减少对行高的影响 */
 sub { vertical-align: text-bottom; }
 /** 重置表单元素 **/

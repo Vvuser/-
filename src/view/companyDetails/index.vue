@@ -155,6 +155,7 @@
     display: flex;
     justify-content: space-between;
     .company-content-left {
+      min-width: 680px;
       background-color: #fff;
       width: 860px;
       .company-nav {
