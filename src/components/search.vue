@@ -6,7 +6,7 @@
           placeholder="请输入企业名、人名等关键词"
           v-model="searchText"
           class="input-with-select"
-          style="width: 1000px;"
+          style="width: 1000px;font-size: 14px;color: #969ebb"
         >
           <el-button
             slot="append"
@@ -147,12 +147,23 @@ export default {
       }
     },
     ...mapMutations([
-      'setSearchText'
+      'setSearchText',
+    ])
+  },
+  computed:{
+    ...mapGetters([
+      'getSeacherText'
     ])
   },
   created() {
     this.getHistorySearchList();
     this.initialize()
+    this.searchText = (this.getSeacherText || "")
+  },
+  watch:{
+    getSeacherText(){
+      this.searchText = this.getSeacherText
+    }
   }
 };
 </script>
@@ -195,10 +206,11 @@ export default {
           margin-left: 30px;
           display: inline-block;
           cursor: pointer;
+          font-weight: 600;
         }
         .ac {
           color: #557bf7;
-          font-weight: 600;
+
         }
       }
     }

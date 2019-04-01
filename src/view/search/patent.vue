@@ -30,7 +30,7 @@
           <li v-for="(item,index) in listData"
               :key="index">
             <div>
-              <a href="" :id="item.ID">{{item.t}}</a>
+              <p class="zl-title">{{item.t}}</p>
               <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
               <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
               <div @click="collect">
@@ -224,6 +224,7 @@
     watch: {
       getSeacherText(){
         console.log(this.getSeacherText)
+        this.sq=`B/${this.getSeacherText}`,
         this.getAjaxData()
       }
     },
@@ -254,6 +255,7 @@
         font-weight: bold;
         margin-bottom: 10px;
         margin-left: 20px;
+        font-size: 15px;
       }
       .title:before{
         display: inline-block;
@@ -301,7 +303,7 @@
         display: inline-block;
         width: 230px;
       }
-      a{
+      .zl-title{
         color: #838895;
         font-size: 16px;
         font-weight: bold;
