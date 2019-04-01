@@ -6,7 +6,6 @@
 
 <script>
 export default {
-    name: "经营信息"
 }
 </script>
 
