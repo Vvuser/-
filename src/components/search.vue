@@ -13,9 +13,10 @@
             @click="search"
             icon="el-icon-search"
             style="width: 150px;background-color: #557bf7;height:40px;color: #fff;border-radius: 0"
+            :disabled="searchText==''"
           >搜索</el-button>
         </el-input>
-        <div class="search_history">
+        <div class="search_history" v-show="historySearchList.length > 0">
           搜索历史：
           <el-button
             v-for="(text,index) in historySearchList"
