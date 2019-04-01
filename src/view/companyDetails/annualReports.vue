@@ -116,7 +116,11 @@
 
 <script>
 export default {
-  name: "企业年报"
+  data(){
+    return{
+      tableData: []
+    }
+  }
 };
 </script>
 
