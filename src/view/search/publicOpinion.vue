@@ -4,32 +4,40 @@
       <div class="item" v-for="(item,index) in list" :key="index">
         <h3 @click="href(item.url)">{{item.titleZh}}</h3>
         <p>{{item.domain}}&nbsp;&nbsp;&nbsp;{{item.created}}</p>
-        <p>{{item.abstractZh}}</p>
+        <p v-html="item.abstractZh"></p>
         <div class="i_footer">
           <div>
             <span>{{item.languageTname}}</span>
             <span class="bord" v-for="(c_item,index) in item.keywordsZh" :key="index">{{c_item}}</span>
           </div>
           <div>
-            <el-button icon="el-icon-star-off" v-if="false" size="mini">收藏</el-button>
-            <el-button type="primary" icon="el-icon-star-on" v-if="true" size="mini">已收藏</el-button>
+            <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item)">收藏</el-button>
+            <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini">已收藏</el-button>
           </div>
         </div>
       </div>
+    </div>
+    <div class="pagination">
+      <pagination :total="total" @getCurrentPage="getCurrentPage"></pagination>
     </div>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import pagination from "@/components/pagination"
 export default {
   data() {
     return {
       searchText: "",
       page: 1,
       pageSize: 10,
-      list:[]
+      list:[],
+      total:0
     };
+  },
+  components:{
+    pagination
   },
   computed: {
     ...mapGetters(["getSeacherText"])
@@ -41,6 +49,35 @@ export default {
   },
   methods: {
     /**
+     * 取消收藏
+     */
+    unCollect(item) {
+
+    },
+    /**
+     * 收藏
+     */
+    collect(item) {
+      let obj = {
+        url: item.url,
+        titleZh: item.titleZh,
+        domain: item.domain,
+        created: item.created,
+        abstractZh: item.abstractZh,
+        languageTname: item.languageTname,
+        keywordsZh: JSON.stringify(item.keywordsZh),
+        uuid:item.uuid
+      }
+      this.$post('/yesskeep/',obj).then(res => {
+        console.log(res)
+        this.getPOList();
+      })
+    },
+    getCurrentPage(page){
+      console.log(page)
+      this.getPOList(page);
+    },
+    /**
      * 外联
      */
     href(url){
@@ -49,26 +86,32 @@ export default {
     /**
      * 获取检索信息
      */
-    getPOList() {
+    getPOList(pageNo) {
       let obj = {
         keyWord: this.getSeacherText,
         pageSize: 10,
-        pageNo: 1,
+        pageNo,
         ysType: 0
       };
       this.$post("/yess/invoke",obj).then(res => {
         console.log(res);
         this.list = res.data.resultList
+        this.total = res.data.resultCount
       });
     }
   },
   created() {
-    this.getPOList();
+    this.getPOList(1);
   }
 };
 </script>
 
 <style scoped type="text/scss" lang="scss">
+.pagination{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 .publicOpinion {
   margin-top: 20px;
   width: 1200px;
