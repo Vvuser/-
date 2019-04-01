@@ -12,7 +12,7 @@
           </div>
           <div>
             <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item)">收藏</el-button>
-            <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini">已收藏</el-button>
+            <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini" @click="unCollect(item)">已收藏</el-button>
           </div>
         </div>
       </div>
@@ -52,7 +52,9 @@ export default {
      * 取消收藏
      */
     unCollect(item) {
-
+      this.$get(`/patentkeep/delete/${item.uuid}`).then(res => {
+        this.getPOList();
+      })
     },
     /**
      * 收藏
