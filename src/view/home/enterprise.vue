@@ -79,139 +79,128 @@
 	};
 </script>
 
-<style scoped>
-	.dd {
-		color: #557bf7;
-		font-weight: 600;
-	}
+  <style scoped>
+.dd {
+  color: #557bf7;
+  font-weight: 600;
+}
+.enteprisebody {
+  width: 63%;
+  height: 1000px;
+  margin: 0 auto;
+  margin-left: 18.5%;
+  margin-right: 14.5%;
+  position: absolute;
+  background-color: #fff;
+}
+.entepriseheart {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  color: #969ebb;
+  font-size: 14px;
+}
+.enterpriseSc {
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 25px;
+  cursor: pointer;
+}
+.enterpriseLs {
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 25px;
+  cursor: pointer;
+}
+.enterpriseLL {
+  margin-left: 25px;
+}
+.entepriserenal {
+  width: 96%;
+  height: 800px;
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 300px;
+}
+.entepriserenalsource {
+  width: 100%;
+  height: 40px;
+  background: #ececf5;
 
-	.enteprisebody {
-		width: 63%;
-		height: 1000px;
-		margin: 0 auto;
-		margin-left: 18.5%;
-		margin-right: 14.5%;
-		position: absolute;
-	}
-
-	.entepriseheart {
-		width: 100%;
-		height: 60px;
-		line-height: 60px;
-	}
-
-	.enterpriseSc {
-		font-size: 14px;
-		font-weight: 600;
-		margin-left: 25px;
-	}
-
-	.enterpriseLs {
-		font-size: 14px;
-		font-weight: 600;
-		margin-left: 25px;
-	}
-
-	.enterpriseLL {
-		margin-left: 25px;
-	}
-
-	.entepriserenal {
-		width: 96%;
-		height: 800px;
-		margin-left: 2%;
-		margin-right: 2%;
-		height: 300px;
-	}
-
-	.entepriserenalsource {
-		width: 100%;
-		height: 40px;
-		background: #ececf5;
-
-		line-height: 40px;
-	}
-
-	.entepriserenalsource-in {
-		color: #c1c3ce;
-		margin-left: 230px;
-	}
-
-	.entepriserenalsource-to {
-		color: #c1c3ce;
-		margin-left: 480px;
-	}
-
-	.entepriserenalsource-auto {
-		color: #c1c3ce;
-		margin-left: 200px;
-	}
-
-	.entepriserenalall {
-		padding-top: 20px;
-		width: 100%;
-		height: 200px;
-		border-bottom: 1px solid #f7f7fc;
-		position: relative;
-	}
-
-	.entepriserenalallTB {
-		position: absolute;
-		left: 10px;
-		width: 25px;
-		height: 200px;
-		line-height: 200px;
-	}
-
-	.entepriserenalallnm {
-		position: absolute;
-		left: 45px;
-		width: 150px;
-		height: 200px;
-		line-height: 200px;
-	}
-	.entepriserenalallnmImg{
-		margin-top: 25px;
-		width: 145px;
-		height: 145px;
-	}
-
-	.entepriserenalallWuHa {
-		position: absolute;
-		left: 199px;
-		height: 200px;
-		width: 500px;
-		border: none;
-	}
-
-	.entepriserenalallWuHa-nav {
-		position: absolute;
-		font-weight: bold;
-		font-size: 18px;
-		left: 30px;
-		top: 30px;
-		color: #838895;
-	}
-
-	.entepriserenalallFe {
-		position: absolute;
-		left: 30px;
-		top: 70px;
-		line-height: 170%;
-		color: #a6aab3;
-	}
-
-	.entepriserenalallZhican {
-		position: absolute;
-		left: 750px;
-		height: 200px;
-		line-height: 200px;
-	}
-
-	.entepriserenalalldate {
-		position: absolute;
-		left: 1020px;
-		height: 200px;
-		line-height: 200px;
-	}
+  line-height: 40px;
+}
+.entepriserenalsource-in {
+  color: #c1c3ce;
+  margin-left: 230px;
+}
+.entepriserenalsource-to {
+  color: #c1c3ce;
+  margin-left: 480px;
+}
+.entepriserenalsource-auto {
+  color: #c1c3ce;
+  margin-left: 200px;
+}
+.entepriserenalall {
+  padding-top: 20px;
+  width: 100%;
+  height: 200px;
+  border-bottom: 1px solid #f7f7fc;
+  position: relative;
+}
+.entepriserenalallTB {
+  position: absolute;
+  left: 10px;
+  width: 25px;
+  height: 200px;
+  line-height: 200px;
+}
+.entepriserenalallnm {
+  position: absolute;
+  left: 45px;
+  width: 150px;
+  height: 200px;
+  line-height: 200px;
+	display: flex;
+	align-items: center;
+}
+.entepriserenalallnm .entepriserenalallnmImg{
+	width: 120px;
+	height: 120px;
+	background: black;
+}
+.entepriserenalallWuHa {
+  position: absolute;
+  left: 199px;
+  height: 200px;
+  width: 500px;
+  border: none;
+}
+.entepriserenalallWuHa-nav {
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  left: 30px;
+  top: 30px;
+  color: #838895;
+}
+.entepriserenalallFe {
+  position: absolute;
+  left: 30px;
+  top: 70px;
+  line-height: 170%;
+  color: #a6aab3;
+}
+.entepriserenalallZhican {
+  position: absolute;
+  left: 750px;
+  height: 200px;
+  line-height: 200px;
+}
+.entepriserenalalldate {
+  position: absolute;
+  left: 1020px;
+  height: 200px;
+  line-height: 200px;
+}
 </style>

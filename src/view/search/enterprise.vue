@@ -90,7 +90,7 @@ export default {
   .pagination{
     display: flex;
     justify-content: center;
-    margin-top: 20px；
+    margin-top: 20px;
   }
   .enterprise{
     width: 1200px;

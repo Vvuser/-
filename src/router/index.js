@@ -41,6 +41,7 @@ const router = new Router({
     {
       path: '/home',
       component: home,
+      redirect: '/home/enterprise',
       children:[
         // 首页 企业信息
         {
@@ -63,6 +64,7 @@ const router = new Router({
     {
       path: '/search',
       component: search,
+      redirect: '/search/enterprise',
       children:[
         // 搜索 企业信息
         {
@@ -84,6 +86,7 @@ const router = new Router({
     // 企业信息
     {
       path: '/companyDetails',
+      redirect: '/companyDetails/essential',
       component: companyDetails,
       children:[
         // 基本信息
