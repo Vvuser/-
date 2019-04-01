@@ -1,15 +1,20 @@
 import axios from 'axios';
 import router from 'vue-router'
 import { Message } from 'element-ui';
+import { Loading } from 'element-ui';
 
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL ='http://192.168.18.29:30500';
-
-
+let loading
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
-
+    loading = Loading.service({
+      lock: true,
+      text: 'Loading',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.3)'
+    });
     const token =  sessionStorage.getItem("SHANGJIAOSUOUSERTOKEN")
     // config.data = JSON.stringify(config.data);
     if(token != null){
@@ -19,6 +24,8 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
+    loading.close()
+    Message.error("加载失败")
     return Promise.reject(error);
   }
 );
@@ -27,6 +34,7 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
+    loading.close()
     if (response.data.data != "" && response.data.data != null && response.data.data != undefined) {
       if(response.data.data.hasOwnProperty("token")){
         sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.data.data.token)
@@ -42,6 +50,8 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
+    loading.close()
+    Message.error("加载失败")
     return Promise.reject(error)
   }
 )
