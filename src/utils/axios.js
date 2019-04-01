@@ -27,7 +27,6 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-    console.log(response);
     if (response.data.data != "" && response.data.data != null && response.data.data != undefined) {
       if(response.data.data.hasOwnProperty("token")){
         sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.data.data.token)

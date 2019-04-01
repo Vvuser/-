@@ -4,36 +4,33 @@
       <div class="contentLeft">
         <p class="title">筛选项</p>
         <el-menu
-                default-active="2"
+                default-active="0"
                 background-color="#fcfcff"
                 text-color="#838895"
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
-                @close="handleClose">
-          <el-submenu index="1">
+                @close="handleClose"
+                :unique-opened="true">
+          <el-submenu v-for="(item,index) in selectDataList"
+                      :key="index"
+                      :index="`${index.toString()}`">
             <template slot="title">
-              <span>导航一</span>
+              <span>{{item.name}}</span>
             </template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-            <el-menu-item index="1-4-2">选项1</el-menu-item>
-            <el-menu-item index="1-4-3">选项1</el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <span>导航二</span>
-            </template>
-            <el-menu-item index="2-4-1">选项1</el-menu-item>
-            <el-menu-item index="2-4-2">选项1</el-menu-item>
-            <el-menu-item index="2-4-3">选项1</el-menu-item>
+            <el-menu-item v-for="(childitem,childindex) in item.list"
+                          :key="childindex"
+                          :index="`${index.toString()} - ${childindex.toString()}`"
+                          @click="cl(index, childindex)">
+              {{childitem.fullName || childitem.name}} ({{childitem.value}})</el-menu-item>
           </el-submenu>
         </el-menu>
-        </el-col>
       </div>
       <div class="contentRight">
         <ul>
-          <li>
+          <li v-for="(item,index) in listData"
+              :key="index">
             <div>
-              <a href="">卷积神经网络FPGA加速中的图像填充方法及装置</a>
+              <a href="" :id="item.ID">{{item.t}}</a>
               <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
               <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
               <div @click="collect">
@@ -41,18 +38,18 @@
                 <el-button type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
               </div>
             </div>
-            <p><span>申请号：CN201910094931.5</span><span>申请日：2019-01-31</span></p>
-            <p><span>公开/公告号：CN109460754A</span><span>公开/公告日：2019-03-12</span></p>
-            <p>申请人：深兰人工智能芯片研究院（江苏）有限公司</p>
-            <p>发明人：陈海波</p>
-            <p>IPC：G06K 9/00; G06K 9/62; G06T 5/40; G06T 7/13;</p>
-            <p>本发明提供一种水面异物检测方法、装置、设备及存储介质，用于解决现有技术存在水面异物检测准确率低的技术问题。方法包括：使用若干个水面图像对卷积神经网络yolov3进行训练，获得yolov3分类模型；获取无人机发送的第一目标水面场景对应的水面图像；对所述第一目标水面场景对应的水面图像进行直方图均衡化处理和对数变换处理，以在增强所述水面图像的整体对比度的同时增强所述水面图像的暗部细节，获得处理后的水面图像；将所述处理后的水面图像输入所述yolov3分类模型，根据所述yolov3分类模型的输出结果确定所述第一目标水面场景中是否存在异物。</p>
+            <p><span>申请号：{{item.ap}}</span><span>申请日：{{item.ad}}</span></p>
+            <p><span>公开/公告号：{{item.p}}</span><span>公开/公告日：{{item.isd}}</span></p>
+            <p>申请人：{{item.aList.toString()}}</p>
+            <p>发明人：{{item.iList.toString()}}</p>
+            <p>IPC：{{item.l.key}}</p>
+            <p>{{item.abst}}</p>
           </li>
         </ul>
       </div>
     </div>
     <div class="footer">
-      <pagination :total="total" :currentPage="currentPage" :pageSize="pageSize"></pagination>
+      <pagination :total="total" @getCurrentPage="getCurrentPage" :pageSize="pageSize"></pagination>
     </div>
   </div>
 </template>
@@ -69,21 +66,157 @@
     data(){
       return{
         collectFlag:false,
-        total:100,
+        total:0,
         currentPage:1,
-        pageSize:10
+        pageSize:10,
+        sq:`B/${this.getSeacherText}`,
+        listData:[],
+        selectDataList:[
+          {
+            name:"专利类型",
+            code:"na",
+            list:[]
+          },
+          {
+            name:"国家及地区",
+            code:"nd",
+            list:[]
+          },
+          {
+            name:"申请日",
+            code:"apd",
+            list:[]
+          },
+          {
+            name:"公开/公告日",
+            code:"isd",
+            list:[]
+          },
+          {
+            name:"法律状态",
+            code:"ls",
+            list:[]
+          },
+          {
+            name:"申请人",
+            code:"an",
+            list:[]
+          },
+          {
+            name:"标准化申请人",
+            code:"ann",
+            list:[]
+          },
+          {
+            name:"发明人",
+            code:"in",
+            list:[]
+          },
+          {
+            name:"IPC分类",
+            code:"icl",
+            list:[]
+          },
+          {
+            name:"优先权国家",
+            code:"pririnfo",
+            list:[]
+          },
+          {
+            name:"数据库过滤",
+            code:"db",
+            list:[]
+          },
+          {
+            name:"被引用国家",
+            code:"rcc",
+            list:[]
+          },
+          {
+            name:"权利要求个数",
+            code:"acc",
+            list:[]
+          },
+          {
+            name:"代理机构",
+            code:"lrep",
+            list:[]
+          },
+        ]
       }
     },
+
     methods: {
+      cl(index,childindex){
+        // console.log(index,childindex);
+        // AND ${nd/(CN)}
+        this.sq = `B/${this.getSeacherText}AND ${this.selectDataList[index].code}/(${this.selectDataList[index].list[childindex].name})`
+        console.log(this.sq);
+        this.getAjaxData()
+      },
       handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+        // console.log(key, keyPath);
+        this.getCheckedList(key)
       },
       handleClose(key, keyPath) {
-        console.log(key, keyPath);
+        // console.log(key, keyPath);
       },
       collect(){
         this.collectFlag = !this.collectFlag
       },
+      getCurrentPage(page){
+        // console.log(`父组件page ${page}`)
+        this.currentPage = page
+        this.getAjaxData()
+      },
+      //获取专利列表
+      getAjaxData(){
+        this.$post('/patent/invoke',{
+          "sf": "QueryFulltext",
+          "istype": "1",
+          "ialist": "1",
+          "sx": "cn/queryfulltext_cn",
+          "iclient": "1",
+          "foo": "SEARCH-MASTER",
+          "sl": "chs",
+          "itrans": "1",
+          "fooShowPN": "null",
+          "ispage": "100",
+          "advanceSearchHistory": "false",
+          "idi": "4",
+          "sq": this.sq,
+          "ipi": this.currentPage,
+          "ips": this.pageSize,
+          "ishowAbst":1
+        }).then(data => {
+          console.log(data);
+          this.listData = data.data.PatentList
+          this.total = data.data.Total
+        }).catch(error => {
+          console.log(error);
+        })
+      },
+      //获取筛选列表
+      getCheckedList(index){
+        this.$post('/patent/invoke',{
+          dataType: "sql",
+          foo: "SEARCH-MASTER",
+          idi: "274766528119",
+          scontent: `${this.selectDataList[index].code}%30%↵data%ct%`,
+          sf: "QueryFulltextAnalysis",
+          showType: "second",
+          sl: "chs",
+          sq: `B/${this.getSeacherText}`,
+          sx: "cn/queryrelated-searchmaster_cn"
+        }).then(data => {
+          console.log(data);
+          this.selectDataList[index].list = data.data.sResult.data
+        }).catch(error => {
+          console.log(error);
+        })
+      },
+    },
+    computed:{
       ...mapGetters([
         'getSeacherText'
       ])
@@ -91,7 +224,12 @@
     watch: {
       getSeacherText(){
         console.log(this.getSeacherText)
+        this.getAjaxData()
       }
+    },
+    created() {
+      this.sq = `B/${this.getSeacherText}`
+      this.getAjaxData()
     }
   }
 </script>
@@ -134,10 +272,12 @@
         border-bottom: 1px solid #ececf5;
         color: #838895;
         font-size: 14px;
-        padding-top: 0;
       }
       ul li:last-child{
         border-bottom:none;
+      }
+      ul li:first-child{
+        padding-top: 0;
       }
       ul li p{
         margin-top: 10px;
@@ -171,7 +311,9 @@
     .el-menu{
       border: none;
     }
-
+    .el-submenu__title span{
+      font-weight: bold !important;
+    }
   }
   .footer{
     width: 1200px;
