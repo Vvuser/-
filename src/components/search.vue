@@ -70,16 +70,20 @@ export default {
       ]
     };
   },
-  watch: {
-    pathIndex(val) {
-      console.log(val)
-    }
-  },
   methods: {
     historyFind(text){
+        this.searchText = text
         this.setSearchText(text)
+        let path = "/search"
+        if(this.pathIndex == 0){
+          path += "/enterprise"
+        } else if (this.pathIndex == 1) {
+          path += "/publicOpinion"
+        } else {
+          path += "/patent"
+        }
         this.$router.push({
-            path: "/search/enterprise",
+            path,
             query: {
               search: text
             }
