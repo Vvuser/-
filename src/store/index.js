@@ -4,7 +4,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state:{
-        searchText:"123"
+        searchText:""
     },
     mutations:{
         setSearchText: (state, text) => {
