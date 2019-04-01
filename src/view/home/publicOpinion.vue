@@ -77,21 +77,26 @@ export default {
   margin-left: 18.5%;
   margin-right: 14.5%;
   position: absolute;
+  background-color: #fff;
 }
 .entepriseheart {
   width: 100%;
   height: 60px;
   line-height: 60px;
+  color: #969ebb;
+  font-size: 14px;
 }
 .enterpriseSc {
   font-size: 14px;
   font-weight: 600;
   margin-left: 25px;
+  cursor: pointer;
 }
 .enterpriseLs {
   font-size: 14px;
   font-weight: 600;
   margin-left: 25px;
+  cursor: pointer;
 }
 .enterpriseLL {
   margin-left: 25px;

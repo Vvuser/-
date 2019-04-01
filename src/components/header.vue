@@ -1,16 +1,16 @@
 <template>
-    <header>
-        <p>科创板审查综合检索系统</p>
+    <div class="master-header">
+        <p @click="gohome()" style="cursor: pointer">科创板审查综合检索系统</p>
         <div>
             <span>当前用户：23451</span>
             <b @click="logout"><img src="../assets/image/close.jpg" alt=""></b>
         </div>
-    </header>
+    </div>
 </template>
 
 <script>
   export default {
-    name: "header",
+    name: "",
     data(){
       return{
 
@@ -25,6 +25,9 @@
         }).then(() => {
           this.logoutAjax()
         })
+      },
+      gohome(){
+        this.$router.push('/home')
       },
       logoutAjax(){
         this.$get('/api/loginOut',{
@@ -47,7 +50,7 @@
 </script>
 
 <style scoped lang="scss" type="text/scss">
-    header{
+    .master-header{
         display: flex;
         justify-content: space-between;
         width: 1140px;
