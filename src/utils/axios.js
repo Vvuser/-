@@ -28,7 +28,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     console.log(response);
-    if (response.data.hasOwnProperty("data")) {
+    if (response.data.data != "" && response.data.data != null && response.data.data != undefined) {
       if(response.data.data.hasOwnProperty("token")){
         sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.data.data.token)
       }
