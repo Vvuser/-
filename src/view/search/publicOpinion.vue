@@ -44,7 +44,7 @@ export default {
      * 外联
      */
     href(url){
-      location.href = url
+      window.open(url)
     },
     /**
      * 获取检索信息

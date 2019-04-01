@@ -1,30 +1,37 @@
 <template>
     <el-pagination
-        background
-        layout="prev, pager, next"
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        :total="total">
+      background
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-size="pageSize"
+      layout="total, prev, pager, next"
+      :total="total">
     </el-pagination>
 </template>
 
 <script>
   export default {
-    name: "",
     props: {
       total:{
         type: Number,
         default: 10
-      },
-      currentPage:{
-        type: Number,
-        default: 1
       },
       pageSize:{
         type: Number,
         default: 10
       }
     },
+    data(){
+      return {
+        currentPage: 1
+      }
+    },
+    methods:{
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+        this.$emit("getCurrentPage", val)
+      }
+    }
   }
 </script>
 

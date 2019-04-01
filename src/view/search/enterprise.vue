@@ -20,16 +20,23 @@
       <div>3000万人民币</div>
       <div>2001-11-1</div>
     </div>
+    <div class="pagination">
+      <pagination :total="100" @getCurrentPage="getCurrentPage"></pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapMutations, mapGetters} from 'vuex'
+import pagination from "@/components/pagination"
 export default {
   data() {
     return {
-
+      currentPage: 0
     }
+  },
+  components:{
+    pagination
   },
   computed: {
       ...mapGetters([
@@ -42,7 +49,10 @@ export default {
     }
   },
   methods:{
-
+    getCurrentPage(page){
+      console.log(page)
+      this.currentPage = page
+    }
   },
   created() {
 
@@ -51,6 +61,11 @@ export default {
 </script>
 
 <style scope type="text/scss" lang="scss">
+  .pagination{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px；
+  }
   .enterprise{
     width: 1200px;
     margin: 0 auto;

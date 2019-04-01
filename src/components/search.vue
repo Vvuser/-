@@ -69,6 +69,11 @@ export default {
       ]
     };
   },
+  watch: {
+    pathIndex(val) {
+      console.log(val)
+    }
+  },
   methods: {
     historyFind(text){
         this.setSearchText(text)
@@ -87,6 +92,9 @@ export default {
         })
     },
     search() {
+      if(this.searchText == ''){
+        return
+      }
       let historySearch = localStorage.getItem("historySearch");
       historySearch = historySearch == null ? [] : JSON.parse(historySearch);
       if (historySearch.indexOf(this.searchText) == -1) {
@@ -100,8 +108,16 @@ export default {
       }
       this.setSearchText(this.searchText)
       this.getHistorySearchList();
+      let path = "/search"
+      if(this.pathIndex == 0){
+        path += "/enterprise"
+      } else if (this.pathIndex == 1) {
+        path += "/publicOpinion"
+      } else {
+        path += "/patent"
+      }
       this.$router.push({
-        path: "/search/enterprise"
+        path
       });
     },
     getHistorySearchList() {
