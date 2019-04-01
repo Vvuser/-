@@ -6,22 +6,23 @@
       <div>注册资金</div>
       <div>成立年限</div>
     </div>
-    <div class="item">
+    <div class="item" v-for="(item,index) in list" :key="index" @click="Enterdetails">
       <div>
-        <img src="../../assets/image/collect.jpg"/>
+        <img src="../../assets/image/collect1.jpg"/>
+        <img v-if="false" src="../../assets/image/collect1.jpg"/>
         <img src="../../assets/image/logo.png">
       </div>
       <div>
-        <h3>武安科前生物</h3>
-        <p>法定人代表：xxxx</p>
+        <h3>{{item.name}}</h3>
+        <p>法定人代表：{{item.oper_name}}</p>
         <p>电话：xxxxx 邮箱：xxxxx</p>
         <p>地址：xxxxxx</p>
       </div>
       <div>3000万人民币</div>
-      <div>2001-11-1</div>
+      <div>{{item.start_date}}</div>
     </div>
     <div class="pagination">
-      <pagination :total="100" @getCurrentPage="getCurrentPage"></pagination>
+      <pagination :total="total" @getCurrentPage="getCurrentPage"></pagination>
     </div>
   </div>
 </template>
@@ -32,7 +33,9 @@ import pagination from "@/components/pagination"
 export default {
   data() {
     return {
-      currentPage: 0
+      currentPage: 0,
+      list:[],
+      total: 0
     }
   },
   components:{
@@ -46,16 +49,39 @@ export default {
   watch:{
     getSeacherText() {
       console.log(this.getSeacherText)
+      this.getEnterpriseList(this.getSeacherText)
     }
   },
   methods:{
+    /**
+     * 进入企业详情页
+     */
+    Enterdetails() {
+      this.$router.push({
+        path:'/companyDetails/essential'
+      })
+    },
     getCurrentPage(page){
       console.log(page)
       this.currentPage = page
+    },
+    /**
+     * 获取企业信息列表
+     */
+    getEnterpriseList(keyword){
+      this.$post("/company/invoke",{
+        url:'/v2/enterprise/searchListPaging',
+        keyword,
+        skip: 0
+      }).then(res => {
+        console.log(res)
+        this.list = res.data.items
+        this.total = res.data.total
+      })
     }
   },
   created() {
-
+    this.getEnterpriseList(this.getSeacherText)
   }
 }
 </script>
@@ -101,6 +127,7 @@ export default {
       display: flex;
       align-items: center;
       img:nth-child(1) {
+        cursor: pointer;
         margin: 0 10px;
         width: 20px;
         height: 20px;
