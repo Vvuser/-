@@ -39,7 +39,7 @@
             <li v-for="(item,index) in listData"
                 :key="index">
               <div>
-                <p class="zl-title">{{item.t}}</p>
+                <a class="zl-title" href="javascript:;" @click="goDetail(item.p)">{{item.t}}</a>
                 <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
                 <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
                 <div @click="collect">
@@ -173,6 +173,10 @@ export default {
     },
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
+    },
+    //详情跳转
+    goDetail(p){
+      this.$router.push({path:"/details/patentDetail",query:{p}})
     },
     collect(){
       this.collectFlag = !this.collectFlag

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import router from 'vue-router'
+import router from '../router'
 import { Message } from 'element-ui';
 import { Loading } from 'element-ui';
 
@@ -35,19 +35,17 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     loading.close()
-    if (response.data.data != "" && response.data.data != null && response.data.data != undefined) {
-      if(response.data.data.hasOwnProperty("token")){
-        sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.data.data.token)
-      }
+    if(response.data.status == 40301){//token失效,过期
+      Message.error("登录已过期，请重新登录")
+      router.replace('/login')
+    }else if (response.data.status == 40307) { //token即将失效
+      sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",response.data.data.token)
+      // console.log("response 重新请求参数",response.config);
+      //重新请求
+      return axios(response.config)
+    }else {
+      return response;
     }
-    // 登录失效
-    // if(response.data.errCode == 2){
-    //   router.push({
-    //     path:"/login",
-    //     querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
-    //   })
-    // }
-    return response;
   },
   error => {
     loading.close()
