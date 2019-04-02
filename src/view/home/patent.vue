@@ -1,13 +1,16 @@
 <template>
   <div>
+    <div class="entepriseheart">
+      <span class="enterpriseSc"
+            v-for="(item,index) in navItemList"
+            :key="index"
+            :class="{dd:item==activeNavItem}"
+            @click="activeNavItemFun(item)">
+        {{item}}</span>
+    </div>
     <div class="enteprisebody">
-      <div class="entepriseheart">
-        <span class="enterpriseSc" @click="can()">我的收藏</span>
-        <span class="enterpriseLL">|</span>
-        <span class="enterpriseLs" @click="to()">浏览历史</span>
-      </div>
       <div class="patent-wrapper">
-        <div class="contentLeft">
+        <!--<div class="contentLeft">
           <p class="title">筛选项</p>
           <el-menu
                   default-active="0"
@@ -30,7 +33,7 @@
                 {{childitem.fullName || childitem.name}} ({{childitem.value}})</el-menu-item>
             </el-submenu>
           </el-menu>
-        </div>
+        </div>-->
         <div class="contentRight">
           <ul>
             <li v-for="(item,index) in listData"
@@ -46,9 +49,9 @@
               </div>
               <p><span>申请号：{{item.ap}}</span><span>申请日：{{item.ad}}</span></p>
               <p><span>公开/公告号：{{item.p}}</span><span>公开/公告日：{{item.isd}}</span></p>
-              <p>申请人：{{item.aList.toString()}}</p>
-              <p>发明人：{{item.iList.toString()}}</p>
-              <p>IPC：{{item.l.key}}</p>
+              <p>申请人：{{item.alist}}</p>
+              <p>发明人：{{item.ilist}}</p>
+              <p>IPC：{{item.strkey}}</p>
               <p>{{item.abst}}</p>
             </li>
           </ul>
@@ -80,6 +83,8 @@ export default {
       pageSize:10,
       sq:`B/${this.getSeacherText}`,
       listData:[],
+      navItemList:["我的收藏","浏览历史"],
+      activeNavItem: "",
       selectDataList:[
         {
           name:"专利类型",
@@ -155,12 +160,6 @@ export default {
     };
   },
   methods: {
-    can() {
-      this.isshow = true;
-    },
-    to() {
-      this.isshow = false;
-    },
     cl(index,childindex){
       // console.log(index,childindex);
       // AND ${nd/(CN)}
@@ -185,32 +184,23 @@ export default {
     },
     //获取专利列表
     getAjaxData(){
-      this.$post('/patent/invoke',{
-        "sf": "QueryFulltext",
-        "istype": "1",
-        "ialist": "1",
-        "sx": "cn/queryfulltext_cn",
-        "iclient": "1",
-        "foo": "SEARCH-MASTER",
-        "sl": "chs",
-        "itrans": "1",
-        "fooShowPN": "null",
-        "ispage": "100",
-        "advanceSearchHistory": "false",
-        "idi": "4",
-        "sq": this.sq,
-        "ipi": this.currentPage,
-        "ips": this.pageSize,
-        "ishowAbst":1
-      }).then(data => {
+      let isclick = this.activeNavItem
+      if(isclick == "我的收藏"){
+        isclick = 0
+      }else {
+        isclick = 1
+      }
+      console.log(`/patentkeep/page/${this.currentPage}/${this.pageSize}/${isclick}`);
+      this.$get(`/patentkeep/page/${this.currentPage}/${this.pageSize}/${isclick}`)
+              .then(data => {
         console.log(data);
-        this.listData = data.data.PatentList
-        this.total = data.data.Total
+        this.listData = data.data.result
+        this.total = data.data.total
       }).catch(error => {
         console.log(error);
       })
     },
-    //获取筛选列表
+    /*//获取筛选列表
     getCheckedList(index){
       this.$post('/patent/invoke',{
         dataType: "sql",
@@ -228,6 +218,9 @@ export default {
       }).catch(error => {
         console.log(error);
       })
+    },*/
+    activeNavItemFun(item){
+      this.activeNavItem = item
     },
   },
   computed:{
@@ -240,10 +233,15 @@ export default {
       console.log(this.getSeacherText)
       this.sq=`B/${this.getSeacherText}`,
               this.getAjaxData()
+    },
+    activeNavItem(){
+      this.currentPage = 1
+      this.getAjaxData()
     }
   },
   created() {
     this.sq = `B/${this.getSeacherText}`
+    this.activeNavItem = '我的收藏'
     this.getAjaxData()
   }
 };
@@ -254,21 +252,14 @@ export default {
   color: #557bf7;
   font-weight: 600;
 }
-.enteprisebody {
-  width: 63%;
-  height: 1000px;
-  margin: 0 auto;
-  margin-left: 18.5%;
-  margin-right: 14.5%;
-  position: absolute;
-  background-color: #fff;
-}
 .entepriseheart {
-  width: 100%;
+  width: 1200px;
+  margin: 0 auto;
   height: 60px;
   line-height: 60px;
   color: #969ebb;
   font-size: 14px;
+  background-color: #fff;
 }
 .enterpriseSc {
   font-size: 14px;
@@ -276,14 +267,16 @@ export default {
   margin-left: 25px;
   cursor: pointer;
 }
-.enterpriseLs {
-  font-size: 14px;
-  font-weight: 600;
-  margin-left: 25px;
-  cursor: pointer;
+.enterpriseSc:after{
+  content: "";
+  display: inline-block;
+  height: 14px;
+  width: 1px;
+  background-color: #969ebb;
+  margin-left: 20px;
 }
-.enterpriseLL {
-  margin-left: 25px;
+.enterpriseSc:last-child:after{
+  display: none;
 }
 .patent-wrapper{
   background-color: #fff;
@@ -299,7 +292,7 @@ export default {
     padding-top: 40px;
   }
   .contentLeft{
-    width: 240px;
+    /*width: 240px;*/
     color: #838895;
     .title{
       font-weight: bold;
@@ -318,7 +311,8 @@ export default {
     }
   }
   .contentRight{
-    width: 880px;
+    /*width: 880px;*/
+    width: 100%;
     ul li{
       padding: 20px;
       border-bottom: 1px solid #ececf5;

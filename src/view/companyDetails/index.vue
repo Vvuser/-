@@ -158,7 +158,9 @@
       min-width: 680px;
       background-color: #fff;
       width: 860px;
+      padding-bottom: 20px;
       .company-nav {
+        color: #969ebb;
         width: 100%;
         height: 40px;
         line-height: 40px;

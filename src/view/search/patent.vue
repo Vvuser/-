@@ -33,9 +33,9 @@
               <p class="zl-title">{{item.t}}</p>
               <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
               <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
-              <div @click="collect">
-                <el-button icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
-                <el-button type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
+              <div>
+                <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="addCollect(item,index)">收藏</el-button>
+                <el-button type="primary" icon="el-icon-star-on" v-else size="mini" @click="cancelCollect(item.p,index)">已收藏</el-button>
               </div>
             </div>
             <p><span>申请号：{{item.ap}}</span><span>申请日：{{item.ad}}</span></p>
@@ -65,7 +65,6 @@
     },
     data(){
       return{
-        collectFlag:false,
         total:0,
         currentPage:1,
         pageSize:10,
@@ -145,7 +144,6 @@
         ]
       }
     },
-
     methods: {
       cl(index,childindex){
         // console.log(index,childindex);
@@ -160,9 +158,6 @@
       },
       handleClose(key, keyPath) {
         // console.log(key, keyPath);
-      },
-      collect(){
-        this.collectFlag = !this.collectFlag
       },
       getCurrentPage(page){
         // console.log(`父组件page ${page}`)
@@ -215,6 +210,39 @@
           console.log(error);
         })
       },
+      addCollect(item,index) {
+        this.$post('/patentkeep/',{
+          t: item.t,
+          ad: item.ad,
+          strkey: item.l.key,
+          ap: item.ap,
+          p: item.p,
+          isd: item.isd,
+          alist: item.aList.toString(),
+          ilist: item.iList.toString(),
+          isClick: 0,
+          abst: item.abst
+        }).then(data => {
+          console.log(data);
+          this.$message.success("收藏成功")
+          this.listData[index].isKeep = true
+        }).catch(error => {
+          console.log(error);
+          this.$message.success("收藏失败")
+        })
+      },
+      cancelCollect(p,index){
+        this.$get(`/patentkeep/delete/${p}`)
+          .then(data => {
+            console.log(data);
+            this.$message.success("取消收藏成功")
+            this.listData[index].isKeep = false
+        }).catch(error => {
+          console.log(error);
+          this.$message.success("取消收藏失败")
+
+        })
+      }
     },
     computed:{
       ...mapGetters([
