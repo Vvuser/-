@@ -1,7 +1,20 @@
 <template>
   <div>
-    <!--<essential :showFlag="showFlag"></essential>-->
-    <p class="default">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
+    <div v-show="showFlag.length!=0">
+      <essential :showFlag="showFlag"></essential>
+      <risk :showFlag="showFlag"></risk>
+      <intellectual :showFlag="showFlag"></intellectual>
+      <annualReports :showFlag="showFlag"></annualReports>
+      <management :showFlag="showFlag"></management>
+      <financial :showFlag="showFlag"></financial>
+      <div class="FinancialInformation" v-show="showFlag.indexOf('7-1')>-1">
+        <div class="FinancialInformationIcon"></div>
+        <span class="FinancialInformations">舆情信息</span>
+      </div>
+      <publicOpinion :showFlag="showFlag" style="margin-top: 20px"></publicOpinion>
+    </div>
+    <p class="default" v-if="showFlag.length==0">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
+    <p class="default" v-else><span @click="getTree()">[重新配置]</span> </p>
     <el-dialog
       title="自定义"
       :visible.sync="pageBox"
@@ -26,10 +39,23 @@
 </template>
 
 <script>
+
   import essential from './essential.vue'
+  import risk from './risk.vue'
+  import intellectual from './intellectual.vue'
+  import annualReports from './annualReports.vue'
+  import management from './management.vue'
+  import financial from './financial.vue'
+  import publicOpinion from './publicOpinion.vue'
 export default {
     components:{
-      essential
+      essential,
+      risk,
+      intellectual,
+      annualReports,
+      management,
+      financial,
+      publicOpinion
     },
   data(){
     return {
@@ -150,7 +176,7 @@ export default {
   methods:{
     getCheckedKeys() {
       this.pageBox = false,
-      console.log(this.$refs.tree.getCheckedKeys());
+      // console.log(this.$refs.tree.getCheckedKeys());
       this.changeTree(this.$refs.tree.getCheckedKeys())
     },
     setCheckedKeys(data) {
@@ -158,24 +184,51 @@ export default {
     },
     changeTree(customizeInfo){
       this.$post('/customizehtml/',{
-        customizeInfo:customizeInfo
+        customizeInfo:customizeInfo.toString()
       }).then((res)=>{
-        console.log(res);
+        console.log('changeTree',res);
         this.showFlag = customizeInfo
       })
     },
     getTree(){
       this.pageBox=true
       this.$get('/customizehtml/menu').then((res)=>{
-        console.log(res);
-        this.setCheckedKeys(res.data.result[0].customizeInfo)
+        console.log('getTree',res);
+        this.setCheckedKeys(res.data.result[0].customizeInfo.split(','))
+      })
+    },
+    getDate(){
+      this.$get('/customizehtml/menu').then((res)=>{
+        console.log('getTree',res);
+        this.showFlag = res.data.result[0].customizeInfo.split(',')
       })
     }
+  },
+  created(){
+    this.getDate()
   }
 }
 </script>
 
 <style scoped lang="scss" type="text/scss">
+  .FinancialInformation {
+    margin-top: 20px;
+    margin-left: 30px;
+  }
+
+  .FinancialInformationIcon {
+    display: inline-block;
+    width: 5px;
+    margin-right: -1px;
+    height: 14px;
+    background-color: #557bf7;
+    transform: translateY(1px);
+  }
+
+  .FinancialInformations {
+    font-weight: bold;
+    color: #838895;
+  }
 .k{
   background: #fdfcff;
   font-size: 16px;

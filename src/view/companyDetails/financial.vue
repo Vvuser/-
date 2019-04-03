@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<div class="FinancialInformation">
+		<div class="FinancialInformation" v-show="showFlag.indexOf('6-1')>-1">
 			<div class="FinancialInformationIcon"></div>
 			<span class="FinancialInformations">财务信息</span>
 		</div>
-		<div>
+		<div v-show="showFlag.indexOf('6-1')>-1">
 			<table class="FinancialInformationTable">
 				<tr>
 					<th class="FinancialInformationTableths">年份</th>
@@ -46,6 +46,13 @@
 		data(){
 			return {
 				obj:{}
+			}
+		},
+		props:{
+			showFlag:{
+				default(){
+					return ['6-1']
+				}
 			}
 		},
 		methods:{

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="Administrative">
+    <div class="Administrative" v-show="showFlag.indexOf('5-1')>-1">
       <div class="AdministrativeIcon"></div>
       <span class="Administrativenods">行政许可</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('5-1')>-1">
       <el-table :data="tableData" border class="AdministrativeTable">
         <el-table-column prop="itemId" label="序号" width="69"></el-table-column>
         <el-table-column prop="number" label="许可文件编号" width="161"></el-table-column>
@@ -17,11 +17,11 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="FinanceInformation">
+    <div class="FinanceInformation" v-show="showFlag.indexOf('5-2')>-1">
       <div class="FinanceInformationIcon"></div>
       <span class="FinanceInformationKl">融资信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('5-2')>-1">
       <el-table :data="tableData2" border class="creditRatingTable">
         <el-table-column prop="finance_date" label="融资时间" width="140"></el-table-column>
         <el-table-column prop="financing_round" label="融资轮次" width="140"></el-table-column>
@@ -29,11 +29,11 @@
         <el-table-column prop="names" label="投资方"></el-table-column>
       </el-table>
     </div>
-    <div class="SpotCheck">
+    <div class="SpotCheck" v-show="showFlag.indexOf('5-3')>-1">
       <div class="SpotCheckIcon"></div>
       <span class="SpotCheckKl">抽查检查</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('5-3')>-1">
       <el-table :data="tableData3" border class="creditRatingTable">
         <el-table-column type="index" label="序号" width="70"></el-table-column>
         <el-table-column prop="date" label="日期" width="96"></el-table-column>
@@ -42,11 +42,11 @@
         <el-table-column prop="department" label="检查实施机关" width="283"></el-table-column>
       </el-table>
     </div>
-    <div class="creditRating">
+    <div class="creditRating" v-show="showFlag.indexOf('5-4')>-1">
       <div class="creditRatingIcon"></div>
       <span class="creditRatingKl">税务评级</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('5-4')>-1">
       <el-table :data="tableData1" border class="creditRatingTable">
         <el-table-column type="index" label="序号" width="70"></el-table-column>
         <el-table-column prop="year" label="评价年度" width="96"></el-table-column>
@@ -69,6 +69,13 @@ export default {
       credit_no: 0,
       name: ""
     };
+  },
+  props:{
+    showFlag:{
+      default(){
+        return ['5-1','5-2','5-3','5-4']
+      }
+    }
   },
   methods: {
     // 获取行政许可

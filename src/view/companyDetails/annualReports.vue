@@ -1,5 +1,5 @@
  <template>
-  <div>
+  <div v-show="showFlag.toString().indexOf('4-')>-1">
     <div class="annualReports annualReportsmag">
       <span
         v-for="(item, index) in yearList"
@@ -8,11 +8,11 @@
         :key="index"
       >{{item}}年度</span>
     </div>
-    <div class="annualReportstitle">
+    <div class="annualReportstitle" v-show="showFlag.indexOf('4-1')>-1">
       <div class="annualReportstitlebibl"></div>
       <span class="annualReportsspan">企业基本信息</span>
     </div>
-    <table class="annualReportstable">
+    <table class="annualReportstable" v-show="showFlag.indexOf('4-1')>-1">
       <tr>
         <th class="annualReportstableyhs">
           注册号/统一社会
@@ -59,22 +59,22 @@
         <th class="annualReportstableybs"></th>
       </tr>
     </table>
-    <div class="annualReportsInter">
+    <div class="annualReportsInter" v-show="showFlag.indexOf('4-2')>-1">
       <div class="annualReportsIone"></div>
       <span class="annualReportsPom">网站或网店信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('4-2')>-1">
       <el-table :data="obj.websites" border class="annualReportsIntertable">
         <el-table-column prop="web_type" label="类型" width="80"></el-table-column>
         <el-table-column prop="web_name" label="名称" width="120"></el-table-column>
         <el-table-column prop="web_url" label="网址" width="599"></el-table-column>
       </el-table>
     </div>
-    <div class="iconCan">
+    <div class="iconCan" v-show="showFlag.indexOf('4-3')>-1">
       <div class="iconCanblem"></div>
       <span class="iconCanblemtitle">股东(发起人)及出姿信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('4-3')>-1">
       <el-table :data="obj.partners" border class="annualReportsIntertable2">
         <el-table-column prop="stock_name" label="股东" width="80"></el-table-column>
         <el-table-column prop="real_capi_items[0].real_capi" label="认缴出姿额(万元)" width="160"></el-table-column>
@@ -88,11 +88,11 @@
         <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="149"></el-table-column>
       </el-table>
     </div>
-    <div class="notling">
+    <div class="notling" v-show="showFlag.indexOf('4-4')>-1">
       <div class="notlingbox"></div>
       <span class="notlingboxmp">社会信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('4-4')>-1">
       <table class="notlingtable">
         <tr>
           <th class="notlingtableths">城镇职工基本养老保险</th>
@@ -130,6 +130,13 @@ export default {
       socialItem: {social_security:{basic_endownment_num:""}},
       keyword: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME")
     };
+  },
+  props:{
+    showFlag:{
+      default(){
+        return ['4-1','4-2','4-3','4-4']
+      }
+    }
   },
   watch:{
     yearIndex() {

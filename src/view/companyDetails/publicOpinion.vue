@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="entepriseheart">
+
+    <div class="entepriseheart" v-show="showFlag.indexOf('7-1')>-1">
       <span class="enterpriseSc"
         v-for="(item,index) in navItemList"
         :key="index"
@@ -8,7 +9,7 @@
         @click="activeNavItemFun(item)">
         {{item}}</span>
     </div>
-    <div class="publicOpinion">
+    <div class="publicOpinion" v-show="showFlag.indexOf('7-1')>-1">
       <div class="box">
         <div class="item" v-for="(item,index) in list" :key="index">
           <h3 @click="href(item.url)">{{item.titleZh}}</h3>
@@ -38,6 +39,13 @@
         navItemList:["相关信息","成果奖励","处罚信息","正面信息","负面信息"],
         activeNavItem: "相关信息"
       };
+    },
+    props:{
+      showFlag:{
+        default(){
+          return ['7-1']
+        }
+      }
     },
     components:{
       pagination
