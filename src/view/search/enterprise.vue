@@ -68,7 +68,8 @@ export default {
     collect(item,flag) {
       this.$post('/companykeep/',{
         companyid:item.id,
-        isClick:flag
+        isClick:flag,
+        companyInfo: JSON.stringify(item)
       }).then(res => {
         this.getEnterpriseList(this.getSeacherText)
       })
