@@ -127,7 +127,8 @@ export default {
       yearList: [],
       tableDatas: [],
       socialInformation: [],
-      socialItem: {social_security:{basic_endownment_num:""}}
+      socialItem: {social_security:{basic_endownment_num:""}},
+      keyword: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME")
     };
   },
   watch:{
@@ -140,7 +141,7 @@ export default {
     getInfo() {
       this.$post("/company/invoke", {
         url: "/reports/getReportListByName",
-        keyword: "小米科技有限责任公司"
+        keyword: this.keyword
       }).then(data => {
           console.log(data);
           this.annualReports = data.data.items
@@ -156,7 +157,7 @@ export default {
     getSocialInformation() {
       this.$post("/company/invoke", {
         url: "/reports/getSocialSecurityByName",
-        keyword: "小米科技有限责任公司"
+        keyword: this.keyword
       }).then(res => {
         console.log(res)
         this.socialInformation = res.data.items
