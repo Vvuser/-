@@ -1,135 +1,181 @@
 <template>
   <div>
-    <p class="default">页面暂无展示内容，请进行 <span @click="pageBox=true">[配置]</span> </p>
+    <!--<essential :showFlag="showFlag"></essential>-->
+    <p class="default">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
     <el-dialog
       title="自定义"
       :visible.sync="pageBox"
       width="30%"
       :lock-scroll="true">
       <div class="box">
-        <table class="table">
-          <tr>
-            <td class="k" rowspan="5">基本信息</td>
-            <td class="v">
-              <span>工商信息</span>
-              <el-checkbox class="checkbox" v-model="business"></el-checkbox>
-            </td>
-            <td class="k" rowspan="2">知识产权</td>
-            <td class="v">
-              <span>专利信息</span>
-              <el-checkbox class="checkbox" v-model="patent"></el-checkbox>
-            </td>
-            <td class="v">
-              <span>软件著作权</span>
-              <el-checkbox class="checkbox" v-model="copyright"></el-checkbox>
-            </td>
-          </tr>
-          <tr>
-            <td class="v">
-              <span>发起人/股东信息</span>
-              <el-checkbox class="checkbox" v-model="initiator"></el-checkbox>
-            </td>
-          </tr>
-          <tr>
-             <td class="v">
-              <span>主要人员</span>
-              <el-checkbox class="checkbox" v-model="keyPeople"></el-checkbox>
-            </td>
-            <td class="k">企业年报</td>
-            <td class="v">
-              <span>企业年报</span>
-              <el-checkbox class="checkbox" v-model="reports"></el-checkbox>
-            </td>
-          </tr>
-          <tr>
-            <td class="v">
-              <span>工商变更</span>
-              <el-checkbox class="checkbox" v-model="businessChanges"></el-checkbox>
-            </td>
-            <td class="k">经营信息</td>
-            <td class="v">
-              <span>经营信息</span>
-              <el-checkbox class="checkbox" v-model="management"></el-checkbox>
-            </td>
-          </tr>
-          <tr>
-            <td class="v">
-              <span>分支机构</span>
-              <el-checkbox class="checkbox" v-model="branch"></el-checkbox>
-            </td>
-            <td class="k">财务信息</td>
-            <td class="v">
-              <span>财务信息</span>
-              <el-checkbox class="checkbox" v-model="financial"></el-checkbox>
-            </td>
-          </tr>
-          <tr>
-            <td class="k" rowspan="2">风险信息</td>
-            <td class="v">
-              <span>裁判文书</span>
-              <el-checkbox class="checkbox" v-model="judgement"></el-checkbox>
-            </td>
-            <td class="k">舆情信息</td>
-            <td class="v">
-              <span>舆情信息</span>
-              <el-checkbox class="checkbox" v-model="publicOpinion"></el-checkbox>
-            </td>
-          </tr>
-          <tr>
-            <td class="v">
-              <span>法院公告</span>
-              <el-checkbox class="checkbox" v-model="courtAnnouncement"></el-checkbox>
-            </td>
-            <td class="k"></td>
-            <td class="v"></td>
-          </tr>
-        </table>
+        <el-tree
+            :data="data2"
+            show-checkbox
+            node-key="id"
+            ref="tree"
+            :default-expanded-keys="[1,2,3,4,5,6,7]"
+            >
+        </el-tree>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="mini" @click="pageBox = false">取 消</el-button>
-        <el-button size="mini" type="primary" @click="pageBox = false">确 定</el-button>
+        <el-button size="mini" type="primary" @click="getCheckedKeys()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+  import essential from './essential.vue'
 export default {
+    components:{
+      essential
+    },
   data(){
     return {
-      pageBox: false,
-      // 工商信息
-      business: false,
-      // 专利信息
-      patent: false,
-      // 发起人
-      initiator: false,
-      // 软件著作权
-      copyright: false,
-      // 主要人员
-      keyPeople: false,
-      // 企业年报
-      reports: false,
-      // 工商变更
-      businessChanges: false,
-      // 管理信息
-      management: false,
-      // 分支机构
-      branch: false,
-      // 财务信息
-      financial: false,
-      // 裁判文书
-      judgement: false,
-      // 舆情信息
-      publicOpinion: false,
-      // 法院公告
-      courtAnnouncement: false
+      pageBox:false,
+      showFlag:[],
+      data2: [{
+        id: 1,
+        label: '基本信息',
+        children: [{
+          id: '1-1',
+          label: '工商信息',
+        },{
+          id: '1-2',
+          label: '发起人/股东信息',
+        },{
+          id: '1-3',
+          label: '工商信息',
+        },{
+          id: '1-4',
+          label: '工商变更',
+        },{
+          id: '1-5',
+          label: '分支机构',
+        }]
+      }, {
+        id: 2,
+        label: '风险信息',
+        children: [{
+          id: '2-1',
+          label: '判决文书',
+        },{
+          id: '2-2',
+          label: '法院公告',
+        },{
+          id: '2-3',
+          label: '失信信息',
+        },{
+          id: '2-4',
+          label: '经营异常',
+        },{
+          id: '2-5',
+          label: '行政处罚',
+        },{
+          id: '2-6',
+          label: '股权出质',
+        },{
+          id: '2-7',
+          label: '股权冻结',
+        },{
+          id: '2-8',
+          label: '立案信息',
+        },{
+          id: '2-9',
+          label: '开庭公告',
+        }]
+      }, {
+        id: 3,
+        label: '知识产权',
+        children: [{
+          id: '3-1',
+          label: '专利信息',
+        },{
+          id: '3-2',
+          label: '软件著作权',
+        },{
+          id: '3-3',
+          label: '资质认证',
+        }]
+      }, {
+        id: 4,
+        label: '企业年报',
+        children: [{
+          id: '4-1',
+          label: '企业基本信息',
+        },{
+          id: '4-2',
+          label: '网站或网店信息',
+        },{
+          id: '4-3',
+          label: '股东（发起人）出资信息',
+        },{
+          id: '4-4',
+          label: '社保信息',
+        }]
+      }, {
+        id: 5,
+        label: '经营信息',
+        children: [{
+          id: '5-1',
+          label: '行政许可',
+        },{
+          id: '5-2',
+          label: '融资信息',
+        },{
+          id: '5-3',
+          label: '抽查检查',
+        },{
+          id: '5-4',
+          label: '税务评级',
+        }]
+      }, {
+        id: 6,
+        label: '财务信息',
+        children: [{
+          id: '6-1',
+          label: '财务信息',
+        }]
+      }, {
+        id: 7,
+        label: '舆情信息',
+        children: [{
+          id: '7-1',
+          label: '舆情信息',
+        }]
+      }],
+    }
+  },
+  methods:{
+    getCheckedKeys() {
+      this.pageBox = false,
+      console.log(this.$refs.tree.getCheckedKeys());
+      this.changeTree(this.$refs.tree.getCheckedKeys())
+    },
+    setCheckedKeys(data) {
+      this.$refs.tree.setCheckedKeys(data);
+    },
+    changeTree(customizeInfo){
+      this.$post('/customizehtml/',{
+        customizeInfo:customizeInfo
+      }).then((res)=>{
+        console.log(res);
+        this.showFlag = customizeInfo
+      })
+    },
+    getTree(){
+      this.pageBox=true
+      this.$get('/customizehtml/menu').then((res)=>{
+        console.log(res);
+        this.setCheckedKeys(res.data.result[0].customizeInfo)
+      })
     }
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="scss" type="text/scss">
 .k{
   background: #fdfcff;
   font-size: 16px;
@@ -157,7 +203,9 @@ export default {
   }
 }
 .box{
-  height: 500px;
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
   .table{
     width: 100%;
     height: 100%;
@@ -173,7 +221,8 @@ export default {
   }
 }
 .default{
-  margin-top: 300px;
+  /*margin-top: 300px;*/
+  padding-top: 30px;
   text-align: center;
   font-size: 18px;
   color: #838895;

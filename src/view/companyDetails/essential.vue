@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="basicInformation">
+    <div class="basicInformation" v-show="showFlag.indexOf('1-1')>-1">
       <div class="basicInformationIcon"></div>
       <span class="basicInformationIndustrial">工商信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('1-1')>-1">
       <table class="basicInformationTable">
         <tr>
           <th class="basicInformationTableth0">统一社会信用代码</th>
@@ -50,11 +50,11 @@
         </tr>
       </table>
     </div>
-    <div class="originator">
+    <div class="originator" v-show="showFlag.indexOf('1-2')>-1">
       <div class="originatorIcon"></div>
       <span class="originatorShareholders">发起人/股东信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('1-2')>-1">
       <el-table :data="dbckop" border class="originatorTable">
         <el-table-column prop="stock_type" label="发起人/股东类型" width="150"></el-table-column>
         <el-table-column prop="name" label="发起人/股东" width="215"></el-table-column>
@@ -62,11 +62,11 @@
         <el-table-column prop="real_capi_items.real_capi" label="实缴出资(金额/时间)" width="217"></el-table-column>
       </el-table>
     </div>
-    <div class="mainStaff">
+    <div class="mainStaff" v-show="showFlag.indexOf('1-3')>-1">
       <div class="mainStaffIcon"></div>
       <span class="mainStaffShareholders">主要人员</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('1-3')>-1">
       <table class="mainStaffTbale">
         <tr v-for="(DataList,index) in conList" :key="index">
           <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
@@ -76,11 +76,11 @@
         </tr>
       </table>
     </div>
-    <div class="commercialChange">
+    <div class="commercialChange" v-show="showFlag.indexOf('1-4')>-1">
       <div class="commercialChangeIcon"></div>
       <span class="commercialChangeShareholders">工商变更</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('1-4')>-1">
       <el-table :data="tableList" border class="commercialChangeTable">
         <el-table-column type="index" label="序号" width="70"></el-table-column>
         <el-table-column prop="change_date" label="变更日期" width="115"></el-table-column>
@@ -89,11 +89,11 @@
         <el-table-column prop="after_content" label="变更后" width="259"></el-table-column>
       </el-table>
     </div>
-    <div class="BranchingStructure">
+    <div class="BranchingStructure" v-show="showFlag.indexOf('1-5')>-1">
       <div class="BranchingStructureIcon"></div>
       <span class="BranchingStructured">分支机构</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('1-5')>-1">
       <el-table :data="tableDeta" border class="BranchingStructureTable">
         <el-table-column prop="BranchingStructureTableDate" label="公司名称" width="400"></el-table-column>
         <el-table-column prop="BranchingStructureTableN ame" label="负责" width="380"></el-table-column>
@@ -114,6 +114,13 @@ export default {
       conList: [],
       tableList: []
     };
+  },
+  props:{
+    showFlag:{
+      default(){
+        return ['1-1','1-2','1-3','1-4','1-5']
+      }
+    }
   },
   methods: {
     detaList() {

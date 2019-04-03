@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="risk">
+    <div class="risk" v-show="showFlag.indexOf('2-1')>-1">
       <div class="titles"></div>
       <span class="weni">判决文书</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-1')>-1">
       <el-table :data="tableData" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="判决时间" width="100"></el-table-column>
@@ -12,11 +12,11 @@
         <el-table-column prop="title" label="判决身份"></el-table-column>
       </el-table>
     </div>
-    <div class="riskn">
+    <div class="riskn" v-show="showFlag.indexOf('2-2')>-1">
       <div class="titlest"></div>
       <span class="wenik">法院公告</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-2')>-1">
       <el-table :data="hookList" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="发布时间" width="100"></el-table-column>
@@ -24,11 +24,11 @@
         <el-table-column prop="content" label="公告内容"></el-table-column>
       </el-table>
     </div>
-    <div class="BrokenPromises">
+    <div class="BrokenPromises" v-show="showFlag.indexOf('2-3')>-1">
       <div class="BrokenPromisesst"></div>
       <span class="BrokenPromisesk">失信信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-3')>-1">
       <el-table :data="BrokenPromises" class="BrokenPromisesList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="立案时间" width="100"></el-table-column>
@@ -38,11 +38,11 @@
         <el-table-column prop="execution_status" label="被执行人履行情况"></el-table-column>
       </el-table>
     </div>
-    <div class="Business">
+    <div class="Business" v-show="showFlag.indexOf('2-4')>-1">
       <div class="Businessst"></div>
       <span class="Businessk">经营异常</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-4')>-1">
       <el-table :data="Business" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="in_date" label="列入日期" width="100"></el-table-column>
@@ -52,11 +52,11 @@
         <el-table-column prop="out_reason" label="移出经营异常名录原因"></el-table-column>
       </el-table>
     </div>
-    <div class="administrativePunishment">
+    <div class="administrativePunishment" v-show="showFlag.indexOf('2-5')>-1">
       <div class="administrativePunishmentst"></div>
       <span class="administrativePunishmentk">行政处罚</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-5')>-1">
       <el-table :data="administrativePunishment" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="处罚日期" width="100"></el-table-column>
@@ -66,11 +66,11 @@
         <el-table-column prop="description" label="详情"></el-table-column>
       </el-table>
     </div>
-    <div class="EquityPledge">
+    <div class="EquityPledge" v-show="showFlag.indexOf('2-6')>-1">
       <div class="EquityPledgest"></div>
       <span class="EquityPledgek">股权出质</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-6')>-1">
       <el-table :data="EquityPledge" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="登记日期" width="100"></el-table-column>
@@ -79,11 +79,11 @@
         <el-table-column prop="status" label="状态"></el-table-column>
       </el-table>
     </div>
-    <div class="freeze">
+    <div class="freeze" v-show="showFlag.indexOf('2-7')>-1">
       <div class="freezest"></div>
       <span class="freezek">股权冻结</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-7')>-1">
       <el-table :data="freeze" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="be_executed_person" label="被执行人" width="100"></el-table-column>
@@ -93,11 +93,11 @@
         <el-table-column prop="status" label="类型/状态"></el-table-column>
       </el-table>
     </div>
-    <div class="FilInformation">
+    <div class="FilInformation" v-show="showFlag.indexOf('2-8')>-1">
       <div class="FilInformationst"></div>
       <span class="FilInformationk">立案信息</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-8')>-1">
       <el-table :data="FilInformation" class="FilInformationList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="case_no" label="案号" width="100"></el-table-column>
@@ -106,11 +106,11 @@
         <el-table-column prop="name" label="详情"></el-table-column>
       </el-table>
     </div>
-    <div class="hearingAnnouncement">
+    <div class="hearingAnnouncement" v-show="showFlag.indexOf('2-9')>-1">
       <div class="hearingAnnouncementst"></div>
       <span class="hearingAnnouncementK">开庭公告</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('2-9')>-1">
       <el-table :data="hearingAnnouncement" class="hearingAnnouncementList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="hearing_date" label="开庭日期" width="100"></el-table-column>
@@ -137,6 +137,13 @@ export default {
       FilInformation: [], //立案信息id /case/getCaseListById
       hearingAnnouncement: [] //开庭公告id courtnotice/getCourtNoticeByName
     };
+  },
+  props:{
+    showFlag:{
+      default(){
+        return ['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8','2-9']
+      }
+    }
   },
   methods: {
     detaList() {
