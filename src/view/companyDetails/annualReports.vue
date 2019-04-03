@@ -4,9 +4,9 @@
       <span
         v-for="(item, index) in yearList"
         class="annualReportsmag"
-        @click="c(index)"
+        @click="yearIndex = index"
         :key="index"
-      >{{item}}年度213</span>
+      >{{item}}年度</span>
     </div>
     <div class="annualReportstitle">
       <div class="annualReportstitlebibl"></div>
@@ -132,15 +132,11 @@ export default {
   },
   watch:{
     yearIndex() {
-      alert(this.yearIndex)
       this.obj = this.annualReports[this.yearIndex]
       this.socialItem = this.socialInformation[this.yearIndex]
     }
   },
   methods: {
-    c(index){
-      alert(index)
-    },
     getInfo() {
       this.$post("/company/invoke", {
         url: "/reports/getReportListByName",
