@@ -8,15 +8,12 @@
       <el-table :data="items" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="type" label="专利类型" width="100"></el-table-column>
-        <el-table-column prop="address" label="申请公众号" width="140"></el-table-column>
-        <el-table-column prop="date" label="发布日期" width="120"></el-table-column>
-        <el-table-column prop="title" label="摘要"></el-table-column>
+        <el-table-column prop="number" label="申请公众号" width="140"></el-table-column>
+        <el-table-column prop="first_date" label="发布日期" width="120"></el-table-column>
+        <el-table-column prop="company" label="摘要"></el-table-column>
       </el-table>
     </div>
-    <div class="block">
-      <el-pagination layout="prev, pager, next" :total="50">111111111111111111</el-pagination>
-    </div>
-      <div class="riska">
+    <div class="riska">
       <div class="titles"></div>
       <span class="weni">软件著作权</span>
     </div>
@@ -31,24 +28,18 @@
         <el-table-column prop="short_name" label="软件简称" width="173"></el-table-column>
       </el-table>
     </div>
-    <div class="block">
-      <el-pagination layout="prev, pager, next" :total="50">111111111111111111</el-pagination>
-    </div>
-      <div class="risks">
+    <div class="risks">
       <div class="titles"></div>
       <span class="weni">资质认证</span>
     </div>
     <div>
       <el-table :data="remarksList" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="type" label="证书类型" width="200"></el-table-column>
-        <el-table-column prop="num" label="证书编号" width="150"></el-table-column>
-        <el-table-column prop="issue_date" label="发证日期" width="120"></el-table-column>
-        <el-table-column prop="remarks" label="备注"></el-table-column>
+        <el-table-column prop="type_name" label="证书类型" width="200"></el-table-column>
+        <el-table-column prop="type_num" label="证书编号" width="150"></el-table-column>
+        <el-table-column prop="first_date" label="发证日期" width="120"></el-table-column>
+        <el-table-column prop="company" label="备注"></el-table-column>
       </el-table>
-    </div>
-    <div class="block">
-      <el-pagination layout="prev, pager, next" :total="50">111111111111111111</el-pagination>
     </div>
   </div>
 </template>
@@ -58,8 +49,8 @@ export default {
   data() {
     return {
       tableData: [],
-      items:[],
-      remarksList:[]
+      items: [],
+      remarksList: []
     };
   },
   props:{
@@ -74,20 +65,20 @@ export default {
       var risksId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/copyright/getCopyrightSoftById",
-        id:"enterpriseId"
+        id: risksId
       })
         .then(data => {
-          // console.log(data)
-          this.tableData = data.data.items
-          this.remarksList = data.data.items
-          this.items = data.data.items
+          console.log(data)
+          this.tableData = data.data.items;
+          this.remarksList = data.data.items;
+          this.items = data.data.items;
         })
         .catch(error => {
           console.log(1);
         });
     }
   },
-  created(){
+  created() {
     this.detaList();
   }
 };
@@ -98,13 +89,13 @@ export default {
   margin-left: 26px;
   margin-top: 15px;
 }
-.riska{
+.riska {
   margin-left: 26px;
-  margin-top: -30px;
+  margin-top: 20px;
 }
-.risks{
+.risks {
   margin-left: 26px;
-  margin-top: -30px;
+  margin-top: 20px;
 }
 .titles {
   display: inline-block;

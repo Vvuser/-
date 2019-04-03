@@ -150,7 +150,7 @@ export default {
       var riskId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/lawsuit/getLawsuitListById",
-        id: "riskId"
+        id: riskId
       })
         .then(data => {
           console.log(data);
@@ -167,7 +167,7 @@ export default {
       );
       this.$post("/company/invoke", {
         url: "/enterprise/getSeriousIllegalByName",
-        name: "BrokenPromisesName"
+        name: BrokenPromisesName
       })
         .then(data => {
           console.log(data);
@@ -181,7 +181,7 @@ export default {
       var BusinessId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/v2/abnormal/getAbnormalListByName",
-        id: "enterpriseId"
+        id: enterpriseId
       })
         .then(data => {
           console.log(data);
@@ -197,7 +197,7 @@ export default {
       );
       this.$post("/company/invoke", {
         url: "/v2/adminPunish/getAdminPunishByName",
-        keyword: "administrativePunishmentkeyword"
+        keyword: administrativePunishmentkeyword
       })
         .then(data => {
           console.log(data);
@@ -211,7 +211,7 @@ export default {
       var EquityPledgeName = sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME");
       this.$post("/company/invoke", {
         url: "/v2/equityPledge/getEquityQualitiesByName",
-        keyword: "EquityPledgeName"
+        keyword: EquityPledgeName
       })
         .then(data => {
           console.log(data);
@@ -225,7 +225,7 @@ export default {
       var freezeName = sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME");
       this.$post("/company/invoke", {
         url: "/v2/judicialFreeze/getJudicialFreezeByName",
-        name: "freezeName"
+        name: freezeName
       })
         .then(data => {
           console.log(data);
@@ -239,7 +239,7 @@ export default {
       var FilInformationId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/case/getCaseListById",
-        id: "FilInformationId"
+        id: FilInformationId
       })
         .then(data => {
           console.log(data);
@@ -253,7 +253,7 @@ export default {
       var hearingAnnouncementId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/courtnotice/getCourtNoticeByName",
-        id: "hearingAnnouncementId"
+        id: hearingAnnouncementId
       })
         .then(data => {
           console.log(data);
@@ -303,15 +303,9 @@ export default {
 .waring-row {
   background: #fcfcff;
 }
-.block {
-  width: 100px;
-  height: 100px;
-  margin-left: 60%;
-  margin-top: 16px;
-}
 .riskn {
   margin-left: 26px;
-  margin-top: -37px;
+  margin-top: 20px;
 }
 .wenik{
   font-weight: bold;
