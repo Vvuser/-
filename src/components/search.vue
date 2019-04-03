@@ -100,6 +100,11 @@ export default {
       if(this.searchText == ''){
         return
       }
+      this.$post(`/searchhistory/`,{
+        sq: this.searchText
+      }).then(res => {
+        console.log(res)
+      })
       let historySearch = localStorage.getItem("historySearch");
       historySearch = historySearch == null ? [] : JSON.parse(historySearch);
       if (historySearch.indexOf(this.searchText) == -1) {
