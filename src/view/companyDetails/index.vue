@@ -35,7 +35,7 @@
           <p class="title">相关新闻</p>
           <ul>
             <li v-for="(text,index) in newsList" :key="index">
-              <a href>{{text.titleZh}}</a>
+              <a href="javascript:;" @click="href(text.url)">{{text.titleZh}}</a>
               <span>来源：{{text.mediaNameSrc}} {{text.created}}</span>
             </li>
           </ul>
@@ -128,6 +128,12 @@ export default {
         this.collectFlag = false
         this.$message.success("取消收藏成功")
       });
+    },
+    /**
+     * 外联
+     */
+    href(url){
+      window.open(url)
     },
     /**
      * 收藏
@@ -230,6 +236,7 @@ export default {
         margin-left: 30px;
         display: inline-block;
         cursor: pointer;
+        color: #969ebb;
       }
       .ac {
         color: #557bf7;
@@ -255,50 +262,27 @@ export default {
       font-weight: bold;
       margin-bottom: 10px;
     }
-  }
-  .company-cover{
-    width: 1200px;
-    margin: 0 auto;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    .company-content-left {
-      min-width: 680px;
-      background-color: #fff;
-      width: 860px;
-      padding-bottom: 20px;
-      .company-nav {
-        color: #969ebb;
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        font-size: 14px;
-        background-color: #ececf5;
-        text-align: left;
-        span {
-          margin-left: 30px;
-          display: inline-block;
-          cursor: pointer;
-        }
-        .ac {
-          color: #557bf7;
-          font-weight: 600;
-        }
-      }
-    }
-    .jiben {
-      border-bottom: 2px solid #f3f5fb;
-    }
-    .xiangguan ul li span {
+    & > div .title:before {
       display: inline-block;
-      color: #cad0dd;
-      font-size: 12px;
-      margin: 10px 0 20px 0;
+      content: "";
+      background-color: #557bf7;
+      height: 12px;
+      width: 4px;
+      margin-right: 6px;
     }
-    .xiangguan ul li {
-      border-bottom: 1px solid #ececf5;
-      margin-bottom: 10px;
-    }
+  }
+  .jiben {
+    border-bottom: 2px solid #f3f5fb;
+  }
+  .xiangguan ul li span {
+    display: inline-block;
+    color: #cad0dd;
+    font-size: 12px;
+    margin: 10px 0 20px 0;
+  }
+  .xiangguan ul li {
+    border-bottom: 1px solid #ececf5;
+    margin-bottom: 10px;
   }
 }
 </style>

@@ -17,15 +17,16 @@
 				</div>
 				<div class="entepriserenalall"
 					 v-for="(item,index) in listData"
-					:key="index">
-					<div class="entepriserenalallTB" v-show="item.isClick == 0"><img src="../../assets/image/enterprise1.jpg" alt="" @click="cancelCollect(item.companyid,index)"></div>
+					:key="index"
+					 @click="Enterdetails(item)">
+					<div class="entepriserenalallTB" v-show="item.isClick == 0"><img src="../../assets/image/enterprise1.jpg" style="cursor: pointer" alt="" @click.stop="cancelCollect(item.companyid,index)"></div>
 					<div class="entepriserenalallnm">
 						<img :src="JSON.parse(item.companyInfo).imgUrl" v-if="JSON.parse(item.companyInfo).imgUrl" alt="" class="entepriserenalallnmImg">
 						<img src="../../assets/image/default.png" v-else alt="" class="entepriserenalallnmImg">
 					</div>
 					<div class="entepriserenalallWuHa">
 						<div>
-							<h1 class="entepriserenalallWuHa-nav">{{JSON.parse(item.companyInfo).name}}</h1>
+							<a href="javascript:;" class="entepriserenalallWuHa-nav">{{JSON.parse(item.companyInfo).name}}</a>
 						</div>
 						<div class="entepriserenalallFe">
 							<span>法定代表人:{{JSON.parse(item.companyInfo).oper_name}}</span>
@@ -76,13 +77,19 @@
 			 */
 			Enterdetails(item) {
 				this.collect(item,1)
-				sessionStorage.setItem("enterpriseId", item.id)
+				sessionStorage.setItem("enterpriseId", item.companyid)
 				this.$router.push({
 					path:'/companyDetails/essential'
 				})
 			},
-			collect(){
-				this.collectFlag = !this.collectFlag
+			collect(item,flag) {
+				this.$post('/companykeep/',{
+					companyid:item.companyid,
+					isClick:flag,
+					companyInfo: JSON.stringify(item)
+				}).then(res => {
+					// this.getEnterpriseList(this.getSeacherText)
+				})
 			},
 			getCurrentPage(page){
 				// console.log(`父组件page ${page}`)
@@ -114,6 +121,7 @@
 						.then(data => {
 							console.log(data);
 							this.$message.success("取消收藏成功")
+							this.listData[index].isClick= 1
 						}).catch(error => {
 					console.log(error);
 					this.$message.success("取消收藏失败")
@@ -195,7 +203,7 @@
 .entepriserenalall {
   padding-top: 20px;
   width: 100%;
-  height: 200px;
+  height: 150px;
   border-bottom: 1px solid #f7f7fc;
   position: relative;
 }
@@ -203,26 +211,26 @@
   position: absolute;
   left: 10px;
   width: 25px;
-  height: 200px;
-  line-height: 200px;
+  height: 150px;
+  line-height: 150px;
 }
 .entepriserenalallnm {
   position: absolute;
   left: 45px;
   width: 150px;
-  height: 200px;
-  line-height: 200px;
+  height: 150px;
+  line-height: 150px;
 	display: flex;
 	align-items: center;
 }
 .entepriserenalallnm .entepriserenalallnmImg{
 	width: 120px;
-	height: 120px;
+	/*height: 120px;*/
 }
 .entepriserenalallWuHa {
   position: absolute;
   left: 199px;
-  height: 200px;
+  height: 150px;
   width: 500px;
   border: none;
 }
@@ -244,14 +252,14 @@
 .entepriserenalallZhican {
   position: absolute;
   left: 750px;
-  height: 200px;
-  line-height: 200px;
+  height: 150px;
+  line-height: 150px;
 }
 .entepriserenalalldate {
   position: absolute;
   left: 920px;
-  height: 200px;
-  line-height: 200px;
+  height: 150px;
+  line-height: 150px;
 }
 .footer{
 	width: 1200px;
