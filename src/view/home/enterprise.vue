@@ -18,7 +18,7 @@
 				<div class="entepriserenalall"
 					 v-for="(item,index) in listData"
 					:key="index">
-					<div class="entepriserenalallTB" v-show="true || !item.isClick == 0"><img src="../../assets/image/enterprise1.jpg" alt="" @click="cancelCollect(item.companyid,index)"></div>
+					<div class="entepriserenalallTB" v-show="item.isClick == 0"><img src="../../assets/image/enterprise1.jpg" alt="" @click="cancelCollect(item.companyid,index)"></div>
 					<div class="entepriserenalallnm"><img src="../../assets/image/logo.png"alt="" class="entepriserenalallnmImg"></div>
 					<div class="entepriserenalallWuHa">
 						<div>
@@ -42,8 +42,11 @@
 					</div>
 				</div>
 			</div>
-			<div></div>
+			<div class="footer">
+				<pagination :total="total" @getCurrentPage="getCurrentPage" :pageSize="pageSize"></pagination>
+			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -69,8 +72,15 @@
 		},
 		methods: {
 			//详情跳转
-			goDetail(p){
-				this.$router.push({path:"/details/patentDetail",query:{p}})
+			/**
+			 * 进入企业详情页
+			 */
+			Enterdetails(item) {
+				this.collect(item,1)
+				sessionStorage.setItem("enterpriseId", item.id)
+				this.$router.push({
+					path:'/companyDetails/essential'
+				})
 			},
 			collect(){
 				this.collectFlag = !this.collectFlag
@@ -140,12 +150,8 @@
   font-weight: 600;
 }
 .enteprisebody {
-  width: 63%;
-  height: 1000px;
+  width: 1200px;
   margin: 0 auto;
-  margin-left: 18.5%;
-  margin-right: 14.5%;
-  position: absolute;
   background-color: #fff;
 }
 .entepriseheart {
@@ -175,11 +181,8 @@
 	display: none;
 }
 .entepriserenal {
-  width: 96%;
-  height: 800px;
-  margin-left: 2%;
-  margin-right: 2%;
-  height: 300px;
+  width: 1140px;
+  margin: 0 auto;
 }
 .entepriserenalsource {
   width: 100%;
@@ -261,5 +264,12 @@
   left: 1020px;
   height: 200px;
   line-height: 200px;
+}
+.footer{
+	width: 1200px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 30px 0;
+	background-color: #fff;
 }
 </style>

@@ -36,7 +36,7 @@
         list:[],
         total:0,
         navItemList:["相关信息","成果奖励","处罚信息","正面信息","负面信息"],
-        activeNavItem: ""
+        activeNavItem: "相关信息"
       };
     },
     components:{
@@ -63,18 +63,18 @@
       },
       getPOList() {
         let obj = {
-          keyWord :  sessionStorage.getItem('1'),
+          keyWord :  sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME'),
           pageSize: this.pageSize,
           pageNo:this.currentPage,
           ysType: 0
         };
-        switch(activeNavItem){
+        switch(this.activeNavItem){
           case "成果奖励":
-            obj.keyWord =  `${sessionStorage.getItem('1')} OR 奖励`
+            obj.keyWord =  `${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')} OR 奖励`
             //语句
             break;
           case "处罚信息" :
-            obj.keyWord =  `${sessionStorage.getItem('1')} OR 处罚`
+            obj.keyWord =  `${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')} OR 处罚`
             //语句
             break;
           case "正面信息":
@@ -87,6 +87,7 @@
             break;
           default :
         }
+        console.log(obj);
         this.$post("/yess/invoke",obj).then(res => {
           console.log(res);
           this.list = res.data.resultList

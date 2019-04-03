@@ -51,7 +51,7 @@
       },
       login(){
         this.$post('/api/login',{
-          name: this.ruleForm.name,
+          username: this.ruleForm.name,
           // password: this.ruleForm.password
           password: md5(this.ruleForm.password)
         }).then(data => {

@@ -7,7 +7,7 @@
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
       <el-tag class="company-el-tag">高薪企业</el-tag>
-      <div @click="collect">
+      <div>
         <el-button @click="collect" icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
         <el-button @click="unCollect" type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
       </div>
@@ -125,7 +125,8 @@ export default {
      */
     unCollect() {
       this.$get(`/companykeep/delete/${this.cId}`).then(res => {
-        this.getEnterpriseList(this.getSeacherText);
+        this.collectFlag = false
+        this.$message.success("取消收藏成功")
       });
     },
     /**
@@ -136,7 +137,8 @@ export default {
         companyid: this.cId,
         isClick: 0
       }).then(res => {
-        this.getEnterpriseList(this.getSeacherText);
+        this.collectFlag = true
+        this.$message.success("收藏成功")
       });
     },
     getCimg(name) {
@@ -159,12 +161,10 @@ export default {
       }).then(res => {
         console.log(res);
         this.obj = res.data;
+        sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME",res.data.name)
         this.getCimg(res.data.name);
         this.getNews(res.data.name)
       });
-    },
-    collect() {
-      this.collectFlag = !this.collectFlag;
     },
     to(path, index) {
       this.pathIndex = index;

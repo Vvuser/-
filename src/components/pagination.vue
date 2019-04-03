@@ -1,12 +1,16 @@
 <template>
-    <el-pagination
-      background
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-size="pageSize"
-      layout="total, prev, pager, next"
-      :total="total">
-    </el-pagination>
+    <div>
+        <el-pagination
+                background
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="pageSize"
+                layout="total, prev, pager, next"
+                :total="total"
+                v-if="total">
+        </el-pagination>
+        <p v-else style="color: #969ebb;padding: 40px 0">暂无数据</p>
+    </div>
 </template>
 
 <script>
