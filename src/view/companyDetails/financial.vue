@@ -54,10 +54,10 @@
 				let id = sessionStorage.getItem("enterpriseId")
 				this.$post('/company/invoke',{
 					url: '/reports/getYearIncomeById',
-					id: "c4418a93-bdb5-41b2-a657-c4b9de4e4b4c"
+					id: sessionStorage.getItem("enterpriseId") || ""
 				}).then(data => {
 				  console.log(data)
-				  this.obj = data.data
+				  this.obj = data.data || {}
 				}).catch(error => {
 				  console.log(1)
 				})
