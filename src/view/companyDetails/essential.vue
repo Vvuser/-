@@ -117,7 +117,7 @@ export default {
     return {
       tableData: [],
       tableDeta: [],
-      item: {},
+      item: { credit_no: "", credit_no: "" },
       dbckop: [],
       employees: [],
       conList: [],
@@ -126,9 +126,10 @@ export default {
   },
   methods: {
     detaList() {
+      var basicInformationId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/enterprise/getDetailAndContactById",
-        id: "534472fd-7d53-4958-8132-d6a6242423d8"
+        id: "basicInformationId"
       })
         .then(data => {
           console.log(data);
@@ -145,6 +146,7 @@ export default {
   },
   created() {
     this.detaList();
+    console.log(sessionStorage.getItem("enterpriseId"));
   }
 };
 </script>

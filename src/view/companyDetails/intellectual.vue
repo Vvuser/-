@@ -64,43 +64,16 @@ export default {
   },
   methods: {
     detaList() {
+      var risksId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/copyright/getCopyrightSoftById",
-        id: "534472fd-7d53-4958-8132-d6a6242423d8",
-        skip:"0"
+        id:"enterpriseId"
       })
         .then(data => {
           // console.log(data)
           this.tableData = data.data.items
-        })
-        .catch(error => {
-          console.log(1);
-        });
-    },
-    itemsList(){
-      this.$post("/company/invoke", {
-        url: "/lawsuit/getLawsuitListById",
-        id: "534472fd-7d53-4958-8132-d6a6242423d8",
-        skip:"0"
-      })
-        .then(data => {
-          console.log(data)
-          this.items = data.data.items
-        })
-        .catch(error => {
-          console.log(1);
-        });
-    },
-    navbisList(){
-      this.$post("/company/invoke", {
-        url: "/certificate/getCertificateById",
-        id: "534472fd-7d53-4958-8132-d6a6242423d8",
-        skip:"0"
-      })
-        .then(data => {
-          console.log(data)
           this.remarksList = data.data.items
-          
+          this.items = data.data.items
         })
         .catch(error => {
           console.log(1);
@@ -109,8 +82,6 @@ export default {
   },
   created(){
     this.detaList();
-    this.itemsList();
-    this.navbisList();
   }
 };
 </script>
