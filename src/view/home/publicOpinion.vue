@@ -1,11 +1,14 @@
   <template>
   <div>
+    <div class="entepriseheart">
+      <span class="enterpriseSc"
+            v-for="(item,index) in navItemList"
+            :key="index"
+            :class="{dd:item==activeNavItem}"
+            @click="activeNavItemFun(item)">
+        {{item}}</span>
+    </div>
     <div class="enteprisebody">
-      <div class="entepriseheart">
-        <span class="enterpriseSc" @click="getPOList(0)">我的收藏</span>
-        <span class="enterpriseLL">|</span>
-        <span class="enterpriseLs" @click="getPOList(1)">浏览历史</span>
-      </div>
       <div class="publicOpinion">
     <div class="box">
       <div class="item" v-for="(item,index) in list" :key="index">
@@ -18,8 +21,8 @@
             <span class="bord" v-for="(c_item,index) in item.keywordsZh" :key="index">{{c_item}}</span>
           </div>
           <div>
-            <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item)">收藏</el-button>
-            <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini" @click="unCollect(item)">已收藏</el-button>
+            <el-button icon="el-icon-star-off" v-if="!item.isClick == 0" size="mini" @click="collect(item,index)">收藏</el-button>
+            <el-button type="primary" icon="el-icon-star-on" v-else size="mini" @click="unCollect(item,index)">已收藏</el-button>
           </div>
         </div>
       </div>
@@ -43,7 +46,9 @@ export default {
       page: 1,
       pageSize: 10,
       list:[],
-      total:0
+      total:0,
+      navItemList:["我的收藏","浏览历史"],
+      activeNavItem: ""
     };
   },
   components:{
@@ -65,15 +70,16 @@ export default {
     /**
      * 取消收藏
      */
-    unCollect(item) {
+    unCollect(item,index) {
       this.$get(`/yesskeep/delete/${item.uuid}`).then(res => {
-        this.getPOList(this.page);
+        this.$message.success("取消收藏成功")
+        this.list[index].isClick= 1
       })
     },
     /**
      * 收藏
      */
-    collect(item) {
+    collect(item,index) {
       let obj = {
         url: item.url,
         titleZh: item.titleZh,
@@ -82,17 +88,21 @@ export default {
         abstractZh: item.abstractZh,
         languageTname: item.languageTname,
         keywordsZh: JSON.stringify(item.keywordsZh),
-        uuid:item.uuid
+        uuid:item.uuid,
+        isClick: 0
       }
       this.$post('/yesskeep/',obj).then(res => {
-        console.log(res)
-        this.getPOList(0);
+        console.log(res);
+        this.$message.success("收藏成功")
+        this.list[index].isClick= 0
       })
     },
+    activeNavItemFun(item){
+      this.activeNavItem = item
+    },
     getCurrentPage(page){
-      console.log(page)
       this.page = page
-      this.getPOList(0);
+      this.getPOList();
     },
     /**
      * 外联
@@ -103,9 +113,14 @@ export default {
     /**
      * 获取检索信息
      */
-    getPOList(flag) {
-      this.isshow = false
-      this.$get(`/yesskeep/page/${this.page}/10/${flag}`).then(res => {
+    getPOList() {
+      let isclick = this.activeNavItem
+      if(isclick == "我的收藏"){
+        isclick = 0
+      }else {
+        isclick = 1
+      }
+      this.$get(`/yesskeep/page/${this.page}/10/${isclick}`).then(res => {
         console.log(res);
         this.list = res.data.result.map(el => {
           el.keywordsZh = JSON.parse(el.keywordsZh)
@@ -116,8 +131,15 @@ export default {
       });
     }
   },
+  watch: {
+    activeNavItem(){
+      this.currentPage = 1
+      this.getPOList()
+    }
+  },
   created() {
-    this.getPOList(0);
+    this.activeNavItem = '我的收藏'
+    this.getPOList()
   }
 };
 </script>
@@ -129,20 +151,18 @@ export default {
   font-weight: 600;
 }
 .enteprisebody {
-  width: 63%;
-  height: 1000px;
+  width: 1200px;
   margin: 0 auto;
-  margin-left: 18.5%;
-  margin-right: 14.5%;
-  position: absolute;
   background-color: #fff;
 }
 .entepriseheart {
-  width: 100%;
+  width: 1200px;
+  margin: 0 auto;
   height: 60px;
   line-height: 60px;
   color: #969ebb;
   font-size: 14px;
+  background-color: #fff;
 }
 .enterpriseSc {
   font-size: 14px;
@@ -150,14 +170,16 @@ export default {
   margin-left: 25px;
   cursor: pointer;
 }
-.enterpriseLs {
-  font-size: 14px;
-  font-weight: 600;
-  margin-left: 25px;
-  cursor: pointer;
+.enterpriseSc:after{
+  content: "";
+  display: inline-block;
+  height: 14px;
+  width: 1px;
+  background-color: #969ebb;
+  margin-left: 20px;
 }
-.enterpriseLL {
-  margin-left: 25px;
+.enterpriseSc:last-child:after{
+  display: none;
 }
 .pagination{
     display: flex;

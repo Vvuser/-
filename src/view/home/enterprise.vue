@@ -19,26 +19,25 @@
 					 v-for="(item,index) in listData"
 					:key="index">
 					<div class="entepriserenalallTB" v-show="item.isClick == 0"><img src="../../assets/image/enterprise1.jpg" alt="" @click="cancelCollect(item.companyid,index)"></div>
-					<div class="entepriserenalallnm"><img src="../../assets/image/logo.png"alt="" class="entepriserenalallnmImg"></div>
+					<div class="entepriserenalallnm">
+						<img :src="JSON.parse(item.companyInfo).imgUrl" v-if="JSON.parse(item.companyInfo).imgUrl" alt="" class="entepriserenalallnmImg">
+						<img src="../../assets/image/default.png" v-else alt="" class="entepriserenalallnmImg">
+					</div>
 					<div class="entepriserenalallWuHa">
 						<div>
-							<h1 class="entepriserenalallWuHa-nav">武汉科前开发股份有限公司</h1>
+							<h1 class="entepriserenalallWuHa-nav">{{JSON.parse(item.companyInfo).name}}</h1>
 						</div>
 						<div class="entepriserenalallFe">
-							<span>法定代表人:陈焕春</span>
+							<span>法定代表人:{{JSON.parse(item.companyInfo).oper_name}}</span>
 							<br>
-							<span>电话:9237828</span>
-							<br>
-							<span>邮箱:38128931@qq.com</span>
-							<br>
-							<span>地址:武汉市东湖新技术开发区高新二路419号</span>
+							<span>企业注册号:{{JSON.parse(item.companyInfo).reg_no}}</span>
 						</div>
 					</div>
 					<div class="entepriserenalallZhican">
-						<span>36000万人民币</span>
+						<span>{{JSON.parse(item.companyInfo).credit_no}}</span>
 					</div>
 					<div class="entepriserenalalldate">
-						<span>2001-01-11</span>
+						<span>{{JSON.parse(item.companyInfo).start_date}}</span>
 					</div>
 				</div>
 			</div>
@@ -118,20 +117,10 @@
 						}).catch(error => {
 					console.log(error);
 					this.$message.success("取消收藏失败")
-
 				})
 			}
 		},
-		computed:{
-			...mapGetters([
-				'getSeacherText'
-			])
-		},
 		watch: {
-			getSeacherText(){
-				console.log(this.getSeacherText)
-				this.getAjaxData()
-			},
 			activeNavItem(){
 				this.currentPage = 1
 				this.getAjaxData()
@@ -201,7 +190,7 @@
 }
 .entepriserenalsource-auto {
   color: #c1c3ce;
-  margin-left: 200px;
+  margin-left: 100px;
 }
 .entepriserenalall {
   padding-top: 20px;
@@ -229,7 +218,6 @@
 .entepriserenalallnm .entepriserenalallnmImg{
 	width: 120px;
 	height: 120px;
-	background: black;
 }
 .entepriserenalallWuHa {
   position: absolute;
@@ -261,7 +249,7 @@
 }
 .entepriserenalalldate {
   position: absolute;
-  left: 1020px;
+  left: 920px;
   height: 200px;
   line-height: 200px;
 }

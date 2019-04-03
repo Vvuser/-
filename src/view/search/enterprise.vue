@@ -14,7 +14,7 @@
         <img v-else src="../../assets/image/default.png">
       </div>
       <div>
-        <h3>{{item.name}}</h3>
+        <a href="javascript:;">{{item.name}}</a>
         <p>法定人代表：{{item.oper_name}}</p>
         <!-- <p>电话：xxxxx 邮箱：xxxxx</p> -->
         <p>企业注册号：{{item.reg_no}}</p>
@@ -68,7 +68,8 @@ export default {
     collect(item,flag) {
       this.$post('/companykeep/',{
         companyid:item.id,
-        isClick:flag
+        isClick:flag,
+        companyInfo: JSON.stringify(item)
       }).then(res => {
         this.getEnterpriseList(this.getSeacherText)
       })
@@ -191,10 +192,11 @@ export default {
     }
     .item>div:nth-child(2){
       width: 570px;
-      h3{
+      a{
         font-size: 16px;
         font-weight: bold;
         margin-bottom: 20px;
+        color: #838895;
       }
       p{
         font-size: 14px;

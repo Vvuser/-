@@ -5,12 +5,12 @@
       <span class="weni">判决文书</span>
     </div>
     <div>
-      <el-table :data="tableData" class="tableList" border>
-        <el-table-column prop="date" label="序号" width="60"></el-table-column>
-        <el-table-column prop="name" label="专利类型" width="100"></el-table-column>
+      <el-table :data="items" class="tableList" border>
+        <el-table-column type="index" label="序号" width="60"></el-table-column>
+        <el-table-column prop="type" label="专利类型" width="100"></el-table-column>
         <el-table-column prop="address" label="申请公众号" width="140"></el-table-column>
-        <el-table-column prop="goods" label="发布日期" width="120"></el-table-column>
-        <el-table-column prop="canvrs" label="摘要"></el-table-column>
+        <el-table-column prop="date" label="发布日期" width="120"></el-table-column>
+        <el-table-column prop="title" label="摘要"></el-table-column>
       </el-table>
     </div>
     <div class="block">
@@ -22,13 +22,13 @@
     </div>
     <div>
       <el-table :data="tableData" class="tableList" border>
-        <el-table-column prop="date" label="序号" width="60"></el-table-column>
+        <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="name" label="软件名称" width="140"></el-table-column>
-        <el-table-column prop="address" label="登记号" width="80"></el-table-column>
-        <el-table-column prop="goods" label="版本号" width="80"></el-table-column>
-        <el-table-column prop="canvrs" label="分类号" width="80"></el-table-column>
-        <el-table-column prop="canvrs" label="登记批准日期" width="160"></el-table-column>
-        <el-table-column prop="canvrs" label="软件简称" width="173"></el-table-column>
+        <el-table-column prop="number" label="登记号" width="80"></el-table-column>
+        <el-table-column prop="version" label="版本号" width="80"></el-table-column>
+        <el-table-column prop="type_num" label="分类号" width="80"></el-table-column>
+        <el-table-column prop="first_date" label="登记批准日期" width="160"></el-table-column>
+        <el-table-column prop="short_name" label="软件简称" width="173"></el-table-column>
       </el-table>
     </div>
     <div class="block">
@@ -39,12 +39,12 @@
       <span class="weni">资质认证</span>
     </div>
     <div>
-      <el-table :data="tableData" class="tableList" border>
-        <el-table-column prop="date" label="序号" width="60"></el-table-column>
-        <el-table-column prop="name" label="证书类型" width="200"></el-table-column>
-        <el-table-column prop="address" label="证书编号" width="150"></el-table-column>
-        <el-table-column prop="goods" label="发证日期" width="120"></el-table-column>
-        <el-table-column prop="canvrs" label="备注"></el-table-column>
+      <el-table :data="remarksList" class="tableList" border>
+        <el-table-column type="index" label="序号" width="60"></el-table-column>
+        <el-table-column prop="type" label="证书类型" width="200"></el-table-column>
+        <el-table-column prop="num" label="证书编号" width="150"></el-table-column>
+        <el-table-column prop="issue_date" label="发证日期" width="120"></el-table-column>
+        <el-table-column prop="remarks" label="备注"></el-table-column>
       </el-table>
     </div>
     <div class="block">
@@ -57,48 +57,60 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: "1",
-          name: "王小虎",
-          address:"上海",
-          goods:"1"
-        },
-        {
-          date: "1",
-          name: "王小虎",
-          address:"上海",
-          goods:"1"
-        },
-        {
-          date: "1",
-          name: "王小虎",
-          address:"上海",
-          goods:"1"
-        },
-        {
-          date: "1",
-          name: "王小虎",
-          address:"上海",
-          goods:"1"
-        },
-        {
-          date: "1",
-          name: "王小虎",
-          address:"上海",
-          goods:"1"
-        }
-      ]
+      tableData: [],
+      items:[],
+      remarksList:[]
     };
   },
   methods: {
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex == 0) {
-        return "waring-row";
-      } else {
-        return "";
-      }
+    detaList() {
+      this.$post("/company/invoke", {
+        url: "/copyright/getCopyrightSoftById",
+        id: "534472fd-7d53-4958-8132-d6a6242423d8",
+        skip:"0"
+      })
+        .then(data => {
+          // console.log(data)
+          this.tableData = data.data.items
+        })
+        .catch(error => {
+          console.log(1);
+        });
+    },
+    itemsList(){
+      this.$post("/company/invoke", {
+        url: "/lawsuit/getLawsuitListById",
+        id: "534472fd-7d53-4958-8132-d6a6242423d8",
+        skip:"0"
+      })
+        .then(data => {
+          console.log(data)
+          this.items = data.data.items
+        })
+        .catch(error => {
+          console.log(1);
+        });
+    },
+    navbisList(){
+      this.$post("/company/invoke", {
+        url: "/certificate/getCertificateById",
+        id: "534472fd-7d53-4958-8132-d6a6242423d8",
+        skip:"0"
+      })
+        .then(data => {
+          console.log(data)
+          this.remarksList = data.data.items
+          
+        })
+        .catch(error => {
+          console.log(1);
+        });
     }
+  },
+  created(){
+    this.detaList();
+    this.itemsList();
+    this.navbisList();
   }
 };
 </script>

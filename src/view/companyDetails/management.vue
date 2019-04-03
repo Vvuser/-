@@ -83,7 +83,7 @@
 				  this.tableData1 = data.data.grade_list
 				  this.tableData1 = this.tableData1.map(el => {
 					  el.name = data.data.name
-					  el.credit_no = data.data.credit_no
+					  el.credit_no = res.data.credit_no
 					  return el
 				  })
 				  console.log(this.tableData1)

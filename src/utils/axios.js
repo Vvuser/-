@@ -4,7 +4,7 @@ import { Message } from 'element-ui';
 import { Loading } from 'element-ui';
 
 axios.defaults.timeout = 10000;
-axios.defaults.baseURL ='http://192.168.34.37:30500';
+axios.defaults.baseURL ='http://192.168.18.29:30500';
 let loading
 //http request 拦截器
 axios.interceptors.request.use(

@@ -7,10 +7,10 @@
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
       <el-tag class="company-el-tag">高薪企业</el-tag>
-      <div>
+      <!--<div>
         <el-button @click="collect" icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
         <el-button @click="unCollect" type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
-      </div>
+      </div>-->
     </div>
     <div class="company-cover">
       <div class="company-content-left">
@@ -135,7 +135,8 @@ export default {
     collect() {
       this.$post("/companykeep/", {
         companyid: this.cId,
-        isClick: 0
+        isClick: 0,
+        companyInfo: JSON.stringify(this.obj)
       }).then(res => {
         this.collectFlag = true
         this.$message.success("收藏成功")
