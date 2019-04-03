@@ -61,9 +61,6 @@
         <el-table-column prop="should_capi_items.shoud_capi" label="认缴出资(金额/时间)" width="217"></el-table-column>
         <el-table-column prop="real_capi_items.real_capi" label="实缴出资(金额/时间)" width="217"></el-table-column>
       </el-table>
-      <div class="block">
-        <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
-      </div>
     </div>
     <div class="mainStaff">
       <div class="mainStaffIcon"></div>
@@ -71,16 +68,13 @@
     </div>
     <div>
       <table class="mainStaffTbale">
-        <tr v-for="(DataList,index) in conList">
+        <tr v-for="(DataList,index) in conList" :key="index">
           <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
           <th class="mainStaffTbaleths1">{{DataList.name}}</th>
           <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
           <th class="mainStaffTbaleths0">{{DataList.name}}</th>
         </tr>
       </table>
-      <div class="block">
-        <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
-      </div>
     </div>
     <div class="commercialChange">
       <div class="commercialChangeIcon"></div>
@@ -94,13 +88,10 @@
         <el-table-column prop="before_content" label="变更前" width="260"></el-table-column>
         <el-table-column prop="after_content" label="变更后" width="259"></el-table-column>
       </el-table>
-      <div class="commercialChangeFy">
-        <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
-      </div>
     </div>
     <div class="BranchingStructure">
       <div class="BranchingStructureIcon"></div>
-      <span class="BranchingStructure">分支机构</span>
+      <span class="BranchingStructured">分支机构</span>
     </div>
     <div>
       <el-table :data="tableDeta" border class="BranchingStructureTable">
@@ -117,7 +108,7 @@ export default {
     return {
       tableData: [],
       tableDeta: [],
-      item: { credit_no: "", credit_no: "" },
+      item: {},
       dbckop: [],
       employees: [],
       conList: [],
@@ -129,7 +120,7 @@ export default {
       var basicInformationId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/enterprise/getDetailAndContactById",
-        id: "basicInformationId"
+        id: sessionStorage.getItem("enterpriseId")
       })
         .then(data => {
           console.log(data);
@@ -311,11 +302,17 @@ export default {
   width: 800px;
   margin-left: 30px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .BranchingStructure {
   margin-left: 30px;
   margin-top: 20px;
+}
+.BranchingStructured{
+  font-weight: bold;
+   color: #838895;
+
 }
 
 .BranchingStructureIcon {
