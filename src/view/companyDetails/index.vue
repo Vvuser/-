@@ -18,7 +18,7 @@
           <span
             v-for="(item,index) in pathList"
             :key="index"
-            :class="{ac:index == pathIndex}"
+            :class="{ac:item.path == nowPath}"
             @click="to(item.path, index)"
           >{{item.text}}</span>
         </div>
@@ -60,6 +60,7 @@ export default {
       imgUrl: "",
       collectFlag: false,
       pathIndex: 0,
+      nowPath:'',
       newsList: [{}, {}, {}],
       obj: {},
       cId: sessionStorage.getItem("enterpriseId"),
@@ -176,10 +177,13 @@ export default {
     to(path, index) {
       this.pathIndex = index;
       this.$router.push(path);
+      this.nowPath = this.$route.path
     }
   },
   created() {
     this.getInfoById();
+    this.nowPath = this.$route.path
+    console.log(this.$route.path);
   }
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="risk">
+    <div class="risk" v-show="showFlag.indexOf('3-1')>-1">
       <div class="titles"></div>
       <span class="weni">判决文书</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('3-1')>-1">
       <el-table :data="items" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="type" label="专利类型" width="100"></el-table-column>
@@ -61,6 +61,13 @@ export default {
       items:[],
       remarksList:[]
     };
+  },
+  props:{
+    showFlag:{
+      default(){
+        return ['3-1','3-2','3-3','3-4','3-5']
+      }
+    }
   },
   methods: {
     detaList() {

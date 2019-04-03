@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!--<essential :showFlag="{a:false}"></essential>-->
-    <p class="default">页面暂无展示内容，请进行 <span @click="pageBox=true">[配置]</span> </p>
+    <!--<essential :showFlag="showFlag"></essential>-->
+    <p class="default">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
     <el-dialog
       title="自定义"
       :visible.sync="pageBox"
@@ -34,6 +34,7 @@ export default {
   data(){
     return {
       pageBox:false,
+      showFlag:[],
       data2: [{
         id: 1,
         label: '基本信息',
@@ -150,7 +151,26 @@ export default {
     getCheckedKeys() {
       this.pageBox = false,
       console.log(this.$refs.tree.getCheckedKeys());
+      this.changeTree(this.$refs.tree.getCheckedKeys())
     },
+    setCheckedKeys(data) {
+      this.$refs.tree.setCheckedKeys(data);
+    },
+    changeTree(customizeInfo){
+      this.$post('/customizehtml/',{
+        customizeInfo:customizeInfo
+      }).then((res)=>{
+        console.log(res);
+        this.showFlag = customizeInfo
+      })
+    },
+    getTree(){
+      this.pageBox=true
+      this.$get('/customizehtml/menu').then((res)=>{
+        console.log(res);
+        this.setCheckedKeys(res.data.result[0].customizeInfo)
+      })
+    }
   }
 }
 </script>
