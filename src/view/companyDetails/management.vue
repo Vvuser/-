@@ -101,19 +101,20 @@
 					}
 				],
 				tableData1: [{
-					originatorTabledate: '1',
-					originatorTablename: '2017',
-					address: 'A级',
-					nav:'武汉科前生物股份有限公司',
-					box:'42010172567014'
-				},
-				{
-					originatorTabledate: '1',
-					originatorTablename: '2017',
-					address: 'A级',
-					nav:'武汉科前生物股份有限公司',
-					box:'42010172567014'
-				}]
+						originatorTabledate: '1',
+						originatorTablename: '2017',
+						address: 'A级',
+						nav: '武汉科前生物股份有限公司',
+						box: '42010172567014'
+					},
+					{
+						originatorTabledate: '1',
+						originatorTablename: '2017',
+						address: 'A级',
+						nav: '武汉科前生物股份有限公司',
+						box: '42010172567014'
+					}
+				]
 			}
 		}
 	}

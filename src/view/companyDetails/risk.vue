@@ -6,25 +6,25 @@
     </div>
     <div>
       <el-table :data="tableData" class="tableList" border>
-        <el-table-column prop="date" label="序号" width="60"></el-table-column>
-        <el-table-column prop="name" label="判决时间" width="100"></el-table-column>
-        <el-table-column prop="address" label="身份" width="80"></el-table-column>
-        <el-table-column prop="goods" label="判决身份"></el-table-column>
+        <el-table-column type="index" label="序号" width="60"></el-table-column>
+        <el-table-column prop="date" label="判决时间" width="100"></el-table-column>
+        <el-table-column prop="type" label="身份" width="80"></el-table-column>
+        <el-table-column prop="title" label="判决身份"></el-table-column>
       </el-table>
     </div>
-     <div class="block">
-        <el-pagination layout="prev, pager, next" :total="50">111111111111111111</el-pagination>
-      </div>
-      <div class="riskn">
+    <div class="block">
+      <el-pagination layout="prev, pager, next" :total="50">111111111111111111</el-pagination>
+    </div>
+    <div class="riskn">
       <div class="titlest"></div>
-      <span class="wenik">判决文书</span>
+      <span class="wenik">法院公告</span>
     </div>
     <div>
-      <el-table :data="tableData" class="tableList" border>
-       <el-table-column prop="date" label="序号" width="60"></el-table-column>
-        <el-table-column prop="name" label="判决时间" width="100"></el-table-column>
-        <el-table-column prop="address" label="身份" width="80"></el-table-column>
-        <el-table-column prop="goods" label="判决身份"></el-table-column>
+      <el-table :data="hookList" class="tableList" border>
+        <el-table-column type="index" label="序号" width="60"></el-table-column>
+        <el-table-column prop="date" label="发布时间" width="100"></el-table-column>
+        <el-table-column prop="type" label="公告类型" width="80"></el-table-column>
+        <el-table-column prop="content" label="公告内容"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -34,24 +34,45 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: "1",
-          name: "王小虎",
-          address:"上海",
-          goods:"1"
-        }
-      ]
+      tableData: [],
+      hookList:[]
     };
   },
   methods: {
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex == 0) {
-        return "waring-row";
-      } else {
-        return "";
-      }
+    detaList() {
+      this.$post("/company/invoke", {
+        url: "/lawsuit/getLawsuitListById",
+        id: "534472fd-7d53-4958-8132-d6a6242423d8",
+        skip: "0"
+      })
+        .then(data => {
+          console.log(data)
+          this.tableData = data.data.items
+          
+        })
+        .catch(error => {
+          console.log(1);
+        });
+    },
+    itemList() {
+      this.$post("/company/invoke", {
+        url: "/notice/getNoticeListById",
+        id: "534472fd-7d53-4958-8132-d6a6242423d8",
+        skip: "0"
+      })
+        .then(data => {
+          console.log(data)
+          this.hookList = data.data.items
+          
+        })
+        .catch(error => {
+          console.log(1);
+        });
     }
+  },
+  created(){
+    this.detaList();
+    this.itemList();
   }
 };
 </script>
@@ -80,7 +101,7 @@ export default {
 .waring-row {
   background: #fcfcff;
 }
-.block{
+.block {
   width: 100px;
   height: 100px;
   margin-left: 60%;
@@ -109,7 +130,7 @@ export default {
 .waring-row {
   background: #fcfcff;
 }
-.block{
+.block {
   width: 100px;
   height: 100px;
   margin-left: 60%;

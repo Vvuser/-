@@ -1,13 +1,12 @@
  <template>
   <div>
-    <div class="annualReports">
-      <span>2017年度</span>
-      <span class="annualReportsmag">|</span>
-      <span class="annualReportsmag">2016年度</span>
-      <span class="annualReportsmag">|</span>
-      <span class="annualReportsmag">2015年度</span>
-      <span class="annualReportsmag">|</span>
-      <span class="annualReportsmag">2015年度</span>
+    <div class="annualReports annualReportsmag">
+      <span
+        v-for="(item, index) in yearList"
+        class="annualReportsmag"
+        @click="yearIndex = index"
+        :key="index"
+      >{{item}}年度</span>
     </div>
     <div class="annualReportstitle">
       <div class="annualReportstitlebibl"></div>
@@ -19,45 +18,45 @@
           注册号/统一社会
           <br>信用代码
         </th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.credit_no}}</th>
         <th class="annualReportstableyht">企业名称</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.name}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">企业联系电话</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.telephone}}</th>
         <th class="annualReportstableyht">邮政编码</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.zip_code}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">企业通信地址</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.address}}</th>
         <th class="annualReportstableyhs">
           有限责任公司本年度
           <br>是否发生股东股权转让
         </th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.if_equity}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">电子邮箱</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.email}}</th>
         <th class="annualReportstableyht">是否有网站或网店</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.ifwebsite}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">企业经营状态</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.status}}</th>
         <th class="annualReportstableyht">从业人数</th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.collegues_num}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyhs">
           企业是否有投资信息
           <br>或购买其他公司股权
         </th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs">{{obj.if_invest}}</th>
         <th class="annualReportstableyhs"></th>
-        <th class="annualReportstableybs">1</th>
+        <th class="annualReportstableybs"></th>
       </tr>
     </table>
     <div class="annualReportsInter">
@@ -65,10 +64,10 @@
       <span class="annualReportsPom">网站或网店信息</span>
     </div>
     <div>
-      <el-table :data="tableData" border class="annualReportsIntertable">
-        <el-table-column prop="date" label="类型" width="80"></el-table-column>
-        <el-table-column prop="name" label="名称" width="120"></el-table-column>
-        <el-table-column prop="address" label="网址" width="599"></el-table-column>
+      <el-table :data="obj.websites" border class="annualReportsIntertable">
+        <el-table-column prop="web_type" label="类型" width="80"></el-table-column>
+        <el-table-column prop="web_name" label="名称" width="120"></el-table-column>
+        <el-table-column prop="web_url" label="网址" width="599"></el-table-column>
       </el-table>
     </div>
     <div class="iconCan">
@@ -76,13 +75,17 @@
       <span class="iconCanblemtitle">股东(发起人)及出姿信息</span>
     </div>
     <div>
-      <el-table :data="tableData" border class="annualReportsIntertable2">
-        <el-table-column prop="date" label="股东" width="80"></el-table-column>
-        <el-table-column prop="name" label="认缴出姿额(万元)" width="160"></el-table-column>
-        <el-table-column prop="address" label="认缴出资时间" width="120"></el-table-column>
-        <el-table-column prop="address" label="实缴出姿额(万元)" width="160"></el-table-column>
-        <el-table-column prop="address" label="实缴出资时间" width="130"></el-table-column>
-        <el-table-column prop="address" label="实缴出资方式" width="149"></el-table-column>
+      <el-table :data="obj.partners" border class="annualReportsIntertable2">
+        <el-table-column prop="stock_name" label="股东" width="80"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="认缴出姿额(万元)" width="160"></el-table-column>
+        <el-table-column
+          prop="should_capi_items[0].should_capi_date"
+          label="认缴出资时间"
+          width="120"
+        ></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="实缴出姿额(万元)" width="160"></el-table-column>
+        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资时间" width="130"></el-table-column>
+        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="149"></el-table-column>
       </el-table>
     </div>
     <div class="notling">
@@ -93,19 +96,19 @@
       <table class="notlingtable">
         <tr>
           <th class="notlingtableths">城镇职工基本养老保险</th>
-          <th class="notlingtabletbs"></th>
+          <th class="notlingtabletbs">{{socialItem.social_security.basic_endownment_num}}</th>
           <th class="notlingtabletas">失业保险</th>
-          <th class="notlingtabletds"></th>
+          <th class="notlingtabletds">{{socialItem.social_security.unenployment_num}}</th>
         </tr>
         <tr>
           <th class="notlingtableths">职工基本医疗保险</th>
-          <th class="notlingtabletbs"></th>
+          <th class="notlingtabletbs">{{socialItem.social_security.insurance_num}}</th>
           <th class="notlingtabletas">工伤保险</th>
-          <th class="notlingtabletds"></th>
+          <th class="notlingtabletds">{{socialItem.social_security.injury_insurance_num}}</th>
         </tr>
         <tr>
           <th class="notlingtableths">生育保险</th>
-          <th class="notlingtabletbs"></th>
+          <th class="notlingtabletbs">{{socialItem.social_security.birth_num}}</th>
           <th class="notlingtabletas"></th>
           <th class="notlingtabletds"></th>
         </tr>
@@ -116,21 +119,59 @@
 
 <script>
 export default {
-  data(){
-    return{
-      tableData: []
+  data() {
+    return {
+      annualReports: [],
+      obj: {},
+      yearIndex: 0,
+      yearList: [],
+      tableDatas: [],
+      socialInformation: [],
+      socialItem: {social_security:{basic_endownment_num:""}}
+    };
+  },
+  methods: {
+    getInfo() {
+      this.$post("/company/invoke", {
+        url: "/reports/getReportListByName",
+        keyword: "小米科技有限责任公司"
+      }).then(data => {
+          console.log(data);
+          this.annualReports = data.data.items
+          for (var i = 0; i < data.data.items.length; i++) {
+            this.yearList.push(data.data.items[i].report_year);
+          }
+          this.obj = data.data.items[this.yearIndex]
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getSocialInformation() {
+      this.$post("/company/invoke", {
+        url: "/reports/getSocialSecurityByName",
+        keyword: "小米科技有限责任公司"
+      }).then(res => {
+        console.log(res)
+        this.socialInformation = res.data.items
+        this.socialItem = res.data.items[this.yearIndex]
+      })
     }
+  },
+  created() {
+    this.getInfo();
+    this.getSocialInformation()
   }
 };
 </script>
 
 <style scoped>
-.annualReports{
+.annualReports {
   margin-left: 30px;
   margin-top: 20px;
   color: #969ebb;
 }
-.annualReportsmag{
+.annualReportsmag {
   margin-left: 18px;
 }
 .annualReportsp {
@@ -234,33 +275,33 @@ export default {
   font-weight: bold;
   color: #838895;
 }
-.notlingtable{
+.notlingtable {
   width: 800px;
   height: 157px;
   margin-left: 30px;
   margin-top: 20px;
 }
-.notlingtableths{
+.notlingtableths {
   width: 180px;
   border: 1px solid #ececf5;
   background: #fcfcff;
   color: #838895;
   font-weight: bold;
 }
-.notlingtabletbs{
+.notlingtabletbs {
   width: 220px;
   border: 1px solid #ececf5;
   color: #838895;
   font-weight: bold;
 }
-.notlingtabletas{
+.notlingtabletas {
   width: 100px;
   border: 1px solid #ececf5;
   background: #fcfcff;
   color: #838895;
   font-weight: bold;
 }
-.notlingtabletds{
+.notlingtabletds {
   width: 230px;
   border: 1px solid #ececf5;
   color: #838895;
