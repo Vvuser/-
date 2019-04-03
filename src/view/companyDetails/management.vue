@@ -6,19 +6,20 @@
 		</div>
 		<div>
 			<el-table :data="tableData" border class="AdministrativeTable">
-				<el-table-column prop="date" label="序号" width="69">
+				<el-table-column prop="itemId" label="序号" width="69">
 				</el-table-column>
-				<el-table-column prop="name" label="许可文件编号" width="161">
+				<el-table-column prop="number" label="许可文件编号" width="161">
 				</el-table-column>
-				<el-table-column prop="address" label="许可文件名称" width="153">
+				<el-table-column prop="name" label="许可文件名称" width="153">
 				</el-table-column>
-				<el-table-column prop="nav" label="有效期自" width="118">
+				<el-table-column prop="startDate" label="有效期自" width="118">
 				</el-table-column>
-				<el-table-column prop="box" label="有效期至" width="120">
+				<el-table-column prop="endDate" label="有效期至" width="120">
 				</el-table-column>
-				<el-table-column prop="book" label="许可机关" width="98">
+				<el-table-column prop="department" label="许可机关" width="98">
 				</el-table-column>
-				<el-table-column prop="adboxk" label="详情" width="80">
+				<el-table-column label="详情" width="80">
+					<template>详情</template>
 				</el-table-column>
 			</el-table>
 		</div>
@@ -40,11 +41,11 @@
 		</div>
 		<div>
 			<el-table :data="tableData1" border class="creditRatingTable">
-				<el-table-column prop="originatorTabledate" label="序号" width="70"></el-table-column>
-				<el-table-column prop="originatorTablename" label="评价年度" width="96"></el-table-column>
-				<el-table-column prop="address" label="纳税人信用级别" width="140"></el-table-column>
-				<el-table-column prop="nav" label="纳税人名称" width="210"></el-table-column>
-				<el-table-column prop="box" label="纳税人识别号" width="283"></el-table-column>
+				<el-table-column type="index" label="序号" width="70"></el-table-column>
+				<el-table-column prop="year" label="评价年度" width="96"></el-table-column>
+				<el-table-column prop="grade" label="纳税人信用级别" width="140"></el-table-column>
+				<el-table-column prop="name" label="纳税人名称" width="210"></el-table-column>
+				<el-table-column prop="credit_no" label="纳税人识别号" width="283"></el-table-column>
 			</el-table>
 		</div>
 	</div>
@@ -54,67 +55,45 @@
 	export default {
 		data() {
 			return {
-				tableData: [{
-						date: '1',
-						name: 'A10319301',
-						address: '压力容器使用登记',
-						nav: '2018-10-10',
-						box: '-',
-						book: '省质监局',
-						adboxk: '详情'
-					},
-					{
-						date: '2',
-						name: 'A10319301',
-						address: '压力容器使用登记',
-						nav: '2018-10-10',
-						box: '-',
-						book: '省质监局',
-						adboxk: '详情'
-					},
-					{
-						date: '3',
-						name: 'A10319301',
-						address: '压力容器使用登记',
-						nav: '2018-10-10',
-						box: '-',
-						book: '省质监局',
-						adboxk: '详情'
-					},
-					{
-						date: '4',
-						name: 'A10319301',
-						address: '压力容器使用登记',
-						nav: '2018-10-10',
-						box: '-',
-						book: '省质监局',
-						adboxk: '详情'
-					},
-					{
-						date: '4',
-						name: 'A10319301',
-						address: '压力容器使用登记',
-						nav: '2018-10-10',
-						box: '-',
-						book: '省质监局',
-						adboxk: '详情'
-					}
-				],
-				tableData1: [{
-					originatorTabledate: '1',
-					originatorTablename: '2017',
-					address: 'A级',
-					nav:'武汉科前生物股份有限公司',
-					box:'42010172567014'
-				},
-				{
-					originatorTabledate: '1',
-					originatorTablename: '2017',
-					address: 'A级',
-					nav:'武汉科前生物股份有限公司',
-					box:'42010172567014'
-				}]
+				tableData: [],
+				tableData1: [],
+				credit_no: 0,
+				name: ""
 			}
+		},
+		methods:{
+			// 获取行政许可
+			init() {
+				let id = sessionStorage.getItem("enterpriseId")
+				this.$post('/company/invoke',{
+					url: '/administrativeLicense/getAdministrativeLicenseListById',
+					id: "fc71e8a5-0742-4a14-af0a-7e3c8ceff426"
+				}).then(data => {
+				  console.log(data)
+				  this.tableData = data.data.items
+				}).catch(error => {
+				  console.log(1)
+				})
+
+				this.$post('/company/invoke',{
+					url: '/creditgrade/getCreditGradeById',
+					id: "22e2791d-d5cf-48ce-abbf-52937fd89b25"
+				}).then(data => {
+				  console.log(data)
+				  this.tableData1 = data.data.grade_list
+				  this.tableData1 = this.tableData1.map(el => {
+					  el.name = data.data.name
+					  el.credit_no = data.data.credit_no
+					  return el
+				  })
+				  console.log(this.tableData1)
+				}).catch(error => {
+				  console.log(error)
+				})
+			}
+		},
+		created() {
+			this.init()
 		}
 	}
 </script>

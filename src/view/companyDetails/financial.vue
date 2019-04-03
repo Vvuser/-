@@ -8,31 +8,31 @@
 			<table class="FinancialInformationTable">
 				<tr>
 					<th class="FinancialInformationTableths">年份</th>
-					<th class="FinancialInformationTabletbs"></th>
+					<th class="FinancialInformationTabletbs">{{obj.year}}</th>
 					<th class="FinancialInformationTabletns">营业总收入</th>
-					<th class="FinancialInformationTabletas"></th>
+					<th class="FinancialInformationTabletas">{{obj.sale_income}}</th>
 				</tr>
 				<tr>
 					<th class="FinancialInformationTableths">负债总额</th>
-					<th class="FinancialInformationTabletbs"></th>
+					<th class="FinancialInformationTabletbs">{{obj.debit_amount}}</th>
 					<th class="FinancialInformationTabletns">净利润</th>
-					<th class="FinancialInformationTabletas"></th>
+					<th class="FinancialInformationTabletas">{{obj.net_amount}}</th>
 				</tr>
 				<tr>
 					<th class="FinancialInformationTableths">所有者权益合计</th>
-					<th class="FinancialInformationTabletbs"></th>
+					<th class="FinancialInformationTabletbs">{{obj.profit_reta}}</th>
 					<th class="FinancialInformationTabletns">利润总额</th>
-					<th class="FinancialInformationTabletas"></th>
+					<th class="FinancialInformationTabletas">{{obj.profit_total}}</th>
 				</tr>
 				<tr>
 					<th class="FinancialInformationTableths">纳税总额</th>
-					<th class="FinancialInformationTabletbs"></th>
+					<th class="FinancialInformationTabletbs">{{obj.tax_total}}</th>
 					<th class="FinancialInformationTabletns">资产总额</th>
-					<th class="FinancialInformationTabletas"></th>
+					<th class="FinancialInformationTabletas">{{obj.total_equity}}</th>
 				</tr>
 				<tr>
 					<th class="FinancialInformationTableths">主营业乌收入</th>
-					<th class="FinancialInformationTabletbs"></th>
+					<th class="FinancialInformationTabletbs">{{obj.serv_fare_income}}</th>
 					<th class="FinancialInformationTabletns"></th>
 					<th class="FinancialInformationTabletas"></th>
 				</tr>
@@ -42,10 +42,37 @@
 </template>
 
 <script>
-	export default {}
+	export default {
+		data(){
+			return {
+				obj:{}
+			}
+		},
+		methods:{
+			// 获取财务信息
+			getFinacilcalMessage() {
+				let id = sessionStorage.getItem("enterpriseId")
+				this.$post('/company/invoke',{
+					url: '/reports/getYearIncomeById',
+					id: "c4418a93-bdb5-41b2-a657-c4b9de4e4b4c"
+				}).then(data => {
+				  console.log(data)
+				  this.obj = data.data
+				}).catch(error => {
+				  console.log(1)
+				})
+			}
+		},
+		created() {
+			this.getFinacilcalMessage()
+		}
+	}
 </script>
 
 <style scoped>
+	.FinancialInformationTabletbs,.FinancialInformationTabletas{
+		color: #b6b9c1;
+	}
 	.FinancialInformation {
 		margin-top: 20px;
 		margin-left: 30px;

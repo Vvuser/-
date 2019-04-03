@@ -1,10 +1,10 @@
-<template>
+  <template>
   <div>
     <div class="enteprisebody">
       <div class="entepriseheart">
-        <span class="enterpriseSc" @click="isshow=!isshow">我的收藏</span>
+        <span class="enterpriseSc" @click="getPOList(0)">我的收藏</span>
         <span class="enterpriseLL">|</span>
-        <span class="enterpriseLs" @click="isshow=!isshow">浏览历史</span>
+        <span class="enterpriseLs" @click="getPOList(1)">浏览历史</span>
       </div>
       <div class="publicOpinion">
     <div class="box">
@@ -19,7 +19,7 @@
           </div>
           <div>
             <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item)">收藏</el-button>
-            <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini">已收藏</el-button>
+            <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini" @click="unCollect(item)">已收藏</el-button>
           </div>
         </div>
       </div>
@@ -58,11 +58,17 @@ export default {
     }
   },
   methods: {
+    history() {
+      this.list = []
+      this.total = 0
+    },
     /**
      * 取消收藏
      */
     unCollect(item) {
-
+      this.$get(`/yesskeep/delete/${item.uuid}`).then(res => {
+        this.getPOList(this.page);
+      })
     },
     /**
      * 收藏
@@ -80,12 +86,13 @@ export default {
       }
       this.$post('/yesskeep/',obj).then(res => {
         console.log(res)
-        this.getPOList();
+        this.getPOList(0);
       })
     },
     getCurrentPage(page){
       console.log(page)
-      this.getPOList(page);
+      this.page = page
+      this.getPOList(0);
     },
     /**
      * 外联
@@ -96,22 +103,21 @@ export default {
     /**
      * 获取检索信息
      */
-    getPOList(pageNo) {
-      let obj = {
-        keyWord: this.getSeacherText,
-        pageSize: 10,
-        pageNo,
-        ysType: 0
-      };
-      this.$post("/yess/invoke",obj).then(res => {
+    getPOList(flag) {
+      this.isshow = false
+      this.$get(`/yesskeep/page/${this.page}/10/${flag}`).then(res => {
         console.log(res);
-        this.list = res.data.resultList
-        this.total = res.data.resultCount
+        this.list = res.data.result.map(el => {
+          el.keywordsZh = JSON.parse(el.keywordsZh)
+          el.isKeep = true
+          return el
+        })
+        this.total = res.data.total
       });
     }
   },
   created() {
-    this.getPOList(1);
+    this.getPOList(0);
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div class="publicOpinion">
     <div class="box">
       <div class="item" v-for="(item,index) in list" :key="index">
-        <h3 @click="href(item.url)">{{item.titleZh}}</h3>
+        <h3 @click="href(item)">{{item.titleZh}}</h3>
         <p>{{item.domain}}&nbsp;&nbsp;&nbsp;{{item.created}}</p>
         <p v-html="item.abstractZh"></p>
         <div class="i_footer">
@@ -11,7 +11,7 @@
             <span class="bord" v-for="(c_item,index) in item.keywordsZh" :key="index">{{c_item}}</span>
           </div>
           <div>
-            <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item)">收藏</el-button>
+            <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item, 0)">收藏</el-button>
             <el-button type="primary" icon="el-icon-star-on" v-if="item.isKeep" size="mini" @click="unCollect(item)">已收藏</el-button>
           </div>
         </div>
@@ -52,14 +52,14 @@ export default {
      * 取消收藏
      */
     unCollect(item) {
-      this.$get(`/patentkeep/delete/${item.uuid}`).then(res => {
-        this.getPOList();
+      this.$get(`/yesskeep/delete/${item.uuid}`).then(res => {
+        this.getPOList(this.page);
       })
     },
     /**
      * 收藏
      */
-    collect(item) {
+    collect(item,flag) {
       let obj = {
         url: item.url,
         titleZh: item.titleZh,
@@ -68,22 +68,24 @@ export default {
         abstractZh: item.abstractZh,
         languageTname: item.languageTname,
         keywordsZh: JSON.stringify(item.keywordsZh),
-        uuid:item.uuid
+        uuid:item.uuid,
+        isClick: flag
       }
       this.$post('/yesskeep/',obj).then(res => {
         console.log(res)
-        this.getPOList();
+        this.getPOList(this.page);
       })
     },
     getCurrentPage(page){
-      console.log(page)
+      this.page = page
       this.getPOList(page);
     },
     /**
      * 外联
      */
-    href(url){
-      window.open(url)
+    href(item){
+      this.collect(item,1)
+      window.open(item.url)
     },
     /**
      * 获取检索信息
@@ -103,7 +105,7 @@ export default {
     }
   },
   created() {
-    this.getPOList(1);
+    this.getPOList(this.page);
   }
 };
 </script>
