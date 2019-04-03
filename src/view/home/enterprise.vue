@@ -1,19 +1,24 @@
 <template>
 	<div>
+		<div class="entepriseheart">
+      <span class="enterpriseSc"
+			v-for="(item,index) in navItemList"
+			:key="index"
+			:class="{dd:item==activeNavItem}"
+			@click="activeNavItemFun(item)">
+        {{item}}</span>
+		</div>
 		<div class="enteprisebody">
-			<div class="entepriseheart">
-				<span class="enterpriseSc" @click="can()">我的收藏</span>
-				<span class="enterpriseLL">|</span>
-				<span class="enterpriseLs" @click="to()">浏览历史</span>
-			</div>
 			<div class="entepriserenal">
 				<div class="entepriserenalsource">
 					<span class="entepriserenalsource-in">公司信息</span>
 					<span class="entepriserenalsource-to">注册资金</span>
 					<span class="entepriserenalsource-auto">成立年限</span>
 				</div>
-				<div class="entepriserenalall">
-					<div class="entepriserenalallTB" v-show="!isshow"><img src="../../assets/image/enterprise1.jpg" alt=""></div>
+				<div class="entepriserenalall"
+					 v-for="(item,index) in listData"
+					:key="index">
+					<div class="entepriserenalallTB" v-show="true || !item.isClick == 0"><img src="../../assets/image/enterprise1.jpg" alt="" @click="cancelCollect(item.companyid,index)"></div>
 					<div class="entepriserenalallnm"><img src="../../assets/image/logo.png"alt="" class="entepriserenalallnmImg"></div>
 					<div class="entepriserenalallWuHa">
 						<div>
@@ -36,10 +41,6 @@
 						<span>2001-01-11</span>
 					</div>
 				</div>
-				<div class="entepriserenalall">
-				</div>
-				<div class="entepriserenalall"></div>
-				<div class="entepriserenalall"></div>
 			</div>
 			<div></div>
 		</div>
@@ -47,34 +48,88 @@
 </template>
 
 <script>
+	import pagination from '@/components/pagination'
+	import {mapMutations, mapGetters} from 'vuex'
 	export default {
+		name: "",
+		components: {
+			pagination
+		},
 		data() {
 			return {
-				pathIndex: 0,
-				isshow: true
+				dd: true,
+				collectFlag:false,
+				total:0,
+				currentPage:1,
+				pageSize:10,
+				navItemList:["我的收藏","浏览历史"],
+				activeNavItem: "",
+				listData:[],
 			};
 		},
 		methods: {
-			can() {
-				this.isshow = false;
-				this.dbonlik();
+			//详情跳转
+			goDetail(p){
+				this.$router.push({path:"/details/patentDetail",query:{p}})
 			},
-			to() {
-				this.isshow = true;
+			collect(){
+				this.collectFlag = !this.collectFlag
 			},
-			dbonlik() {
-				 this.$post('/company/invoke'+'?',{
-						"keyword":"英威腾电气"
-				}).then(data => {
-				  if(data.status == 200){
-						console.log(0)
-				  } else {
-				    this.$message.error(data.message);
-				  } 
-				}).catch(error => {
-				  console.log(1)
+			getCurrentPage(page){
+				// console.log(`父组件page ${page}`)
+				this.currentPage = page
+				this.getAjaxData()
+			},
+			//获取企业信息列表
+			getAjaxData(){
+				let isclick = this.activeNavItem
+				if(isclick == "我的收藏"){
+					isclick = 0
+				}else {
+					isclick = 1
+				}
+				this.$get(`/companykeep/page/${this.currentPage}/${this.pageSize}/${isclick}`)
+						.then(data => {
+							console.log(data);
+							this.listData = data.data.result
+							this.total = data.data.total
+						}).catch(error => {
+					console.log(error);
+				})
+			},
+			activeNavItemFun(item){
+				this.activeNavItem = item
+			},
+			cancelCollect(p,index){
+				this.$get(`/companykeep/delete/${p}`)
+						.then(data => {
+							console.log(data);
+							this.$message.success("取消收藏成功")
+						}).catch(error => {
+					console.log(error);
+					this.$message.success("取消收藏失败")
+
 				})
 			}
+		},
+		computed:{
+			...mapGetters([
+				'getSeacherText'
+			])
+		},
+		watch: {
+			getSeacherText(){
+				console.log(this.getSeacherText)
+				this.getAjaxData()
+			},
+			activeNavItem(){
+				this.currentPage = 1
+				this.getAjaxData()
+			}
+		},
+		created() {
+			this.activeNavItem = '我的收藏'
+			this.getAjaxData()
 		}
 	};
 </script>
@@ -94,26 +149,30 @@
   background-color: #fff;
 }
 .entepriseheart {
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  color: #969ebb;
-  font-size: 14px;
+	width: 1200px;
+	margin: 0 auto;
+	height: 60px;
+	line-height: 60px;
+	color: #969ebb;
+	font-size: 14px;
+	background-color: #fff;
 }
 .enterpriseSc {
-  font-size: 14px;
-  font-weight: 600;
-  margin-left: 25px;
-  cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	margin-left: 25px;
+	cursor: pointer;
 }
-.enterpriseLs {
-  font-size: 14px;
-  font-weight: 600;
-  margin-left: 25px;
-  cursor: pointer;
+.enterpriseSc:after{
+	content: "";
+	display: inline-block;
+	height: 14px;
+	width: 1px;
+	background-color: #969ebb;
+	margin-left: 20px;
 }
-.enterpriseLL {
-  margin-left: 25px;
+.enterpriseSc:last-child:after{
+	display: none;
 }
 .entepriserenal {
   width: 96%;

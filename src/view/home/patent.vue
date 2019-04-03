@@ -40,11 +40,12 @@
                 :key="index">
               <div>
                 <a class="zl-title" href="javascript:;" @click="goDetail(item.p)">{{item.t}}</a>
-                <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
-                <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
-                <div @click="collect">
-                  <el-button icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
-                  <el-button type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
+                <span style="border: 1px solid #8445f7;color: #8445f7;" v-show="item.p.indexOf('A')>-1 || item.p.indexOf('B')>-1 || item.p.indexOf('C')>=1">发明</span>
+                <span style="margin-right: 10px;border: 1px solid #557bf7;color: #557bf7;" v-show="item.p.indexOf('S')>-1 || item.p.indexOf('D')>-1">外观</span>
+                <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;" v-show="item.p.indexOf('U')>-1 || item.p.indexOf('Y')>-1">实用新型</span>
+                <div>
+                  <el-button icon="el-icon-star-off" v-if="item.isClick==1" @click="addCollect(item,index)" size="mini">收藏</el-button>
+                  <el-button type="primary" icon="el-icon-star-on" v-else size="mini" @click="cancelCollect(item.p,index)">已收藏</el-button>
                 </div>
               </div>
               <p><span>申请号：{{item.ap}}</span><span>申请日：{{item.ad}}</span></p>
@@ -74,10 +75,7 @@ export default {
   },
   data() {
     return {
-      pathIndex: 0,
-      isshow: true,
       dd: true,
-      collectFlag:false,
       total:0,
       currentPage:1,
       pageSize:10,
@@ -178,9 +176,6 @@ export default {
     goDetail(p){
       this.$router.push({path:"/details/patentDetail",query:{p}})
     },
-    collect(){
-      this.collectFlag = !this.collectFlag
-    },
     getCurrentPage(page){
       // console.log(`父组件page ${page}`)
       this.currentPage = page
@@ -226,6 +221,39 @@ export default {
     activeNavItemFun(item){
       this.activeNavItem = item
     },
+    addCollect(item,index) {
+      this.$post('/patentkeep/',{
+        t: item.t,
+        ad: item.ad,
+        strkey: item.strkey,
+        ap: item.ap,
+        p: item.p,
+        isd: item.isd,
+        alist: item.alist,
+        ilist: item.alist,
+        isClick: 0,
+        abst: item.abst
+      }).then(data => {
+        console.log(data);
+        this.$message.success("收藏成功")
+        this.listData[index].isClick= 0
+      }).catch(error => {
+        console.log(error);
+        this.$message.success("收藏失败")
+      })
+    },
+    cancelCollect(p,index){
+      this.$get(`/patentkeep/delete/${p}`)
+              .then(data => {
+                console.log(data);
+                this.$message.success("取消收藏成功")
+                this.listData[index].isClick= 1
+              }).catch(error => {
+        console.log(error);
+        this.$message.success("取消收藏失败")
+
+      })
+    }
   },
   computed:{
     ...mapGetters([
@@ -334,12 +362,10 @@ export default {
     }
     ul li>div span{
       text-align: center;
-      width: 46px;
       display: inline-block;
-      height: 20px;
-      line-height: 20px;
       font-size: 12px;
       border-radius: 4px;
+      padding: 4px 10px;
     }
     ul li>div>div{
       float: right;

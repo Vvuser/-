@@ -42,16 +42,6 @@
     components:{
       pagination
     },
-    computed:{
-      ...mapGetters([
-        'getSeacherText'
-      ])
-    },
-    watch: {
-      getSeacherText() {
-        console.log(this.getSeacherText);
-      }
-    },
     methods: {
       /**
        * 外联
@@ -73,11 +63,30 @@
       },
       getPOList() {
         let obj = {
-          keyWord: this.getSeacherText,
+          keyWord :  sessionStorage.getItem('1'),
           pageSize: this.pageSize,
           pageNo:this.currentPage,
           ysType: 0
         };
+        switch(activeNavItem){
+          case "成果奖励":
+            obj.keyWord =  `${sessionStorage.getItem('1')} OR 奖励`
+            //语句
+            break;
+          case "处罚信息" :
+            obj.keyWord =  `${sessionStorage.getItem('1')} OR 处罚`
+            //语句
+            break;
+          case "正面信息":
+            obj.sentimentId = 1
+            //语句
+            break;
+          case "负面信息" :
+            obj.sentimentId = -1
+            //语句
+            break;
+          default :
+        }
         this.$post("/yess/invoke",obj).then(res => {
           console.log(res);
           this.list = res.data.resultList

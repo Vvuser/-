@@ -31,9 +31,10 @@
               :key="index">
             <div>
               <a class="zl-title" href="javascript:;" @click="goDetail(item.p)">{{item.t}}</a>
-              <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
-              <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
-              <div>
+                <span style="border: 1px solid #8445f7;color: #8445f7;" v-show="item.p.indexOf('A')>-1 || item.p.indexOf('B')>-1 || item.p.indexOf('C')>=1">发明</span>
+                <span style="margin-right: 10px;border: 1px solid #557bf7;color: #557bf7;" v-show="item.p.indexOf('S')>-1 || item.p.indexOf('D')>-1">外观</span>
+                <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;" v-show="item.p.indexOf('U')>-1 || item.p.indexOf('Y')>-1">实用新型</span>
+                <div>
                 <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="addCollect(item,index)">收藏</el-button>
                 <el-button type="primary" icon="el-icon-star-on" v-else size="mini" @click="cancelCollect(item.p,index)">已收藏</el-button>
               </div>
@@ -318,12 +319,14 @@
       }
       ul li>div span{
         text-align: center;
-        width: 46px;
+        /*width: 46px;*/
         display: inline-block;
-        height: 20px;
-        line-height: 20px;
+        /*height: 20px;*/
+        /*line-height: 20px;*/
         font-size: 12px;
         border-radius: 4px;
+        padding: 4px 10px;
+
       }
       ul li>div>div{
         float: right;
