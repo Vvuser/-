@@ -181,7 +181,7 @@ export default {
       var BusinessId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
         url: "/v2/abnormal/getAbnormalListByName",
-        id: enterpriseId
+        id: BusinessId
       })
         .then(data => {
           console.log(data);

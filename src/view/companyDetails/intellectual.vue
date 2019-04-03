@@ -13,11 +13,11 @@
         <!-- <el-table-column prop="company" label="摘要"></el-table-column> -->
       </el-table>
     </div>
-    <div class="riska">
+    <div class="riska" v-show="showFlag.indexOf('3-2')>-1">
       <div class="titles"></div>
       <span class="weni">软件著作权</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('3-2')>-1">
       <el-table :data="tableData" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="name" label="软件名称" width="140"></el-table-column>
@@ -28,11 +28,11 @@
         <el-table-column prop="short_name" label="软件简称" width="173"></el-table-column>
       </el-table>
     </div>
-    <div class="risks">
+    <div class="risks" v-show="showFlag.indexOf('3-3')>-1">
       <div class="titles"></div>
       <span class="weni">资质认证</span>
     </div>
-    <div>
+    <div v-show="showFlag.indexOf('3-3')>-1">
       <el-table :data="remarksList" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="type_name" label="证书类型" width="200"></el-table-column>
@@ -56,7 +56,7 @@ export default {
   props:{
     showFlag:{
       default(){
-        return ['3-1','3-2','3-3','3-4','3-5']
+        return ['3-1','3-2','3-3']
       }
     }
   },
