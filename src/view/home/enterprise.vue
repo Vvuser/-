@@ -14,7 +14,7 @@
 				</div>
 				<div class="entepriserenalall">
 					<div class="entepriserenalallTB" v-show="!isshow"><img src="../../assets/image/enterprise1.jpg" alt=""></div>
-					<div class="entepriserenalallnm"><img src="../../assets/image/logo.png"alt="" class="entepriserenalallnmImg"></div>
+					<div class="entepriserenalallnm"><img src="../../assets/image/logo.png" alt="" class="entepriserenalallnmImg"></div>
 					<div class="entepriserenalallWuHa">
 						<div>
 							<h1 class="entepriserenalallWuHa-nav">武汉科前开发股份有限公司</h1>
@@ -63,9 +63,11 @@
 				this.isshow = true;
 			},
 			dbonlik() {
-				 this.$post('/company/invoke'+'?',{
-						"keyword":"英威腾电气"
+				 this.$post('/company/invoke',{
+					 url: '/search/searchAllList',
+					 keyword: '英威腾'
 				}).then(data => {
+          console.log(data)
 				  if(data.status == 200){
 						console.log(0)
 				  } else {
@@ -139,7 +141,7 @@
 }
 .entepriserenalsource-auto {
   color: #c1c3ce;
-  margin-left: 200px;
+  margin-left: 100px;
 }
 .entepriserenalall {
   padding-top: 20px;
@@ -199,7 +201,7 @@
 }
 .entepriserenalalldate {
   position: absolute;
-  left: 1020px;
+  left: 920px;
   height: 200px;
   line-height: 200px;
 }
