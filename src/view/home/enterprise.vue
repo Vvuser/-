@@ -76,19 +76,9 @@
 			 * 进入企业详情页
 			 */
 			Enterdetails(item) {
-				this.collect(item,1)
 				sessionStorage.setItem("enterpriseId", item.companyid)
 				this.$router.push({
 					path:'/companyDetails/essential'
-				})
-			},
-			collect(item,flag) {
-				this.$post('/companykeep/',{
-					companyid:item.companyid,
-					isClick:flag,
-					companyInfo: JSON.stringify(item)
-				}).then(res => {
-					// this.getEnterpriseList(this.getSeacherText)
 				})
 			},
 			getCurrentPage(page){

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="showFlag!=[]">
+    <div v-show="showFlag.length!=0">
       <essential :showFlag="showFlag"></essential>
       <risk :showFlag="showFlag"></risk>
       <intellectual :showFlag="showFlag"></intellectual>
@@ -13,7 +13,7 @@
       </div>
       <publicOpinion :showFlag="showFlag" style="margin-top: 20px"></publicOpinion>
     </div>
-    <p class="default" v-if="showFlag==[]">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
+    <p class="default" v-if="showFlag.length==0">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
     <p class="default" v-else><span @click="getTree()">[重新配置]</span> </p>
     <el-dialog
       title="自定义"
