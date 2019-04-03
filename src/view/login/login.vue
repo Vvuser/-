@@ -56,7 +56,11 @@
           password: md5(this.ruleForm.password)
         }).then(data => {
           if(data.status == 200){
+            console.log(data);
             sessionStorage.setItem("SHANGJIAOSUOUSER","SHANGJIAOSUOUSER")
+            sessionStorage.setItem("SHANGJIAOSUOUSERNAME",this.ruleForm.name)
+            sessionStorage.setItem("SHANGJIAOSUOUSERPASSWORD",md5(this.ruleForm.password))
+            sessionStorage.setItem("SHANGJIAOSUOUSERTOKEN",data.data.token)
             this.$router.replace('/home')
           } else {
             this.$message.error(data.message);

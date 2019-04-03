@@ -254,14 +254,36 @@ export default {
       font-weight: bold;
       margin-bottom: 10px;
     }
-    & > div .title:before {
-      display: inline-block;
-      content: "";
-      width: 5px;
-      margin-right: 5px;
-      height: 14px;
-      background-color: #557bf7;
-      transform: translateY(1px);
+  }
+  .company-cover{
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    .company-content-left {
+      min-width: 680px;
+      background-color: #fff;
+      width: 860px;
+      padding-bottom: 20px;
+      .company-nav {
+        color: #969ebb;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        background-color: #ececf5;
+        text-align: left;
+        span {
+          margin-left: 30px;
+          display: inline-block;
+          cursor: pointer;
+        }
+        .ac {
+          color: #557bf7;
+          font-weight: 600;
+        }
+      }
     }
     .jiben {
       border-bottom: 2px solid #f3f5fb;

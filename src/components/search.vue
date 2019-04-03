@@ -143,6 +143,9 @@ export default {
       if (path.indexOf("companyDetails") > -1) {
         this.$nextTick(()=>{this.companyDetailsFlag = true})    
       }
+      if (path.indexOf("details") > -1) {
+        this.$nextTick(()=>{this.companyDetailsFlag = true})
+      }
       if(path.indexOf("enterprise") > -1){
         this.pathIndex = 0
       } else if (path.indexOf("publicOpinion") > -1) {
