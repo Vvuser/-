@@ -100,6 +100,11 @@ export default {
       if(this.searchText == ''){
         return
       }
+      this.$post(`/searchhistory/`,{
+        sq: this.searchText
+      }).then(res => {
+        console.log(res)
+      })
       let historySearch = localStorage.getItem("historySearch");
       historySearch = historySearch == null ? [] : JSON.parse(historySearch);
       if (historySearch.indexOf(this.searchText) == -1) {
@@ -137,6 +142,9 @@ export default {
       }
       if (path.indexOf("companyDetails") > -1) {
         this.$nextTick(()=>{this.companyDetailsFlag = true})    
+      }
+      if (path.indexOf("details") > -1) {
+        this.$nextTick(()=>{this.companyDetailsFlag = true})
       }
       if(path.indexOf("enterprise") > -1){
         this.pathIndex = 0

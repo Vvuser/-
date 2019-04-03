@@ -12,6 +12,9 @@ import s_enterprise from '@/view/search/enterprise'
 import s_publicOpinion from '@/view/search/publicOpinion'
 import s_patent from '@/view/search/patent'
 
+import details from '@/view/commonDetails/index'
+import d_patentDetail from '@/view/commonDetails/patentDetail'
+
 import companyDetails from '@/view/companyDetails/index'
 import essential from '@/view/companyDetails/essential'
 import risk from '@/view/companyDetails/risk'
@@ -81,6 +84,19 @@ const router = new Router({
           path: '/search/patent',
           component: s_patent,
         }
+      ]
+    },
+    // 详情页
+    {
+      path: '/details',
+      component: details,
+      redirect: '/details/patentDetail',
+      children:[
+        // 专利详情
+        {
+          path: '/details/patentDetail',
+          component: d_patentDetail,
+        },
       ]
     },
     // 企业信息

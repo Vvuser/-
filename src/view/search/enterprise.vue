@@ -3,26 +3,27 @@
     <div class="dHeader">
       <div></div>
       <div>公司信息</div>
-      <div>注册资金</div>
+      <div>统一社会信用代码</div>
       <div>成立年限</div>
     </div>
-    <div class="item" v-for="(item,index) in list" :key="index" @click="Enterdetails">
+    <div class="item" v-for="(item,index) in list" :key="index" @click="Enterdetails(item)">
       <div>
-        <img src="../../assets/image/collect1.jpg"/>
-        <img v-if="false" src="../../assets/image/collect1.jpg"/>
-        <img src="../../assets/image/logo.png">
+        <img v-if="!item.isKeep" @click.stop="collect(item,0)" src="../../assets/image/collect1.jpg"/>
+        <img v-if="item.isKeep" @click.stop="unCollect(item.id)" src="../../assets/image/collect.jpg"/>
+        <img v-if="item.imgUrl != ''" :src="item.imgUrl">
+        <img v-else src="../../assets/image/default.png">
       </div>
       <div>
         <h3>{{item.name}}</h3>
         <p>法定人代表：{{item.oper_name}}</p>
-        <p>电话：xxxxx 邮箱：xxxxx</p>
-        <p>地址：xxxxxx</p>
+        <!-- <p>电话：xxxxx 邮箱：xxxxx</p> -->
+        <p>企业注册号：{{item.reg_no}}</p>
       </div>
-      <div>3000万人民币</div>
+      <div>{{item.credit_no}}</div>
       <div>{{item.start_date}}</div>
     </div>
     <div class="pagination">
-      <pagination :total="total" @getCurrentPage="getCurrentPage"></pagination>
+      <pagination :total="total" :pageSize="20"  @getCurrentPage="getCurrentPage"></pagination>
     </div>
   </div>
 </template>
@@ -33,7 +34,7 @@ import pagination from "@/components/pagination"
 export default {
   data() {
     return {
-      currentPage: 0,
+      currentPage: 1,
       list:[],
       total: 0
     }
@@ -54,9 +55,48 @@ export default {
   },
   methods:{
     /**
+     * 取消收藏
+     */
+    unCollect(companyid) {
+      this.$get(`/companykeep/delete/${companyid}`).then(res => {
+        this.getEnterpriseList(this.getSeacherText)
+      })
+    },
+    /**
+     * 收藏
+     */
+    collect(item,flag) {
+      this.$post('/companykeep/',{
+        companyid:item.id,
+        isClick:flag
+      }).then(res => {
+        this.getEnterpriseList(this.getSeacherText)
+      })
+    },
+    /**
+     * 获取图片
+     */
+    getCimg(index,name) {
+      // console.log(index)
+      let that = this
+      this.$post('/company/invoke',{
+        url: "/enterprise/getEntLogoByName",
+        name
+      }).then(res => {
+        this.$nextTick(()=>{
+          if('logo' in res.data) {
+            that.list[index].imgUrl = res.data.logo
+          }
+          
+        })
+      })
+    },
+    /**
      * 进入企业详情页
      */
-    Enterdetails() {
+    Enterdetails(item) {
+      this.collect(item,1)
+      sessionStorage.setItem("enterpriseId", item.id)
       this.$router.push({
         path:'/companyDetails/essential'
       })
@@ -64,6 +104,7 @@ export default {
     getCurrentPage(page){
       console.log(page)
       this.currentPage = page
+      this.getEnterpriseList(this.getSeacherText)
     },
     /**
      * 获取企业信息列表
@@ -72,16 +113,25 @@ export default {
       this.$post("/company/invoke",{
         url:'/v2/enterprise/searchListPaging',
         keyword,
-        skip: 0
-      }).then(res => {
+        skip: (this.currentPage - 1) * 20
+      }).then((res) => {
         console.log(res)
         this.list = res.data.items
         this.total = res.data.total
+        this.list = this.list.map((el,index) => {
+          el.imgUrl = ""
+          this.getCimg(index,el.name)
+          return el
+        })
+        console.log(this.list)
+        let str = JSON.stringify(this.list)
+        this.list = JSON.parse(str)
       })
     }
   },
-  created() {
+  mounted() {
     this.getEnterpriseList(this.getSeacherText)
+    
   }
 }
 </script>
@@ -134,8 +184,8 @@ export default {
       }
       img:nth-child(2) {
         width: 120px;
-        height: 120px;
-        background: black;
+        height: auto;
+        // background: black;
 
       }
     }
