@@ -6,7 +6,9 @@
       <img v-if="imgUrl != ''" :src="imgUrl">
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
-      <el-tag class="company-el-tag">高新企业</el-tag>
+      <el-tag class="company-el-tag">{{dataListStatus}}</el-tag>
+      <el-tag class="company-el-tag-2">曾用名:{{dataListStatuest}}</el-tag>
+
       <!--<div>
         <el-button @click="collect" icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
         <el-button @click="unCollect" type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
@@ -64,6 +66,9 @@ export default {
       newsList: [{}, {}, {}],
       obj: {},
       cId: sessionStorage.getItem("enterpriseId"),
+      keyBord: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME"),
+      dataListStatus:'',
+      dataListStatuest:"",
       pathList: [
         {
           path: "/companyDetails/essential",
@@ -162,6 +167,7 @@ export default {
         });
       });
     },
+     
     getInfoById() {
       this.$post("/company/invoke", {
         url: "/v2/enterprise/getDetailById",
@@ -178,12 +184,33 @@ export default {
       this.pathIndex = index;
       this.$router.push(path);
       this.nowPath = this.$route.path
+    },
+    getCompanyInfoByName() {
+      this.$post("/company/invoke", {
+        url: "/nwEnterprise/getCompanyInfoByName",
+        keyword: this.keyBord
+      }).then(res => {
+        console.log(res.data)
+        this.dataListStatus = res.data.base_info.status;
+      });
+    },
+     getenterprise() {
+      this.$post("/company/invoke", {
+        url: "/enterprise/getContactInfoByName",
+        keyword: this.keyBord
+      }).then(res => {
+        this.dataListStatuest = res.data.name;
+        typeof(res.data.name);
+      });
     }
   },
   created() {
     this.getInfoById();
     this.nowPath = this.$route.path
     console.log(this.$route.path);
+    console.log(this.keyBord);
+    this.getCompanyInfoByName();
+    this.getenterprise();
   }
 };
 </script>
@@ -214,6 +241,11 @@ export default {
     height: 20px;
     line-height: 20px;
     margin-left: 20px;
+  }
+  .company-el-tag-2{
+    height: 20px;
+    line-height: 20px;
+    margin-left: 5px;
   }
   & > div {
     float: right;

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="login_cover">
-      <p class="title">科创板审查综合检索系统</p>
+      <p class="title">科创板审核综合检索系统</p>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" :label-position="labelPosition" label-width="70px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="name">
           <el-input v-model="ruleForm.name" placeholder="用户名"></el-input>

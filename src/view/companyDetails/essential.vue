@@ -96,7 +96,7 @@
     <div v-show="showFlag.indexOf('1-5')>-1">
       <el-table :data="tableDeta" border class="BranchingStructureTable">
         <el-table-column prop="BranchingStructureTableDate" label="公司名称" width="400"></el-table-column>
-        <el-table-column prop="BranchingStructureTableN ame" label="负责" width="380"></el-table-column>
+        <el-table-column prop="BranchingStructureTableN ame" label="负责人" width="380"></el-table-column>
       </el-table>
     </div>
   </div>
