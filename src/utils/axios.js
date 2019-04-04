@@ -2,9 +2,11 @@ import axios from 'axios';
 import router from '../router'
 import { Message } from 'element-ui';
 import { Loading } from 'element-ui';
+import store from '../store/';
 
-axios.defaults.timeout = 10000;
-axios.defaults.baseURL ='http://192.168.18.29:30500';
+axios.defaults.timeout = 200000;
+axios.defaults.baseURL ='/firm';
+// axios.defaults.baseURL ='http://192.168.18.29:30500/firm/';
 let loading
 //http request 拦截器
 axios.interceptors.request.use(
@@ -15,6 +17,7 @@ axios.interceptors.request.use(
       spinner: 'el-icon-loading',
       background: 'rgba(0, 0, 0, 0.3)'
     });
+    store.commit("setStatus",0) //设置请求状态
     const token =  sessionStorage.getItem("SHANGJIAOSUOUSERTOKEN")
     // config.data = JSON.stringify(config.data);
     if(token != null){
@@ -45,6 +48,7 @@ axios.interceptors.response.use(
       return axios(response.config)
     }else {
       return response;
+      store.commit("setStatus",1)
     }
   },
   error => {

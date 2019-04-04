@@ -2,8 +2,9 @@
     <div class="patentDetailWrapper">
         <div class="title-wrapper">
             <p class="title">{{tableData.t}}</p>
-            <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;">公开</span>
-            <span style="border: 1px solid #8445f7;color: #8445f7;">发明</span>
+            <span style="border: 1px solid #8445f7;color: #8445f7;" v-show="tableData.p.indexOf('A')>-1 || tableData.p.indexOf('B')>-1 || tableData.p.indexOf('C')>=1">发明</span>
+            <span style="margin-right: 10px;border: 1px solid #557bf7;color: #557bf7;" v-show="tableData.p.indexOf('S')>-1 || tableData.p.indexOf('D')>-1">外观</span>
+            <span style="margin-right: 10px;border: 1px solid #38da95;color: #38da95;" v-show="tableData.p.indexOf('U')>-1 || tableData.p.indexOf('Y')>-1">实用新型</span>
             <div style="margin-left: 20px">
                 <el-button icon="el-icon-star-off" v-if="!tableData.isKeep" size="mini" @click="addCollect()">收藏</el-button>
                 <el-button type="primary" icon="el-icon-star-on" v-else size="mini" @click="cancelCollect()">已收藏</el-button>
@@ -205,12 +206,13 @@
        .title-wrapper{
            span{
                text-align: center;
-               width: 46px;
+               /*width: 46px;*/
                display: inline-block;
-               height: 20px;
-               line-height: 20px;
+               /*height: 20px;*/
+               /*line-height: 20px;*/
                font-size: 12px;
                border-radius: 4px;
+               padding: 4px 10px;
            }
        }
        .title{

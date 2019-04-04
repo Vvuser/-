@@ -7,6 +7,7 @@
           v-model="searchText"
           class="input-with-select"
           style="width: 1000px;font-size: 14px;color: #969ebb"
+          @keyup.enter.native="search"
         >
           <el-button
             slot="append"
