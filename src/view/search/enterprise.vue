@@ -49,6 +49,9 @@ export default {
   },
   watch:{
     getSeacherText() {
+      this.currentPage= 1
+      this.list=[]
+      this.total= 0
       console.log(this.getSeacherText)
       this.getEnterpriseList(this.getSeacherText)
     }

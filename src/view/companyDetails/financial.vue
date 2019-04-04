@@ -31,7 +31,7 @@
 					<th class="FinancialInformationTabletas">{{obj.total_equity}}</th>
 				</tr>
 				<tr>
-					<th class="FinancialInformationTableths">主营业乌收入</th>
+					<th class="FinancialInformationTableths">主营业务收入</th>
 					<th class="FinancialInformationTabletbs">{{obj.serv_fare_income}}</th>
 					<th class="FinancialInformationTabletns"></th>
 					<th class="FinancialInformationTabletas"></th>

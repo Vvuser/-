@@ -17,7 +17,7 @@ import '../static/css/default.css'
 //引入vuex
 import store from './store/index'
 /* eslint-disable no-new */
-new Vue({
+export const vue = new Vue({
   el: '#app',
   router,
   store,
