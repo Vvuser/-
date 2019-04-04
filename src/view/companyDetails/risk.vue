@@ -21,7 +21,7 @@
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="发布时间" width="100"></el-table-column>
         <el-table-column prop="type" label="公告类型" width="80"></el-table-column>
-        <el-table-column prop="content" label="公告内容"></el-table-column>
+        <el-table-column prop="disabled" label="公告内容"></el-table-column>
       </el-table>
     </div>
     <div class="BrokenPromises" v-show="showFlag.indexOf('2-3')>-1">

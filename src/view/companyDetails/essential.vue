@@ -20,7 +20,7 @@
         </tr>
         <tr>
           <th class="basicInformationTableth0">所属行业</th>
-          <th class="basicInformationTableth1">{{item.domains}}</th>
+          <th class="basicInformationTableth1">{{itemlist}}</th>
           <th class="basicInformationTableth2">成立日期</th>
           <th class="basicInformationTableth3">{{item.start_date}}</th>
         </tr>
@@ -34,13 +34,13 @@
           <th class="basicInformationTableth0">法定代表人</th>
           <th class="basicInformationTableth1">{{item.oper_name}}</th>
           <th class="basicInformationTableth2">发照日期</th>
-          <th class="basicInformationTableth3">{{item.start_date}}</th>
+          <th class="basicInformationTableth3">{{item.check_date}}</th>
         </tr>
         <tr>
           <th class="basicInformationTableth0">注册资本</th>
           <th class="basicInformationTableth1">{{item.regist_capi}}</th>
           <th class="basicInformationTableth2">登记机关</th>
-          <th class="basicInformationTableth3">{{item.name}}</th>
+          <th class="basicInformationTableth3">{{item.belong_org}}</th>
         </tr>
         <tr>
           <th class="basicInformationTableth0">经营范围</th>
@@ -94,10 +94,16 @@
       <span class="BranchingStructured">分支机构</span>
     </div>
     <div v-show="showFlag.indexOf('1-5')>-1">
-      <el-table :data="tableDeta" border class="BranchingStructureTable">
-        <el-table-column prop="BranchingStructureTableDate" label="公司名称" width="400"></el-table-column>
-        <el-table-column prop="BranchingStructureTableN ame" label="负责人" width="380"></el-table-column>
-      </el-table>
+      <table class="BranchingStructureTable">
+          <tr>
+            <th class="BranchingStructureTableths">公司名称</th>
+            <th class="BranchingStructureTablethst">负责人</th>
+          </tr>
+          <tr>
+            <th class="BranchingStructureTableths">{{item.name}}</th>
+            <th class="BranchingStructureTablethst">{{item.oper_name}}</th>
+          </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -106,9 +112,9 @@
 export default {
   data() {
     return {
-      tableData: [],
       tableDeta: [],
       item: {},
+      itemlist:[],
       dbckop: [],
       employees: [],
       conList: [],
@@ -131,11 +137,17 @@ export default {
       })
         .then(data => {
           console.log(data);
+          console.log(1234444444444444444444444444444444);
+          console.log(data.data);
           this.item = data.data;
+          this.itemlist = data.data.domains[0].substring(0);
           console.log(data.data.partners);
           this.dbckop = data.data.partners;
           this.conList = data.data.employees;
           this.tableList = data.data.changerecords;
+          this.tableDeta = data.data;
+          console.log(785144081)
+          console.log(this.tableDeta)
         })
         .catch(error => {
           console.log(1);
@@ -310,6 +322,19 @@ export default {
   margin-left: 30px;
   margin-top: 20px;
   margin-bottom: 20px;
+  border: 1px solid #838895;
+}
+.BranchingStructureTableths{
+  border: 1px solid #EBEEF5;
+  height: 40px;
+  color: #606266;
+  font-size: 14px;
+}
+.BranchingStructureTablethst{
+  border: 1px solid #EBEEF5;
+  height: 40px;
+  color: #606266;
+  font-size: 14px;
 }
 
 .BranchingStructure {

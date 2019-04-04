@@ -7,8 +7,10 @@
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
       <el-tag class="company-el-tag">{{dataListStatus}}</el-tag>
-      <el-tag class="company-el-tag-2">曾用名:{{dataListStatuest}}</el-tag>
-
+      <div class="company-el-tag-2"  v-on:mouseover="getImouseover()" v-on:mouseout="getImouseout()">曾用名</div>
+      <el-tag class="companysl" v-show="isshow">
+          {{dataListStatuest}}
+      </el-tag>
       <!--<div>
         <el-button @click="collect" icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
         <el-button @click="unCollect" type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
@@ -62,6 +64,7 @@ export default {
       imgUrl: "",
       collectFlag: false,
       pathIndex: 0,
+      add:'aaaaa',
       nowPath:'',
       newsList: [{}, {}, {}],
       obj: {},
@@ -69,6 +72,8 @@ export default {
       keyBord: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME"),
       dataListStatus:'',
       dataListStatuest:"",
+      current:0,
+      isshow:false,
       pathList: [
         {
           path: "/companyDetails/essential",
@@ -114,6 +119,14 @@ export default {
     };
   },
   methods: {
+    getImouseover(){
+        this.isshow = true;
+        
+    },
+    getImouseout(){
+      this.isshow = false;
+       
+    },
     getNews(name) {
       let obj = {
         keyWord: name,
@@ -211,10 +224,27 @@ export default {
     console.log(this.keyBord);
     this.getCompanyInfoByName();
     this.getenterprise();
+  },
+  mounted(){
+    
   }
 };
 </script>
 <style scope type="text/scss" lang="scss">
+div{
+  position: relative;
+}
+.companysl{
+  position: absolute;
+  top: 90px;
+  left: 380px;
+  width: 200px;
+  height: 20px;
+  background: rgb(85, 123, 247);
+  line-height: 1;
+  color: white;
+  text-align: center;
+}
 .company-title {
   width: 1200px;
   margin: 20px auto;
@@ -243,9 +273,17 @@ export default {
     margin-left: 20px;
   }
   .company-el-tag-2{
+    position: absolute;
+    top: 65px;
+    width: 50px;
     height: 20px;
     line-height: 20px;
     margin-left: 5px;
+    border-radius: 15%;
+    text-align: center;
+    background-color:rgba(64,158,255,.1);
+    color: #409EFF;
+    border: 1px solid rgba(64,158,255,.2);
   }
   & > div {
     float: right;
