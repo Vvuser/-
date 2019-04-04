@@ -6,7 +6,7 @@
       <img v-if="imgUrl != ''" :src="imgUrl">
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
-      <el-tag class="company-el-tag">高薪企业</el-tag>
+      <el-tag class="company-el-tag">高新企业</el-tag>
       <!--<div>
         <el-button @click="collect" icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
         <el-button @click="unCollect" type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>

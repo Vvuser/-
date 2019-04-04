@@ -1,6 +1,6 @@
 <template>
     <div class="master-header">
-        <p @click="gohome()" style="cursor: pointer">科创板审查综合检索系统</p>
+        <p @click="gohome()" style="cursor: pointer">科创板审核综合检索系统</p>
         <div>
             <span>当前用户：{{username}}</span>
             <b @click="logout"><img src="../assets/image/close.jpg" alt=""></b>
