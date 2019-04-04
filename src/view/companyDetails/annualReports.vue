@@ -3,7 +3,7 @@
     <div class="annualReports annualReportsmag">
       <span
         v-for="(item, index) in yearList"
-        class="annualReportsmag"
+        :class="{annualReportsmag:index!=yearList.length-1,none:index==yearList.length,active:index==yearIndex}"
         @click="yearIndex = index"
         :key="index"
       >{{item}}年度</span>
@@ -180,16 +180,25 @@ export default {
 </script>
 
 <style scoped>
+.active{
+  color: #557bf7 !important;
+}
 .annualReports span{
   cursor: pointer;
+  color: #969ebb;
+  padding: 0 20px;
+  font-weight: bold;
 }
 .annualReports {
   margin-left: 30px;
   margin-top: 20px;
   color: #969ebb;
 }
-.annualReportsmag {
-  margin-left: 18px;
+.none{
+  border-right: none;
+}
+.annualReportsmag{
+  border-right: 1px solid #969ebb;
 }
 .annualReportsp {
 }

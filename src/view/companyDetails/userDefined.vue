@@ -1,5 +1,7 @@
 <template>
   <div>
+    <p class="default" v-if="showFlag.length==0 || showFlag==''">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
+    <p class="reset" v-else><span @click="getTree()">[重新配置]</span> </p>
     <div v-show="showFlag.length!=0">
       <essential :showFlag="showFlag"></essential>
       <risk :showFlag="showFlag"></risk>
@@ -13,8 +15,6 @@
       </div>
       <publicOpinion :showFlag="showFlag" style="margin-top: 20px"></publicOpinion>
     </div>
-    <p class="default" v-if="showFlag.length==0">页面暂无展示内容，请进行 <span @click="getTree()">[配置]</span> </p>
-    <p class="default" v-else><span @click="getTree()">[重新配置]</span> </p>
     <el-dialog
       title="自定义"
       :visible.sync="pageBox"
@@ -186,21 +186,22 @@ export default {
       this.$post('/customizehtml/',{
         customizeInfo:customizeInfo.toString()
       }).then((res)=>{
-        console.log('changeTree',res);
+        // console.log('changeTree',res);
         this.showFlag = customizeInfo
       })
     },
     getTree(){
       this.pageBox=true
       this.$get('/customizehtml/menu').then((res)=>{
-        console.log('getTree',res);
+        // console.log('getTree',res);
         this.setCheckedKeys(res.data.result[0].customizeInfo.split(','))
       })
     },
     getDate(){
       this.$get('/customizehtml/menu').then((res)=>{
-        console.log('getTree',res);
+        // console.log('getTree',res);
         this.showFlag = res.data.result[0].customizeInfo.split(',')
+        console.log(this.showFlag)
       })
     }
   },
@@ -272,6 +273,12 @@ export default {
       border-right: 1px solid #edecf1;
     }
   }
+}
+.reset{
+  text-align: right;
+  color: #838895;
+  cursor: pointer;
+  margin-top: 20px;
 }
 .default{
   /*margin-top: 300px;*/
