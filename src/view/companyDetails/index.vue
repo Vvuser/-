@@ -238,7 +238,7 @@ div{
   position: absolute;
   top: 90px;
   left: 380px;
-  width: 200px;
+  width: 300px;
   height: 20px;
   background: rgb(85, 123, 247);
   line-height: 1;
