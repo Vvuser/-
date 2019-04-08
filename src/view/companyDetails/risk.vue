@@ -2,7 +2,7 @@
   <div>
     <div class="risk" v-show="showFlag.indexOf('2-1')>-1">
       <div class="titles"></div>
-      <span class="weni">裁判文书</span>
+      <span class="weni">判决文书</span>
     </div>
     <div v-show="showFlag.indexOf('2-1')>-1">
       <el-table :data="tableData" class="tableList" border>
@@ -21,7 +21,7 @@
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="发布时间" width="100"></el-table-column>
         <el-table-column prop="type" label="公告类型" width="80"></el-table-column>
-        <el-table-column prop="disabled" label="公告内容"></el-table-column>
+        <el-table-column prop="title" label="公告内容"></el-table-column>
       </el-table>
     </div>
     <div class="BrokenPromises" v-show="showFlag.indexOf('2-3')>-1">
@@ -88,8 +88,8 @@
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="be_executed_person" label="被执行人" width="100"></el-table-column>
         <el-table-column prop="amount" label="股权数额" width="80"></el-table-column>
-        <el-table-column prop="notice_no" label="执行通知书文号"></el-table-column>
-        <el-table-column prop="public_date" label="起止日期"></el-table-column>
+        <el-table-column prop="number" label="执行通知书文号"></el-table-column>
+        <el-table-column prop="detail.public_date" label="起止日期"></el-table-column>
         <el-table-column prop="status" label="类型/状态"></el-table-column>
       </el-table>
     </div>
@@ -100,10 +100,10 @@
     <div v-show="showFlag.indexOf('2-8')>-1">
       <el-table :data="FilInformation" class="FilInformationList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="case_no" label="案号" width="100"></el-table-column>
-        <el-table-column prop="hearing_date" label="开庭时间" width="80"></el-table-column>
-        <el-table-column prop="role" label="身份"></el-table-column>
-        <el-table-column prop="name" label="详情"></el-table-column>
+        <el-table-column prop="case_No" label="案号" ></el-table-column>
+        <el-table-column prop="hearing_date" label="开庭时间" width="120"></el-table-column>
+        <el-table-column prop="related_items[1].role" label="身份" width="80"></el-table-column>
+        <el-table-column prop="name" label="详情" width="80"></el-table-column>
       </el-table>
     </div>
     <div class="hearingAnnouncement" v-show="showFlag.indexOf('2-9')>-1">
@@ -112,12 +112,12 @@
     </div>
     <div v-show="showFlag.indexOf('2-9')>-1">
       <el-table :data="hearingAnnouncement" class="hearingAnnouncementList" border>
-        <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="hearing_date" label="开庭日期" width="100"></el-table-column>
-        <el-table-column prop="case_reason" label="案由" width="80"></el-table-column>
-        <el-table-column prop="plaintiff" label="原告/上诉人"></el-table-column>
-        <el-table-column prop="defendant" label="被告/被上诉人"></el-table-column>
-        <el-table-column prop="disabled" label="详情"></el-table-column>
+        <el-table-column type="index" label="序号" width="50"></el-table-column>
+        <el-table-column prop="hearing_date" label="开庭日期" width="160"></el-table-column>
+        <el-table-column prop="case_reason" label="案由" width="140"></el-table-column>
+        <el-table-column prop="plaintiff" label="原告/上诉人" width="160"></el-table-column>
+        <el-table-column prop="defendant" label="被告/被上诉人" width="160"></el-table-column>
+        <el-table-column prop="" label="详情"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -153,7 +153,7 @@ export default {
         id: riskId
       })
         .then(data => {
-          console.log(data);
+          console.log("法院公告",data);
           this.tableData = data.data.items;
           this.hookList = data.data.items;
         })
@@ -228,7 +228,7 @@ export default {
         name: freezeName
       })
         .then(data => {
-          console.log(data);
+          console.log('股权冻结',data);
           this.freeze = data.data.items;
         })
         .catch(error => {
@@ -242,7 +242,7 @@ export default {
         id: FilInformationId
       })
         .then(data => {
-          console.log(data);
+          console.log("立案信息",data);
           this.FilInformation = data.data.items;
         })
         .catch(error => {
@@ -250,13 +250,13 @@ export default {
         });
     },
     gethearingAnnouncement() {
-      var hearingAnnouncementId = sessionStorage.getItem("enterpriseId");
+      var freezeName = sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME");
       this.$post("/company/invoke", {
         url: "/courtnotice/getCourtNoticeByName",
-        id: hearingAnnouncementId
+        name: freezeName
       })
         .then(data => {
-          console.log(data);
+          console.log("开庭公告",data);
           this.hearingAnnouncement = data.data.items;
         })
         .catch(error => {

@@ -76,6 +76,7 @@
 			 * 进入企业详情页
 			 */
 			Enterdetails(item) {
+				sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
 				sessionStorage.setItem("enterpriseId", item.companyid)
 				this.$router.push({
 					path:'/companyDetails/essential'

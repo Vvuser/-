@@ -73,9 +73,9 @@
       <table class="mainStaffTbale">
         <tr v-for="(DataList,index) in conList" :key="index">
           <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
-          <th class="mainStaffTbaleths1">{{DataList.name}}</th>
+          <th class="mainStaffTbaleths1" style="font-weight: normal;">{{DataList.name}}</th>
           <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
-          <th class="mainStaffTbaleths0">{{DataList.name}}</th>
+          <th class="mainStaffTbaleths0" style="font-weight: normal;">{{DataList.name}}</th>
         </tr>
       </table>
     </div>
@@ -139,9 +139,6 @@ export default {
         id: sessionStorage.getItem("enterpriseId")
       })
         .then(data => {
-          console.log(data);
-          console.log(1234444444444444444444444444444444);
-          console.log(data.data);
           this.item = data.data;
           this.itemlist = data.data.domains[0].substring(0);
           console.log(data.data.partners);
@@ -205,6 +202,7 @@ export default {
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  font-weight: normal;
 }
 
 .basicInformationTableth2 {
@@ -221,31 +219,35 @@ export default {
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
-  font-weight: none;
+  font-weight: normal;
 }
 .basicInformationTableth4 {
   width: 100px;
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  background: #fcfcff;
 }
 .basicInformationTableth5 {
   width: 700px;
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  font-weight: normal;
 }
 .basicInformationTableth6 {
   width: 100px;
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  background: #fcfcff;
 }
 .basicInformationTableth7 {
   width: 700px;
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  font-weight: normal;
 }
 .originator {
   margin-left: 30px;
