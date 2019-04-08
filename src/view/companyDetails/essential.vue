@@ -216,10 +216,12 @@ export default {
 }
 
 .basicInformationTableth3 {
+  z-index: 1;
   width: 224px;
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  font-weight: none;
 }
 .basicInformationTableth4 {
   width: 100px;
