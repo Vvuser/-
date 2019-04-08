@@ -7,7 +7,7 @@
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
       <el-tag class="company-el-tag">{{dataListStatus}}</el-tag>
-      <div class="company-el-tag-2"  v-on:mouseover="getImouseover()" v-on:mouseout="getImouseout()">曾用名</div>
+      <div class="company-el-tag-2"  v-on:mouseover="getImouseover()" v-on:mouseout="getImouseout()" v-show="dataListStatuest">曾用名</div>
       <el-tag class="companysl" v-show="isshow">
           {{dataListStatuest}}
       </el-tag>
@@ -226,7 +226,7 @@ export default {
     this.getenterprise();
   },
   mounted(){
-    
+
   }
 };
 </script>
