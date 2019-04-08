@@ -5,8 +5,10 @@ import { Loading } from 'element-ui';
 import store from '../store/';
 
 axios.defaults.timeout = 200000;
-// axios.defaults.baseURL ='/firm';
-axios.defaults.baseURL ='http://192.168.18.29:30500/firm/';
+axios.defaults.baseURL ='/firm';
+// axios.defaults.baseURL ='http://120.92.76.237:8888/firm/';
+// axios.defaults.baseURL ='http://120.92.76.237:8888/firm/';
+
 let loading
 //http request 拦截器
 axios.interceptors.request.use(
@@ -29,7 +31,9 @@ axios.interceptors.request.use(
   error => {
     loading.close()
     Message.error("加载失败")
+    store.commit("setStatus",1)
     return Promise.reject(error);
+
   }
 );
 
@@ -47,14 +51,16 @@ axios.interceptors.response.use(
       //重新请求
       return axios(response.config)
     }else {
-      return response;
       store.commit("setStatus",1)
+      return response;
     }
   },
   error => {
     loading.close()
     Message.error("加载失败")
+    store.commit("setStatus",1)
     return Promise.reject(error)
+
   }
 )
 

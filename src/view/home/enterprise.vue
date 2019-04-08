@@ -63,88 +63,85 @@
 </template>
 
 <script>
-import pagination from "@/components/pagination";
-import { mapMutations, mapGetters } from "vuex";
-export default {
-  name: "",
-  components: {
-    pagination
-  },
-  data() {
-    return {
-      dd: true,
-      collectFlag: false,
-      total: 0,
-      currentPage: 1,
-      pageSize: 10,
-      navItemList: ["我的收藏", "浏览历史"],
-      activeNavItem: "",
-      listData: []
-    };
-  },
-  methods: {
-    //详情跳转
-    /**
-     * 进入企业详情页
-     */
-    Enterdetails(item) {
-      sessionStorage.setItem("enterpriseId", item.companyid);
-      this.$router.push({
-        path: "/companyDetails/essential"
-      });
-    },
-    getCurrentPage(page) {
-      // console.log(`父组件page ${page}`)
-      this.currentPage = page;
-      this.getAjaxData();
-    },
-    //获取企业信息列表
-    getAjaxData() {
-      let isclick = this.activeNavItem;
-      if (isclick == "我的收藏") {
-        isclick = 0;
-      } else {
-        isclick = 1;
-      }
-      this.$get(
-        `/companykeep/page/${this.currentPage}/${this.pageSize}/${isclick}`
-      )
-        .then(data => {
-          console.log(data);
-          this.listData = data.data.result;
-          this.total = data.data.total;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    activeNavItemFun(item) {
-      this.activeNavItem = item;
-    },
-    cancelCollect(p, index) {
-      this.$get(`/companykeep/delete/${p}`)
-        .then(data => {
-          console.log(data);
-          this.$message.success("取消收藏成功");
-          this.listData[index].isClick = 1;
-        })
-        .catch(error => {
-          console.log(error);
-          this.$message.success("取消收藏失败");
-        });
-    }
-  },
-  watch: {
-    activeNavItem() {
-      this.currentPage = 1;
-      this.getAjaxData();
-    }
-  },
-  created() {
-    this.activeNavItem = "我的收藏";
-    this.getAjaxData();
-  }
-};
+	import pagination from '@/components/pagination'
+	import {mapMutations, mapGetters} from 'vuex'
+	export default {
+		name: "",
+		components: {
+			pagination
+		},
+		data() {
+			return {
+				dd: true,
+				collectFlag:false,
+				total:0,
+				currentPage:1,
+				pageSize:10,
+				navItemList:["我的收藏","浏览历史"],
+				activeNavItem: "",
+				listData:[],
+			};
+		},
+		methods: {
+			//详情跳转
+			/**
+			 * 进入企业详情页
+			 */
+			Enterdetails(item) {
+				sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
+				sessionStorage.setItem("enterpriseId", item.companyid)
+				this.$router.push({
+					path:'/companyDetails/essential'
+				})
+			},
+			getCurrentPage(page){
+				// console.log(`父组件page ${page}`)
+				this.currentPage = page
+				this.getAjaxData()
+			},
+			//获取企业信息列表
+			getAjaxData(){
+				let isclick = this.activeNavItem
+				if(isclick == "我的收藏"){
+					isclick = 0
+				}else {
+					isclick = 1
+				}
+				this.$get(`/companykeep/page/${this.currentPage}/${this.pageSize}/${isclick}`)
+						.then(data => {
+							console.log(data);
+							this.listData = data.data.result
+							this.total = data.data.total
+						}).catch(error => {
+					console.log(error);
+				})
+			},
+			activeNavItemFun(item){
+				this.activeNavItem = item
+			},
+			cancelCollect(p,index){
+				this.$get(`/companykeep/delete/${p}`)
+						.then(data => {
+							console.log(data);
+							this.$message.success("取消收藏成功")
+							this.listData[index].isClick= 1
+						}).catch(error => {
+					console.log(error);
+					this.$message.success("取消收藏失败")
+				})
+			}
+		},
+		watch: {
+			activeNavItem(){
+				this.currentPage = 1
+				this.getAjaxData()
+			}
+		},
+		created() {
+			this.activeNavItem = '我的收藏'
+			this.getAjaxData()
+		}
+	};
 </script>
 
 <style scoped>

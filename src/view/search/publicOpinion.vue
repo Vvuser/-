@@ -8,7 +8,7 @@
         <div class="i_footer">
           <div>
             <span>{{item.languageTname}}</span>
-            <span class="bord" v-for="(c_item,index) in item.keywordsZh" :key="index">{{c_item}}</span>
+            <span class="bord" v-for="(c_item,index) in item.tagName" :key="index">{{c_item}}</span>
           </div>
           <div>
             <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item, 0)">收藏</el-button>
@@ -67,7 +67,7 @@ export default {
         created: item.created,
         abstractZh: item.abstractZh,
         languageTname: item.languageTname,
-        keywordsZh: JSON.stringify(item.keywordsZh),
+        keywordsZh: JSON.stringify(item.tagName),
         uuid:item.uuid,
         isClick: flag
       }
@@ -99,7 +99,10 @@ export default {
       };
       this.$post("/yess/invoke",obj).then(res => {
         console.log(res);
-        this.list = res.data.resultList
+        this.list = res.data.resultList.map(el => {
+          el.tagName = el.tagName.split("、")
+          return el
+        })
         this.total = res.data.resultCount
       });
     }

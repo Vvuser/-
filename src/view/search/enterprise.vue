@@ -101,6 +101,7 @@ export default {
     Enterdetails(item) {
       this.collect(item,1)
       sessionStorage.setItem("enterpriseId", item.id)
+      sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
       this.$router.push({
         path:'/companyDetails/essential'
       })

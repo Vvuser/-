@@ -18,19 +18,19 @@
           注册号/统一社会
           <br>信用代码
         </th>
-        <th class="annualReportstableybs">{{obj.credit_no}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.credit_no}}</th>
         <th class="annualReportstableyht">企业名称</th>
-        <th class="annualReportstableybs">{{obj.name}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.name}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">企业联系电话</th>
-        <th class="annualReportstableybs">{{obj.telephone}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.telephone}}</th>
         <th class="annualReportstableyht">邮政编码</th>
-        <th class="annualReportstableybs">{{obj.zip_code}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.zip_code}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">企业通信地址</th>
-        <th class="annualReportstableybs">{{obj.address}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.address}}</th>
         <th class="annualReportstableyhs">
           有限责任公司本年度
           <br>是否发生股东股权转让
@@ -39,22 +39,22 @@
       </tr>
       <tr>
         <th class="annualReportstableyht">电子邮箱</th>
-        <th class="annualReportstableybs">{{obj.email}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.email}}</th>
         <th class="annualReportstableyht">是否有网站或网店</th>
-        <th class="annualReportstableybs">{{obj.ifwebsite}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.ifwebsite}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyht">企业经营状态</th>
-        <th class="annualReportstableybs">{{obj.status}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.status}}</th>
         <th class="annualReportstableyht">从业人数</th>
-        <th class="annualReportstableybs">{{obj.collegues_num}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.collegues_num}}</th>
       </tr>
       <tr>
         <th class="annualReportstableyhs">
           企业是否有投资信息
           <br>或购买其他公司股权
         </th>
-        <th class="annualReportstableybs">{{obj.if_invest}}</th>
+        <th class="annualReportstableybs" style="font-weight: normal">{{obj.if_invest}}</th>
         <th class="annualReportstableyhs"></th>
         <th class="annualReportstableybs"></th>
       </tr>
@@ -72,43 +72,43 @@
     </div>
     <div class="iconCan" v-show="showFlag.indexOf('4-3')>-1">
       <div class="iconCanblem"></div>
-      <span class="iconCanblemtitle">股东(发起人)及出姿信息</span>
+      <span class="iconCanblemtitle">股东(发起人)及出资信息</span>
     </div>
     <div v-show="showFlag.indexOf('4-3')>-1">
       <el-table :data="obj.partners" border class="annualReportsIntertable2">
-        <el-table-column prop="stock_name" label="股东" width="80"></el-table-column>
-        <el-table-column prop="real_capi_items[0].real_capi" label="认缴出姿额(万元)" width="160"></el-table-column>
+        <el-table-column prop="stock_name" label="股东" width="250"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="认缴出资额(万元)" width="130"></el-table-column>
         <el-table-column
           prop="should_capi_items[0].should_capi_date"
           label="认缴出资时间"
-          width="120"
+          width="110"
         ></el-table-column>
-        <el-table-column prop="real_capi_items[0].real_capi" label="实缴出姿额(万元)" width="160"></el-table-column>
-        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资时间" width="130"></el-table-column>
-        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="149"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="实资缴出额(万元)" width="130"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间" width="80"></el-table-column>
+        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="99"></el-table-column>
       </el-table>
     </div>
     <div class="notling" v-show="showFlag.indexOf('4-4')>-1">
       <div class="notlingbox"></div>
-      <span class="notlingboxmp">社会信息</span>
+      <span class="notlingboxmp">社保信息</span>
     </div>
     <div v-show="showFlag.indexOf('4-4')>-1">
       <table class="notlingtable">
         <tr>
           <th class="notlingtableths">城镇职工基本养老保险</th>
-          <th class="notlingtabletbs">{{socialItem.social_security.basic_endownment_num}}</th>
+          <th class="notlingtabletbs" style="font-weight: normal">{{socialItem.social_security.basic_endownment_num}}</th>
           <th class="notlingtabletas">失业保险</th>
-          <th class="notlingtabletds">{{socialItem.social_security.unenployment_num}}</th>
+          <th class="notlingtabletds" style="font-weight: normal">{{socialItem.social_security.unenployment_num}}</th>
         </tr>
         <tr>
           <th class="notlingtableths">职工基本医疗保险</th>
-          <th class="notlingtabletbs">{{socialItem.social_security.insurance_num}}</th>
+          <th class="notlingtabletbs" style="font-weight: normal">{{socialItem.social_security.insurance_num}}</th>
           <th class="notlingtabletas">工伤保险</th>
-          <th class="notlingtabletds">{{socialItem.social_security.injury_insurance_num}}</th>
+          <th class="notlingtabletds" style="font-weight: normal">{{socialItem.social_security.injury_insurance_num}}</th>
         </tr>
         <tr>
           <th class="notlingtableths">生育保险</th>
-          <th class="notlingtabletbs">{{socialItem.social_security.birth_num}}</th>
+          <th class="notlingtabletbs" style="font-weight: normal">{{socialItem.social_security.birth_num}}</th>
           <th class="notlingtabletas"></th>
           <th class="notlingtabletds"></th>
         </tr>
