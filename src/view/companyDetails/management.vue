@@ -25,7 +25,7 @@
       <el-table :data="tableData2" border class="creditRatingTable">
         <el-table-column prop="finance_date" label="融资时间" width="140"></el-table-column>
         <el-table-column prop="financing_round" label="融资轮次" width="140"></el-table-column>
-        <el-table-column prop="financing_amount" label="融资金额" width="140"></el-table-column>
+        <el-table-column prop="financing_amount" label="融资金额" width="140" @></el-table-column>
         <el-table-column prop="names" label="投资方"></el-table-column>
       </el-table>
     </div>

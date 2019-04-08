@@ -6,7 +6,11 @@
       <img v-if="imgUrl != ''" :src="imgUrl">
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
-      <el-tag class="company-el-tag">高薪企业</el-tag>
+      <el-tag class="company-el-tag">{{dataListStatus}}</el-tag>
+      <div class="company-el-tag-2"  v-on:mouseover="getImouseover()" v-on:mouseout="getImouseout()">曾用名</div>
+      <el-tag class="companysl" v-show="isshow">
+          {{dataListStatuest}}
+      </el-tag>
       <!--<div>
         <el-button @click="collect" icon="el-icon-star-off" v-if="!collectFlag" size="mini">收藏</el-button>
         <el-button @click="unCollect" type="primary" icon="el-icon-star-on" v-else size="mini">已收藏</el-button>
@@ -60,10 +64,16 @@ export default {
       imgUrl: "",
       collectFlag: false,
       pathIndex: 0,
+      add:'aaaaa',
       nowPath:'',
       newsList: [{}, {}, {}],
       obj: {},
       cId: sessionStorage.getItem("enterpriseId"),
+      keyBord: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME"),
+      dataListStatus:'',
+      dataListStatuest:"",
+      current:0,
+      isshow:false,
       pathList: [
         {
           path: "/companyDetails/essential",
@@ -109,6 +119,14 @@ export default {
     };
   },
   methods: {
+    getImouseover(){
+        this.isshow = true;
+        
+    },
+    getImouseout(){
+      this.isshow = false;
+       
+    },
     getNews(name) {
       let obj = {
         keyWord: name,
@@ -162,6 +180,7 @@ export default {
         });
       });
     },
+     
     getInfoById() {
       this.$post("/company/invoke", {
         url: "/v2/enterprise/getDetailById",
@@ -178,16 +197,54 @@ export default {
       this.pathIndex = index;
       this.$router.push(path);
       this.nowPath = this.$route.path
+    },
+    getCompanyInfoByName() {
+      this.$post("/company/invoke", {
+        url: "/nwEnterprise/getCompanyInfoByName",
+        keyword: this.keyBord
+      }).then(res => {
+        console.log(res.data)
+        this.dataListStatus = res.data.base_info.status;
+      });
+    },
+     getenterprise() {
+      this.$post("/company/invoke", {
+        url: "/enterprise/getContactInfoByName",
+        keyword: this.keyBord
+      }).then(res => {
+        this.dataListStatuest = res.data.name;
+        typeof(res.data.name);
+      });
     }
   },
   created() {
     this.getInfoById();
     this.nowPath = this.$route.path
     console.log(this.$route.path);
+    console.log(this.keyBord);
+    this.getCompanyInfoByName();
+    this.getenterprise();
+  },
+  mounted(){
+    
   }
 };
 </script>
 <style scope type="text/scss" lang="scss">
+div{
+  position: relative;
+}
+.companysl{
+  position: absolute;
+  top: 90px;
+  left: 380px;
+  width: 300px;
+  height: 20px;
+  background: rgb(85, 123, 247);
+  line-height: 1;
+  color: white;
+  text-align: center;
+}
 .company-title {
   width: 1200px;
   margin: 20px auto;
@@ -215,6 +272,19 @@ export default {
     height: 20px;
     line-height: 20px;
     margin-left: 20px;
+  }
+  .company-el-tag-2{
+    position: absolute;
+    top: 65px;
+    width: 50px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 5px;
+    border-radius: 15%;
+    text-align: center;
+    background-color:rgba(64,158,255,.1);
+    color: #409EFF;
+    border: 1px solid rgba(64,158,255,.2);
   }
   & > div {
     float: right;

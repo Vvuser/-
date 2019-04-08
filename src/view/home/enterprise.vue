@@ -12,7 +12,7 @@
 			<div class="entepriserenal">
 				<div class="entepriserenalsource">
 					<span class="entepriserenalsource-in">公司信息</span>
-					<span class="entepriserenalsource-to">注册资金</span>
+					<span class="entepriserenalsource-to">统一社会信用代码</span>
 					<span class="entepriserenalsource-auto">成立年限</span>
 				</div>
 				<div class="entepriserenalall"
@@ -250,6 +250,7 @@
   left: 920px;
   height: 150px;
   line-height: 150px;
+	margin-left: 60px;
 }
 .footer{
 	width: 1200px;

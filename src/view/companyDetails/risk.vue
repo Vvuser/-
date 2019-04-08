@@ -2,14 +2,14 @@
   <div>
     <div class="risk" v-show="showFlag.indexOf('2-1')>-1">
       <div class="titles"></div>
-      <span class="weni">判决文书</span>
+      <span class="weni">裁判文书</span>
     </div>
     <div v-show="showFlag.indexOf('2-1')>-1">
       <el-table :data="tableData" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="判决时间" width="100"></el-table-column>
-        <el-table-column prop="type" label="身份" width="80"></el-table-column>
-        <el-table-column prop="title" label="判决身份"></el-table-column>
+        <el-table-column prop="type" label="案件类型" width="80"></el-table-column>
+        <el-table-column prop="title" label="案件详情"></el-table-column>
       </el-table>
     </div>
     <div class="riskn" v-show="showFlag.indexOf('2-2')>-1">
@@ -21,7 +21,7 @@
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="发布时间" width="100"></el-table-column>
         <el-table-column prop="type" label="公告类型" width="80"></el-table-column>
-        <el-table-column prop="content" label="公告内容"></el-table-column>
+        <el-table-column prop="disabled" label="公告内容"></el-table-column>
       </el-table>
     </div>
     <div class="BrokenPromises" v-show="showFlag.indexOf('2-3')>-1">

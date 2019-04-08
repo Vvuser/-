@@ -3,7 +3,7 @@
     <div class="annualReports annualReportsmag">
       <span
         v-for="(item, index) in yearList"
-        class="annualReportsmag"
+        :class="{annualReportsmag:index!=yearList.length-1,none:index==yearList.length,active:index==yearIndex}"
         @click="yearIndex = index"
         :key="index"
       >{{item}}年度</span>
@@ -76,21 +76,21 @@
     </div>
     <div v-show="showFlag.indexOf('4-3')>-1">
       <el-table :data="obj.partners" border class="annualReportsIntertable2">
-        <el-table-column prop="stock_name" label="股东" width="80"></el-table-column>
-        <el-table-column prop="real_capi_items[0].real_capi" label="认缴出姿额(万元)" width="160"></el-table-column>
+        <el-table-column prop="stock_name" label="股东" width="250"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="认缴出姿额(万元)" width="130"></el-table-column>
         <el-table-column
           prop="should_capi_items[0].should_capi_date"
           label="认缴出资时间"
-          width="120"
+          width="110"
         ></el-table-column>
-        <el-table-column prop="real_capi_items[0].real_capi" label="实缴出姿额(万元)" width="160"></el-table-column>
-        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资时间" width="130"></el-table-column>
-        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="149"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="实资缴出额(万元)" width="130"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间" width="80"></el-table-column>
+        <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="99"></el-table-column>
       </el-table>
     </div>
     <div class="notling" v-show="showFlag.indexOf('4-4')>-1">
       <div class="notlingbox"></div>
-      <span class="notlingboxmp">社会信息</span>
+      <span class="notlingboxmp">社保信息</span>
     </div>
     <div v-show="showFlag.indexOf('4-4')>-1">
       <table class="notlingtable">
@@ -180,16 +180,25 @@ export default {
 </script>
 
 <style scoped>
+.active{
+  color: #557bf7 !important;
+}
 .annualReports span{
   cursor: pointer;
+  color: #969ebb;
+  padding: 0 20px;
+  font-weight: bold;
 }
 .annualReports {
   margin-left: 30px;
   margin-top: 20px;
   color: #969ebb;
 }
-.annualReportsmag {
-  margin-left: 18px;
+.none{
+  border-right: none;
+}
+.annualReportsmag{
+  border-right: 1px solid #969ebb;
 }
 .annualReportsp {
 }
