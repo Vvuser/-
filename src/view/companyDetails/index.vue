@@ -7,7 +7,7 @@
       <img v-else src="../../assets/image/default.png">
       <p>{{obj.name}}</p>
       <el-tag class="company-el-tag">{{dataListStatus}}</el-tag>
-      <div class="company-el-tag-2"  v-on:mouseover="getImouseover()" v-on:mouseout="getImouseout()" v-show="dataListStatuest">曾用名</div>
+      <div class="company-el-tag-2"  v-on:mouseover="getImouseover()" v-on:mouseout="getImouseout()" v-show="dataListStatuest.length>0">曾用名</div>
       <el-tag class="companysl" v-show="isshow">
           {{dataListStatuest}}
       </el-tag>
@@ -208,13 +208,17 @@ export default {
       });
     },
      getenterprise() {
-      this.$post("/company/invoke", {
-        url: "/enterprise/getContactInfoByName",
-        keyword: this.keyBord
-      }).then(res => {
-        this.dataListStatuest = res.data.name;
-        typeof(res.data.name);
-      });
+       var basicInformationId = sessionStorage.getItem("enterpriseId");
+       this.$post("/company/invoke", {
+         url: "/enterprise/getDetailAndContactById",
+         id: sessionStorage.getItem("enterpriseId")
+       })
+       .then(data => {
+         this.dataListStatuest = data.data.history_names;
+       })
+       .catch(error => {
+         console.log(1);
+       });
     }
   },
   created() {
