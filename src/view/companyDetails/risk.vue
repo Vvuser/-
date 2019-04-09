@@ -162,11 +162,11 @@ export default {
   },
   methods: {
     getDetail(id) {
-      this.dialogVisible = true
       this.$post("/company/invoke", {
         url: "/lawsuit/getLawsuitDetail",
         id
       }).then(res => {
+        this.dialogVisible = true
         console.log(res);
         this.details = res.data
       });
