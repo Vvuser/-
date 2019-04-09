@@ -149,15 +149,6 @@ export default {
       });
     },
     /**
-     * 查询收藏
-     */
-    searhCollect() {
-      this.$get(`/companykeep/delete/${this.cId}`).then(res => {
-        this.collectFlag = false
-        this.$message.success("取消收藏成功")
-      });
-    },
-    /**
      * 外联
      */
     href(url){
@@ -213,6 +204,7 @@ export default {
         url: "/nwEnterprise/getCompanyInfoByName",
         keyword: this.keyBord
       }).then(res => {
+        console.log("企业详情",res);
         this.dataListStatus = res.data.base_info.status;
       });
     },
@@ -237,7 +229,6 @@ export default {
     console.log(this.keyBord);
     this.getCompanyInfoByName();
     this.getenterprise();
-    this.searhCollect()
   },
   mounted(){
 

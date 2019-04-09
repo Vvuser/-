@@ -83,7 +83,7 @@
           label="认缴出资时间"
           width="110"
         ></el-table-column>
-        <el-table-column prop="real_capi_items[0].real_capi" label="实资缴出额(万元)" width="130"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi" label="实缴出资额(万元)" width="130"></el-table-column>
         <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间" width="80"></el-table-column>
         <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="99"></el-table-column>
       </el-table>

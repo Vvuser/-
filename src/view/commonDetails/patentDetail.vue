@@ -37,8 +37,12 @@
                 <tr>
                     <th class="basicInformationTableth0">IPC</th>
                     <th class="basicInformationTableth1">{{tableData.l.key}}</th>
+                    <th class="basicInformationTableth2"></th>
+                    <th class="basicInformationTableth3"></th>
+                </tr>
+                <tr>
                     <th class="basicInformationTableth2">简介</th>
-                    <th class="basicInformationTableth3">{{tableData.abst}}</th>
+                    <th class="basicInformationTableth3" colspan="3">{{tableData.abst}}</th>
                 </tr>
             </table>
         </div>

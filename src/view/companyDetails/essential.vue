@@ -140,13 +140,25 @@ export default {
      * 进入企业详情页
      */
     Enterdetails(name,type) {
-      if(type=="自然人股东"){
-        sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
+      console.log(name,type);
+      if(name.indexOf('公司'>0)){
+        this.$post("/company/invoke", {
+          url: "/enterprise/getBranchByName",
+          keyword: name,
+          skip:0
+        })
+        .then(data => {
+          console.log('企业详情',data);
+        })
+        .catch(err => {
+          console.log('企业详情',err);
+        })
+        /*sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
         sessionStorage.setItem("enterpriseId", item.companyid)
         this.$router.push({
           path:'/companyDetails/essential'
-        })
-      }else if(type=="法人股东"){
+        })*/
+      }else{
 
       }
 

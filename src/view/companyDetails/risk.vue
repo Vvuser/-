@@ -96,7 +96,11 @@
         <el-table-column prop="be_executed_person" label="被执行人" width="100"></el-table-column>
         <el-table-column prop="amount" label="股权数额" width="80"></el-table-column>
         <el-table-column prop="number" label="执行通知书文号"></el-table-column>
-        <el-table-column prop="detail.public_date" label="起止日期"></el-table-column>
+        <el-table-column prop="detail.public_date" label="起止日期">
+          <template slot-scope="scope">
+              <span>{{ scope.row.detail.freeze_start_date }} - {{ scope.row.detail.freeze_end_date }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="status" label="类型/状态"></el-table-column>
       </el-table>
     </div>

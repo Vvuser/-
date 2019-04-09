@@ -8,9 +8,13 @@
       <el-table :data="items" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="type_name" label="专利类型" width="100"></el-table-column>
-        <el-table-column prop="number" label="申请公众号" width="140"></el-table-column>
-        <el-table-column prop="first_date" label="发布日期"></el-table-column>
-        <!-- <el-table-column prop="company" label="摘要"></el-table-column> -->
+        <el-table-column prop="outhor_num" label="专利申请号" width="140"></el-table-column>
+        <el-table-column prop="outhor_date" label="发布日期"></el-table-column>
+         <el-table-column prop="patent_name" label="标题" width="340">
+           <template slot-scope="scope">
+             <p style="color: rgb(85, 123, 247); cursor: pointer;" @click="goDetail(scope.row.request_num)">{{ scope.row.patent_name }}</p>
+           </template>
+         </el-table-column>
       </el-table>
     </div>
     <div class="riska" v-show="showFlag.indexOf('3-2')>-1">
@@ -61,6 +65,10 @@ export default {
     }
   },
   methods: {
+    //详情跳转
+    goDetail(p){
+      this.$router.push({path:"/details/patentDetail",query:{p}})
+    },
     detaList() {
       var risksId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
@@ -71,15 +79,30 @@ export default {
           console.log(data.data.items)
           this.tableData = data.data.items;
           this.remarksList = data.data.items;
-          this.items = data.data.items;
         })
         .catch(error => {
           console.log(1);
         });
-    }
+    },
+    detaList1() {
+      var risksId = sessionStorage.getItem("enterpriseId");
+      this.$post("/company/invoke", {
+        url: "/patent/getPatentListById",
+        id: risksId
+      })
+        .then(data => {
+          console.log("专利",data.data.items)
+          this.items = data.data.items
+        })
+        .catch(error => {
+          console.log(1);
+        });
+    },
+
   },
   created() {
     this.detaList();
+    this.detaList1();
   }
 };
 </script>
