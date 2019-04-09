@@ -36,9 +36,9 @@
       <el-table :data="BrokenPromises" class="BrokenPromisesList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="立案时间" width="100"></el-table-column>
-        <el-table-column prop="case_number" label="案号" width="80"></el-table-column>
+        <el-table-column prop="case_number" label="案号" width="180"></el-table-column>
         <el-table-column prop="doc_number" label="执行依据文号"></el-table-column>
-        <el-table-column prop="court" label="执行法院"></el-table-column>
+        <el-table-column prop="court" label="执行法院" width="180"></el-table-column>
         <el-table-column prop="execution_status" label="被执行人履行情况"></el-table-column>
       </el-table>
     </div>
@@ -78,9 +78,9 @@
       <el-table :data="EquityPledge" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="登记日期" width="100"></el-table-column>
-        <el-table-column prop="seq_no" label="登记编号" width="80"></el-table-column>
+        <el-table-column prop="pledgor_identify_no" label="登记编号"></el-table-column>
         <el-table-column prop="pledgor" label="出质人"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="status" label="状态" width="80"></el-table-column>
       </el-table>
     </div>
     <div class="freeze" v-show="showFlag.indexOf('2-7')>-1">
@@ -104,7 +104,7 @@
     <div v-show="showFlag.indexOf('2-8')>-1">
       <el-table :data="FilInformation" class="FilInformationList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="case_No" label="案号" ></el-table-column>
+        <el-table-column prop="case_No" label="案号"></el-table-column>
         <el-table-column prop="hearing_date" label="开庭时间" width="120"></el-table-column>
         <el-table-column prop="related_items[1].role" label="身份" width="80"></el-table-column>
         <el-table-column prop="name" label="详情" width="80"></el-table-column>
@@ -174,15 +174,12 @@ export default {
         });
     },
     getBrokenPromises() {
-      var BrokenPromisesName = sessionStorage.getItem(
-        "SHANGJIAOSUOCOMPANYNAME"
-      );
       this.$post("/company/invoke", {
-        url: "/enterprise/getSeriousIllegalByName",
-        name: BrokenPromisesName
+        url: "/execution/getExecutionListById",
+        id: sessionStorage.getItem("enterpriseId")
       })
         .then(data => {
-          console.log(data);
+          console.log("失信信息",data);
           this.BrokenPromises = data.data.items;
         })
         .catch(error => {
@@ -212,7 +209,7 @@ export default {
         keyword: administrativePunishmentkeyword
       })
         .then(data => {
-          console.log(data);
+          console.log("行政处罚",data);
           this.administrativePunishment = data.data.items;
         })
         .catch(error => {
@@ -226,7 +223,7 @@ export default {
         name: EquityPledgeName
       })
         .then(data => {
-          console.log(data);
+          console.log("股权出质",data);
           this.EquityPledge = data.data.items;
         })
         .catch(error => {

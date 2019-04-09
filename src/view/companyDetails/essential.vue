@@ -62,7 +62,7 @@
         <el-table-column prop="stock_type" label="发起人/股东类型" width="150"></el-table-column>
         <el-table-column prop="name" label="发起人/股东" width="215">
           <template slot-scope="scope">
-            <a href="javascript:;" style="color: #606266" @click="Enterdetails(scope.row.name,scope.row.stock_type)">{{ scope.row.name }}</a>
+            <p style="color: rgb(85, 123, 247); cursor: pointer;" @click="Enterdetails(scope.row.name,scope.row.stock_type)">{{ scope.row.name }}</p>
           </template>
         </el-table-column>
         <el-table-column prop="total_should_capi" label="认缴出资(金额/时间)" width="217"></el-table-column>
