@@ -143,21 +143,20 @@ export default {
       console.log(name,type);
       if(name.indexOf('公司'>0)){
         this.$post("/company/invoke", {
-          url: "/enterprise/getBranchByName",
+          url: "/enterprise/getIdByName",
           keyword: name,
-          skip:0
         })
-        .then(data => {
-          console.log('企业详情',data);
+        .then(res => {
+          console.log('企业详情',res);
+          if(res.data.hasOwnProperty("id")){
+            sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME",name)
+            sessionStorage.setItem("enterpriseId", res.data.id)
+            this.$router.go(0)
+            /*this.$router.push({
+              path:'/companyDetails'
+            })*/
+          }
         })
-        .catch(err => {
-          console.log('企业详情',err);
-        })
-        /*sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
-        sessionStorage.setItem("enterpriseId", item.companyid)
-        this.$router.push({
-          path:'/companyDetails/essential'
-        })*/
       }else{
 
       }
@@ -180,7 +179,6 @@ export default {
           console.log(this.tableDeta);
         })
         .catch(error => {
-          console.log(1);
         });
     }
   },

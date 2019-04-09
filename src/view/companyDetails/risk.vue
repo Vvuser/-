@@ -27,8 +27,8 @@
       <el-table :data="hookList" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="发布时间" width="100"></el-table-column>
-        <el-table-column prop="type" label="公告类型" width="80"></el-table-column>
-        <el-table-column prop="title" label="公告内容"></el-table-column>
+        <el-table-column prop="type" label="公告类型" width="130"></el-table-column>
+        <el-table-column prop="content" label="公告内容"></el-table-column>
       </el-table>
     </div>
     <div class="BrokenPromises" v-show="showFlag.indexOf('2-3')>-1">
@@ -182,8 +182,21 @@ export default {
         id: riskId
       })
         .then(data => {
-          console.log("法院公告", data);
+          console.log("判决文书", data);
           this.tableData = data.data.items;
+        })
+        .catch(error => {
+          console.log(1);
+        });
+    },
+    detaList2() {
+      var riskId = sessionStorage.getItem("enterpriseId");
+      this.$post("/company/invoke", {
+        url: "/notice/getNoticeListById",
+        id: riskId
+      })
+        .then(data => {
+          console.log("法院公告", data);
           this.hookList = data.data.items;
         })
         .catch(error => {
@@ -292,6 +305,7 @@ export default {
   },
   created() {
     this.detaList();
+    this.detaList2();
     this.getBrokenPromises();
     this.getBusiness();
     this.getadministrativePunishment();
