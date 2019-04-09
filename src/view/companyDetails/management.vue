@@ -13,7 +13,9 @@
         <el-table-column prop="endDate" label="有效期至" width="120"></el-table-column>
         <el-table-column prop="department" label="许可机关" width="98"></el-table-column>
         <el-table-column label="详情" width="80">
-          <template>详情</template>
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;" @click="detail(scope.row)">详情</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -25,7 +27,11 @@
       <el-table :data="tableData2" border class="creditRatingTable">
         <el-table-column prop="finance_date" label="融资时间" width="140"></el-table-column>
         <el-table-column prop="financing_round" label="融资轮次" width="140"></el-table-column>
-        <el-table-column prop="financing_amount" label="融资金额" width="140" @></el-table-column>
+        <el-table-column label="融资金额" width="140" @>
+          <template slot-scope="scope">
+            <span>{{scope.row.financing_amount[0] == 0?"未披露":scope.row.financing_amount}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="names" label="投资方"></el-table-column>
       </el-table>
     </div>
@@ -55,6 +61,30 @@
         <el-table-column prop="credit_no" label="纳税人识别号" width="283"></el-table-column>
       </el-table>
     </div>
+    <el-dialog title="行政许可详情" :visible.sync="dialogVisible" width="40%" center>
+      <table>
+        <tr>
+          <td class="left">许可文件标号</td>
+          <td class="right">{{item.number}}</td>
+          <td class="left">许可文件名称</td>
+          <td class="right">{{item.name}}</td>
+        </tr>
+        <tr>
+          <td class="left">有效期自</td>
+          <td class="right">{{item.startDate}}</td>
+          <td class="left">有效期至</td>
+          <td class="right">{{item.endDate}}</td>
+        </tr>
+        <tr>
+          <td class="left">许可机关</td>
+          <td colspan="3" class="right">{{item.department}}</td>
+        </tr>
+        <tr>
+          <td class="left">许可内容</td>
+          <td colspan="3" class="right">{{item.content}}</td>
+        </tr>
+      </table>
+    </el-dialog>
   </div>
 </template>
 
@@ -64,20 +94,27 @@ export default {
     return {
       tableData: [],
       tableData1: [],
-	  tableData2: [],
-	  tableData3: [],
+      tableData2: [],
+      tableData3: [],
       credit_no: 0,
-      name: ""
+      name: "",
+      item: {},
+      dialogVisible: false
     };
   },
-  props:{
-    showFlag:{
-      default(){
-        return ['5-1','5-2','5-3','5-4']
+  props: {
+    showFlag: {
+      default() {
+        return ["5-1", "5-2", "5-3", "5-4"];
       }
     }
   },
   methods: {
+    // 详情
+    detail(item) {
+      this.dialogVisible = true
+      this.item = item;
+    },
     // 获取行政许可
     init() {
       let id = sessionStorage.getItem("enterpriseId");
@@ -137,8 +174,8 @@ export default {
         id: id
       })
         .then(data => {
-		  console.log(data);
-		  this.tableData3 = data.data.items
+          console.log(data);
+          this.tableData3 = data.data.items;
         })
         .catch(error => {
           console.log(error);
@@ -152,6 +189,24 @@ export default {
 </script>
 
 <style scoped>
+table{
+  width: 100%;
+  height: 200px;
+}
+td{
+  border: 1px solid #dedede;
+}
+.left{
+  color: #c1c6d0;
+  width: 105px;
+  height: 32px;
+  background: #fcfcfc;
+  padding-left: 10px;
+}
+.right{
+  padding-left: 10px;
+  color: #919398;
+}
 .Administrative {
   margin-left: 30px;
   margin-top: 20px;

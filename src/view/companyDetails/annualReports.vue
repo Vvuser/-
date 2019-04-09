@@ -76,15 +76,20 @@
     </div>
     <div v-show="showFlag.indexOf('4-3')>-1">
       <el-table :data="obj.partners" border class="annualReportsIntertable2">
-        <el-table-column prop="stock_name" label="股东" width="250"></el-table-column>
+        <el-table-column prop="stock_name" label="股东" width="100"></el-table-column>
         <el-table-column prop="real_capi_items[0].real_capi" label="认缴出资额(万元)" width="130"></el-table-column>
         <el-table-column
           prop="should_capi_items[0].should_capi_date"
           label="认缴出资时间"
           width="110"
         ></el-table-column>
+<<<<<<< HEAD
         <el-table-column prop="real_capi_items[0].real_capi" label="实缴出资额(万元)" width="130"></el-table-column>
         <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间" width="80"></el-table-column>
+=======
+        <el-table-column prop="real_capi_items[0].real_capi" label="实资缴出额(万元)" width="130"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间"></el-table-column>
+>>>>>>> 96d85111461ddf3a5df59723ae5cd1fdc43d6db3
         <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="99"></el-table-column>
       </el-table>
     </div>
