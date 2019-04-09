@@ -5,9 +5,8 @@ import { Loading } from 'element-ui';
 import store from '../store/';
 
 axios.defaults.timeout = 200000;
-axios.defaults.baseURL ='/firm';
-// axios.defaults.baseURL ='http://120.92.76.237:8888/firm/';
-// axios.defaults.baseURL ='http://120.92.76.237:8888/firm/';
+// axios.defaults.baseURL ='/firm';
+axios.defaults.baseURL ='http://120.92.76.237:8888/firm/'
 
 let loading
 //http request 拦截器
