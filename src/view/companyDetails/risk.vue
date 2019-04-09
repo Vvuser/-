@@ -2,7 +2,7 @@
   <div>
     <div class="risk" v-show="showFlag.indexOf('2-1')>-1">
       <div class="titles"></div>
-      <span class="weni">裁判文书</span>
+      <span class="weni">判决文书</span>
     </div>
     <div v-show="showFlag.indexOf('2-1')>-1">
       <el-table :data="tableData" class="tableList" border>

@@ -214,6 +214,7 @@ export default {
 }
 
 .basicInformationTableth3 {
+  z-index: 1;
   width: 224px;
   color: #838895;
   border: 1px solid #ececf5;
@@ -225,6 +226,7 @@ export default {
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  background: #fcfcff;
 }
 .basicInformationTableth5 {
   width: 700px;
@@ -238,6 +240,7 @@ export default {
   color: #838895;
   border: 1px solid #ececf5;
   padding: 20px 41px;
+  background: #fcfcff;
 }
 .basicInformationTableth7 {
   width: 700px;
