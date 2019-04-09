@@ -152,9 +152,13 @@ export default {
      * 查询收藏
      */
     searhCollect() {
-      this.$get(`/companykeep/delete/${this.cId}`).then(res => {
-        this.collectFlag = false
-        this.$message.success("取消收藏成功")
+      this.$get(`/companykeep/getcompany/${this.cId}`).then(res => {
+        console.log("查询收藏",res);
+        if(res.data.length>0){
+            this.collectFlag = false
+        }else {
+          this.collectFlag = true
+        }
       });
     },
     /**
@@ -226,7 +230,6 @@ export default {
          this.dataListStatuest = data.data.history_names;
        })
        .catch(error => {
-         console.log(1);
        });
     }
   },
