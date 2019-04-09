@@ -85,9 +85,15 @@
       <el-table :data="EquityPledge" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="登记日期" width="100"></el-table-column>
-        <el-table-column prop="pledgor_identify_no" label="登记编号"></el-table-column>
+        <el-table-column prop="number" label="登记编号" width="200"></el-table-column>
         <el-table-column prop="pledgor" label="出质人"></el-table-column>
+        <el-table-column prop="pawnee" label="质权人"></el-table-column>
         <el-table-column prop="status" label="状态" width="80"></el-table-column>
+        <el-table-column label="详情" width="80">
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;" @click="equityPledgedetail(scope.row)">详情</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="freeze" v-show="showFlag.indexOf('2-7')>-1">
@@ -106,6 +112,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="status" label="类型/状态"></el-table-column>
+        <el-table-column label="详情" width="80">
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;" @click="freezedetail(scope.row)">详情</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="FilInformation" v-show="showFlag.indexOf('2-8')>-1">
@@ -258,7 +269,118 @@
           <td class="right">{{item3.number}}</td>
         </tr> -->
       </table>
-
+    </el-dialog>
+     <el-dialog title="股权出质详情" :visible.sync="EquityPledgeDialog" width="50%" center>
+      <table>
+        <table>
+        <tr>
+          <td class="left">登记编号</td>
+          <td class="right">{{EquityPledgeItem.number}}</td>
+          <td class="left">状态</td>
+          <td class="right">{{EquityPledgeItem.status}}</td>
+        </tr>
+        <tr>
+          <td class="left">出质人</td>
+          <td class="right">{{EquityPledgeItem.pledgor}}</td>
+          <td class="left">出质股权数</td>
+          <td class="right">{{EquityPledgeItem.pledgor_amount}}</td>
+        </tr>
+        <tr>
+          <td class="left">出质人证件号码</td>
+          <td class="right">{{EquityPledgeItem.pledgor_identify_no}}</td>
+          <td class="left">质权人</td>
+          <td class="right">{{EquityPledgeItem.pawnee}}</td>
+        </tr>
+        <tr>
+          <td class="left">质权人证件号码</td>
+          <td class="right">{{EquityPledgeItem.pawnee_identify_no}}</td>
+          <td class="left">登记日期</td>
+          <td class="right">{{EquityPledgeItem.date}}</td>
+        </tr>
+        <tr>
+          <td class="left">备注</td>
+          <td colspan="3" class="right">{{EquityPledgeItem.remark}}</td>
+        </tr>
+      </table>
+      </table>
+      
+    </el-dialog>
+    <el-dialog title="股权冻结详情" :visible.sync="freezeDialog" width="50%" center>
+      <br><p>冻结情况</p><br>
+      <table>
+        <tr>
+          <td class="left">执行法院</td>
+          <td class="right">{{freezeItem.detail.execute_court}}</td>
+          <td class="left">执行事项</td>
+          <td class="right">{{freezeItem.detail.assist_item}}</td>
+        </tr>
+        <tr>
+          <td class="left">执行裁定文书</td>
+          <td class="right">{{freezeItem.detail.notice_no}}</td>
+          <td class="left">执行通知文书号</td>
+          <td class="right">{{freezeItem.detail.adjudicate_no}}</td>
+        </tr>
+        <tr>
+          <td class="left">被执行人</td>
+          <td class="right">{{freezeItem.detail.assist_name}}</td>
+          <td class="left">被执行人持有股权丶其它投资权益的数额</td>
+          <td class="right">{{freezeItem.detail.freeze_amount}}</td>
+        </tr>
+        <tr>
+          <td class="left">被执行人证件种类</td>
+          <td class="right">{{freezeItem.detail.assist_ident_type}}</td>
+          <td class="left">被执行人证件号码</td>
+          <td class="right">{{freezeItem.detail.assist_ident_no}}</td>
+        </tr>
+        <tr>
+          <td class="left">冻结期限自</td>
+          <td class="right">{{freezeItem.detail.freeze_start_date}}</td>
+          <td class="left">冻结期限至</td>
+          <td class="right">{{freezeItem.detail.freeze_end_date}}</td>
+        </tr>
+        <tr>
+          <td class="left">冻结期限</td>
+          <td class="right">{{freezeItem.detail.freeze_year_month}}</td>
+          <td class="left">公示日期</td>
+          <td class="right">{{freezeItem.detail.public_date}}</td>
+        </tr>
+      </table>
+      <br><p>解冻情况</p><br>
+      <table>
+        <tr>
+          <td class="left">执行裁定文书</td>
+          <td class="right">{{freezeItem.detail.notice_no}}</td>
+          <td class="left">执行通知文书号</td>
+          <td class="right">{{freezeItem.detail.adjudicate_no}}</td>
+        </tr>
+        <tr>
+          <td class="left">被执行人</td>
+          <td class="right">{{freezeItem.detail.assist_name}}</td>
+          <td class="left">被执行人持有股权丶其它投资权益的数额</td>
+          <td class="right">{{freezeItem.detail.freeze_amount}}</td>
+        </tr>
+        <tr>
+          <td class="left">被执行人证件种类</td>
+          <td class="right">{{freezeItem.detail.assist_ident_type}}</td>
+          <td class="left">被执行人证件号码</td>
+          <td class="right">{{freezeItem.detail.assist_ident_no}}</td>
+        </tr>
+        <tr>
+          <td class="left">冻结期限</td>
+          <td class="right">{{freezeItem.detail.freeze_year_month}}</td>
+          <td class="left">公示日期</td>
+          <td class="right">{{freezeItem.detail.public_date}}</td>
+        </tr>
+      </table>
+      <br><p>失效情况</p><br>
+      <table style="height:50px">
+        <tr>
+          <td class="left">失效时间</td>
+          <td class="right">{{freezeItem.lose_efficacy.date}}</td>
+          <td class="left">失效原因</td>
+          <td class="right">{{freezeItem.lose_efficacy.reason}}</td>
+        </tr>
+      </table>
     </el-dialog>
   </div>
 </template>
@@ -297,6 +419,29 @@ export default {
       dialogVisible1:false,
       dialogVisible2:false,
       dialogVisible3:false,
+      EquityPledgeItem:{},
+      EquityPledgeDialog: false,
+      freezeItem: {
+        detail:{
+          execute_court:"",
+          assist_item:"",
+          notice_no:"",
+          adjudicate_no:"",
+          assist_name:"",
+          freeze_amount:"",
+          assist_ident_type:"",
+          assist_ident_no:"",
+          freeze_start_date:"",
+          freeze_end_date:"",
+          freeze_year_month:"",
+          public_date:""
+        },
+        lose_efficacy:{
+          date:"",
+          reason:""
+        }
+      },
+      freezeDialog:false
     };
   },
   props: {
@@ -307,6 +452,14 @@ export default {
     }
   },
   methods: {
+    freezedetail(item){
+      this.freezeDialog = true
+      this.freezeItem = item
+    },
+    equityPledgedetail(item){
+      this.EquityPledgeDialog = true
+      this.EquityPledgeItem = item
+    },
     detail(item) {
       this.dialogVisible1 = true
       this.item = item
