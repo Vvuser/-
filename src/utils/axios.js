@@ -29,10 +29,8 @@ axios.interceptors.request.use(
   },
   error => {
     loading.close()
-    Message.error("加载失败")
     store.commit("setStatus",1)
     return Promise.reject(error);
-
   }
 );
 
@@ -56,10 +54,8 @@ axios.interceptors.response.use(
   },
   error => {
     loading.close()
-    Message.error("加载失败")
     store.commit("setStatus",1)
     return Promise.reject(error)
-
   }
 )
 

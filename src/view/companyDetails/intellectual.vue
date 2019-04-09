@@ -39,12 +39,45 @@
     <div v-show="showFlag.indexOf('3-3')>-1">
       <el-table :data="remarksList" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="type_name" label="证书类型" width="200"></el-table-column>
-        <el-table-column prop="type_num" label="证书编号" width="150"></el-table-column>
-        <el-table-column prop="first_date" label="发证日期" width="120"></el-table-column>
-        <el-table-column prop="company" label="备注"></el-table-column>
+        <el-table-column prop="type" label="证书类型" width="200"></el-table-column>
+        <el-table-column prop="num" label="证书编号" width="150"></el-table-column>
+        <el-table-column prop="issue_date" label="发证日期" width="120"></el-table-column>
+        <el-table-column prop="remarks" label="备注">
+          <template slot-scope="scope">
+            <span style="display: inline-block;max-height: 42px;overflow: hidden">{{scope.row.remarks}}</span>
+            <p style="color:#557bf7;cursor: pointer;" @click="detail2(scope.row)">详情</p>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
+    <el-dialog title="资质认证详情" :visible.sync="dialogVisible2" width="40%" center>
+      <table>
+        <tr>
+          <td class=left>发证日期</td>
+          <td class="right">{{item2.issue_date}}</td>
+        </tr>
+        <tr>
+          <td class=left>证书类型</td>
+          <td class="right">{{item2.type}}</td>
+        </tr>
+        <tr>
+          <td class=left>截至日期</td>
+          <td class="right">{{item2.validity_end}}</td>
+        </tr>
+        <tr>
+          <td class=left>证书编号</td>
+          <td class="right">{{item2.num}}</td>
+        </tr>
+        <tr>
+          <td class=left>状态</td>
+          <td class="right">{{item2.status}}</td>
+        </tr>
+        <tr>
+          <td class=left>备注</td>
+          <td class="right">{{item2.remarks}}</td>
+        </tr>
+      </table>
+    </el-dialog>
   </div>
 </template>
 
@@ -54,7 +87,9 @@ export default {
     return {
       tableData: [],
       items: [],
-      remarksList: []
+      item2: [],
+      remarksList: [],
+      dialogVisible2:false
     };
   },
   props:{
@@ -65,6 +100,18 @@ export default {
     }
   },
   methods: {
+    detail2(item) {
+      this.dialogVisible2 = true
+      this.item2 = item
+      /*this.$post("/company/invoke", {
+        url: "/case/getCaseDetailById",
+        id:item.case_id
+      }).then(res => {
+        console.log('立案详情',res);
+        this.item2 = res.data
+      });*/
+
+    },
     //详情跳转
     goDetail(p){
       this.$router.push({path:"/details/patentDetail",query:{p}})
@@ -76,8 +123,20 @@ export default {
         id: risksId
       })
         .then(data => {
-          console.log(data.data.items)
           this.tableData = data.data.items;
+        })
+        .catch(error => {
+          console.log(1);
+        });
+    },
+    detaList2() {
+      var risksId = sessionStorage.getItem("enterpriseId");
+      this.$post("/company/invoke", {
+        url: "/certificate/getCertificateById",
+        id: risksId
+      })
+        .then(data => {
+          console.log("认证资质",data.data.items)
           this.remarksList = data.data.items;
         })
         .catch(error => {
@@ -103,11 +162,31 @@ export default {
   created() {
     this.detaList();
     this.detaList1();
+    this.detaList2();
+
   }
 };
 </script>
 
 <style scoped>
+  table{
+    width: 100%;
+    height: 200px;
+  }
+  td{
+    border: 1px solid #dedede;
+  }
+  .left{
+    color: #c1c6d0;
+    width: 105px;
+    height: 32px;
+    background: #fcfcfc;
+    padding-left: 10px;
+  }
+  .right{
+    padding-left: 10px;
+    color: #919398;
+  }
 .risk {
   margin-left: 26px;
   margin-top: 15px;

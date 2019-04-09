@@ -67,10 +67,10 @@
       <el-table :data="administrativePunishment" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="处罚日期" width="100"></el-table-column>
-        <el-table-column prop="number" label="处决文书号" width="80"></el-table-column>
+        <el-table-column prop="number" label="处决文书号" width="180"></el-table-column>
         <el-table-column prop="content" label="处罚内容"></el-table-column>
         <el-table-column prop="department" label="处罚机关"></el-table-column>
-        <el-table-column label="详情">
+        <el-table-column label="详情" width="80">
           <template slot-scope="scope">
             <span style="color:#557bf7;cursor: pointer;" @click="detail(scope.row)">详情</span>
           </template>
@@ -117,8 +117,12 @@
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="case_No" label="案号"></el-table-column>
         <el-table-column prop="hearing_date" label="开庭时间" width="120"></el-table-column>
-        <el-table-column prop="related_items[1].role" label="身份" width="80"></el-table-column>
-        <el-table-column prop="name" label="详情" width="80"></el-table-column>
+        <el-table-column prop="related_items[0].role" label="身份" width="80"></el-table-column>
+        <el-table-column prop="name" label="详情" width="80">
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;" @click="detail2(scope.row)">详情</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="hearingAnnouncement" v-show="showFlag.indexOf('2-9')>-1">
@@ -132,7 +136,11 @@
         <el-table-column prop="case_reason" label="案由" width="140"></el-table-column>
         <el-table-column prop="plaintiff" label="原告/上诉人" width="160"></el-table-column>
         <el-table-column prop="defendant" label="被告/被上诉人" width="160"></el-table-column>
-        <el-table-column prop label="详情"></el-table-column>
+        <el-table-column prop label="详情">
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;" @click="detail3(scope.row)">详情</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <el-dialog :title="details.title" :visible.sync="dialogVisible" width="50%" center>
@@ -174,6 +182,84 @@
       </table>
       
     </el-dialog>
+    <el-dialog title="立案信息详情" :visible.sync="dialogVisible2" width="40%" center>
+      <table>
+        <tr>
+          <td class=left>案号</td>
+          <td class="right">{{item2.case_no}}</td>
+        </tr>
+         <tr>
+          <td class=left>承办法官</td>
+          <td class="right">{{item2.agent}}</td>
+        </tr>
+         <tr>
+          <td class=left>法官助理</td>
+          <td class="right">{{item2.assistant}}</td>
+        </tr>
+         <tr>
+          <td class=left>立案时间</td>
+          <td class="right">{{item2.start_date}}</td>
+        </tr>
+         <tr>
+          <td class=left>开庭时间</td>
+          <td class="right">{{item2.hearing_date}}</td>
+        </tr>
+         <tr>
+          <td class=left>结束时间</td>
+          <td class="right">{{item2.end_date}}</td>
+        </tr>
+          <tr>
+          <td class=left>案件状态</td>
+          <td class="right">{{item2.case_status}}</td>
+        </tr>
+        <tr>
+          <td class=left>被告</td>
+          <td class="right">{{item2.related_items[0].items[0].name}}</td>
+        </tr>
+        <tr>
+          <td class=left>原告</td>
+          <td class="right">{{item2.related_items[1].items[0].name}}</td>
+        </tr>
+      </table>
+
+    </el-dialog>
+    <el-dialog title="开庭公告详情" :visible.sync="dialogVisible3" width="40%" center>
+      <table>
+        <tr>
+          <td class=left>开庭日期</td>
+          <td class="right">{{item3.hearing_date}}</td>
+        </tr>
+         <tr>
+          <td class=left>案号</td>
+          <td class="right">{{item3.case_no}}</td>
+        </tr>
+         <tr>
+          <td class=left>案由</td>
+          <td class="right">{{item3.case_reason}}</td>
+        </tr>
+         <tr>
+          <td class=left>承办部门</td>
+          <td class="right">{{item3.court}}</td>
+        </tr>
+         <tr>
+          <td class=left>审判长/主审人</td>
+          <td class="right">{{item3.judge}}</td>
+        </tr>
+         <tr>
+          <td class=left>原告/上诉人</td>
+          <td class="right">{{item3.plaintiff}}</td>
+        </tr>
+         <tr>
+          <td class=left>被告/上诉人</td>
+          <td class="right">{{item3.defendant}}</td>
+        </tr>
+         <!-- <tr>
+          <td class=left>处罚依据</td>
+          <td class="right">{{item3.number}}</td>
+        </tr> -->
+      </table>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -193,7 +279,24 @@ export default {
       details: {},
       dialogVisible:false,
       item:{},
-      dialogVisible1:false
+      item2:{
+        related_items:[
+          {
+            items:[
+              {name:'1'}
+            ]
+          },
+          {
+            items:[
+              {name:'1'}
+            ]
+          }
+        ]
+      },
+      item3:{},
+      dialogVisible1:false,
+      dialogVisible2:false,
+      dialogVisible3:false,
     };
   },
   props: {
@@ -207,6 +310,21 @@ export default {
     detail(item) {
       this.dialogVisible1 = true
       this.item = item
+    },
+    detail2(item) {
+      this.dialogVisible2 = true
+      this.$post("/company/invoke", {
+        url: "/case/getCaseDetailById",
+        id:item.case_id
+      }).then(res => {
+        console.log('立案详情',res);
+        this.item2 = res.data
+      });
+
+    },
+    detail3(item) {
+      this.dialogVisible3 = true
+      this.item3 = item
     },
     getDetail(id) {
       this.$post("/company/invoke", {

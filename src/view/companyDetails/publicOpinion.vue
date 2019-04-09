@@ -74,23 +74,28 @@
           keyWord :  sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME'),
           pageSize: this.pageSize,
           pageNo:this.currentPage,
-          ysType: 0
+          ysType: 0,
+          tableType:1
         };
         switch(this.activeNavItem){
           case "成果奖励":
             obj.keyWord =  `((\"${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')}\") AND (奖励))`
+            obj.tableType=2
             //语句
             break;
           case "处罚信息" :
             obj.keyWord =  `((\"${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')}\") AND (处罚))`
+            obj.tableType=3
             //语句
             break;
           case "正面信息":
             obj.sentimentId = 1
+            obj.tableType=4
             //语句
             break;
           case "负面信息" :
             obj.sentimentId = -1
+            obj.tableType=5
             //语句
             break;
           default :
