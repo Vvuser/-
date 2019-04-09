@@ -70,7 +70,11 @@
         <el-table-column prop="number" label="处决文书号" width="80"></el-table-column>
         <el-table-column prop="content" label="处罚内容"></el-table-column>
         <el-table-column prop="department" label="处罚机关"></el-table-column>
-        <el-table-column prop="description" label="详情"></el-table-column>
+        <el-table-column label="详情">
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;" @click="detail(scope.row)">详情</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="EquityPledge" v-show="showFlag.indexOf('2-6')>-1">
@@ -137,6 +141,39 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="行政处罚详情" :visible.sync="dialogVisible1" width="40%" center>
+      <table>
+        <tr>
+          <td class=left>决定文书号</td>
+          <td class="right">{{item.number}}</td>
+        </tr>
+         <tr>
+          <td class=left>处罚类型</td>
+          <td class="right">{{item.illegal_type}}</td>
+        </tr>
+         <tr>
+          <td class=left>处罚机关</td>
+          <td class="right">{{item.department}}</td>
+        </tr>
+         <tr>
+          <td class=left>处罚日期</td>
+          <td class="right">{{item.date}}</td>
+        </tr>
+         <tr>
+          <td class=left>公示日期</td>
+          <td class="right">{{item.publish_date}}</td>
+        </tr>
+         <tr>
+          <td class=left>处罚内容</td>
+          <td class="right">{{item.content}}</td>
+        </tr>
+         <!-- <tr>
+          <td class=left>处罚依据</td>
+          <td class="right">{{item.number}}</td>
+        </tr> -->
+      </table>
+      
+    </el-dialog>
   </div>
 </template>
 
@@ -154,7 +191,9 @@ export default {
       FilInformation: [], //立案信息id /case/getCaseListById
       hearingAnnouncement: [], //开庭公告id courtnotice/getCourtNoticeByName
       details: {},
-      dialogVisible:false
+      dialogVisible:false,
+      item:{},
+      dialogVisible1:false
     };
   },
   props: {
@@ -165,6 +204,10 @@ export default {
     }
   },
   methods: {
+    detail(item) {
+      this.dialogVisible1 = true
+      this.item = item
+    },
     getDetail(id) {
       this.$post("/company/invoke", {
         url: "/lawsuit/getLawsuitDetail",
@@ -304,6 +347,24 @@ export default {
 </script>
 
 <style scoped>
+table{
+  width: 100%;
+  height: 200px;
+}
+td{
+  border: 1px solid #dedede;
+}
+.left{
+  color: #c1c6d0;
+  width: 105px;
+  height: 32px;
+  background: #fcfcfc;
+  padding-left: 10px;
+}
+.right{
+  padding-left: 10px;
+  color: #919398;
+}
 .risk {
   margin-left: 26px;
   margin-top: 15px;
