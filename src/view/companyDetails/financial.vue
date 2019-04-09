@@ -60,8 +60,8 @@
 			getFinacilcalMessage() {
 				let id = sessionStorage.getItem("enterpriseId")
 				this.$post('/company/invoke',{
-					url: '/reports/getYearIncomeById',
-					id: sessionStorage.getItem("enterpriseId") || ""
+					url: '/reports/getYearIncomeByName',
+					keyword: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME") || ""
 				}).then(data => {
 				  console.log(data)
 				  this.obj = data.data || {}

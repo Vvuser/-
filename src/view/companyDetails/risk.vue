@@ -9,7 +9,11 @@
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="date" label="判决时间" width="100"></el-table-column>
         <el-table-column prop="type" label="案件类型" width="80"></el-table-column>
-        <el-table-column prop="title" label="案件详情"></el-table-column>
+        <el-table-column label="案件结果">
+          <template slot-scope="scope">
+            <span style="color:#557bf7;cursor: pointer;">{{scope.row.title}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="riskn" v-show="showFlag.indexOf('2-2')>-1">
@@ -146,6 +150,14 @@ export default {
     }
   },
   methods: {
+    getDetail(id){
+      this.$post("/company/invoke",{
+        url: "/lawsuit/getLawsuitDetail",
+        id
+      }).then(res => {
+        console.log(res)
+      })
+    },
     detaList() {
       var riskId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
@@ -178,10 +190,10 @@ export default {
         });
     },
     getBusiness() {
-      var BusinessId = sessionStorage.getItem("enterpriseId");
+      var name = sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME");
       this.$post("/company/invoke", {
         url: "/v2/abnormal/getAbnormalListByName",
-        id: BusinessId
+        name: name
       })
         .then(data => {
           console.log(data);
@@ -211,7 +223,7 @@ export default {
       var EquityPledgeName = sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME");
       this.$post("/company/invoke", {
         url: "/v2/equityPledge/getEquityQualitiesByName",
-        keyword: EquityPledgeName
+        name: EquityPledgeName
       })
         .then(data => {
           console.log(data);
