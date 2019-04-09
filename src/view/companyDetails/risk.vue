@@ -11,7 +11,10 @@
         <el-table-column prop="type" label="案件类型" width="80"></el-table-column>
         <el-table-column label="案件结果">
           <template slot-scope="scope">
-            <span style="color:#557bf7;cursor: pointer;">{{scope.row.title}}</span>
+            <span
+              @click="getDetail(scope.row.id)"
+              style="color:#557bf7;cursor: pointer;"
+            >{{scope.row.title}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -104,7 +107,7 @@
     <div v-show="showFlag.indexOf('2-8')>-1">
       <el-table :data="FilInformation" class="FilInformationList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="case_No" label="案号" ></el-table-column>
+        <el-table-column prop="case_No" label="案号"></el-table-column>
         <el-table-column prop="hearing_date" label="开庭时间" width="120"></el-table-column>
         <el-table-column prop="related_items[1].role" label="身份" width="80"></el-table-column>
         <el-table-column prop="name" label="详情" width="80"></el-table-column>
@@ -121,9 +124,15 @@
         <el-table-column prop="case_reason" label="案由" width="140"></el-table-column>
         <el-table-column prop="plaintiff" label="原告/上诉人" width="160"></el-table-column>
         <el-table-column prop="defendant" label="被告/被上诉人" width="160"></el-table-column>
-        <el-table-column prop="" label="详情"></el-table-column>
+        <el-table-column prop label="详情"></el-table-column>
       </el-table>
     </div>
+    <el-dialog :title="details.title" :visible.sync="dialogVisible" width="50%" center>
+      <p class="content" v-html="details.content"></p>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -139,24 +148,28 @@ export default {
       EquityPledge: [], //股权出质name v2/equityPledge/getEquityQualitiesByName
       freeze: [], //冻结name v2/judicialFreeze/getJudicialFreezeByName
       FilInformation: [], //立案信息id /case/getCaseListById
-      hearingAnnouncement: [] //开庭公告id courtnotice/getCourtNoticeByName
+      hearingAnnouncement: [], //开庭公告id courtnotice/getCourtNoticeByName
+      details: {},
+      dialogVisible:false
     };
   },
-  props:{
-    showFlag:{
-      default(){
-        return ['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8','2-9']
+  props: {
+    showFlag: {
+      default() {
+        return ["2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9"];
       }
     }
   },
   methods: {
-    getDetail(id){
-      this.$post("/company/invoke",{
+    getDetail(id) {
+      this.dialogVisible = true
+      this.$post("/company/invoke", {
         url: "/lawsuit/getLawsuitDetail",
         id
       }).then(res => {
-        console.log(res)
-      })
+        console.log(res);
+        this.details = res.data
+      });
     },
     detaList() {
       var riskId = sessionStorage.getItem("enterpriseId");
@@ -165,7 +178,7 @@ export default {
         id: riskId
       })
         .then(data => {
-          console.log("法院公告",data);
+          console.log("法院公告", data);
           this.tableData = data.data.items;
           this.hookList = data.data.items;
         })
@@ -240,7 +253,7 @@ export default {
         name: freezeName
       })
         .then(data => {
-          console.log('股权冻结',data);
+          console.log("股权冻结", data);
           this.freeze = data.data.items;
         })
         .catch(error => {
@@ -254,7 +267,7 @@ export default {
         id: FilInformationId
       })
         .then(data => {
-          console.log("立案信息",data);
+          console.log("立案信息", data);
           this.FilInformation = data.data.items;
         })
         .catch(error => {
@@ -268,7 +281,7 @@ export default {
         name: freezeName
       })
         .then(data => {
-          console.log("开庭公告",data);
+          console.log("开庭公告", data);
           this.hearingAnnouncement = data.data.items;
         })
         .catch(error => {
@@ -289,7 +302,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .risk {
   margin-left: 26px;
   margin-top: 15px;
@@ -319,11 +332,11 @@ export default {
   margin-left: 26px;
   margin-top: 20px;
 }
-.wenik{
+.wenik {
   font-weight: bold;
   color: #838895;
 }
-.weni{
+.weni {
   font-weight: bold;
   color: #838895;
 }
