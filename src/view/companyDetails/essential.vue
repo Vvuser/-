@@ -60,9 +60,13 @@
     <div v-show="showFlag.indexOf('1-2')>-1">
       <el-table :data="dbckop" border class="originatorTable">
         <el-table-column prop="stock_type" label="发起人/股东类型" width="150"></el-table-column>
-        <el-table-column prop="name" label="发起人/股东" width="215"></el-table-column>
-        <el-table-column prop="should_capi_items.shoud_capi" label="认缴出资(金额/时间)" width="217"></el-table-column>
-        <el-table-column prop="real_capi_items.real_capi" label="实缴出资(金额/时间)" width="217"></el-table-column>
+        <el-table-column prop="name" label="发起人/股东" width="215">
+          <template slot-scope="scope">
+            <a href="javascript:;" style="color: #606266" @click="Enterdetails(scope.row.name,scope.row.stock_type)">{{ scope.row.name }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column prop="total_should_capi" label="认缴出资(金额/时间)" width="217"></el-table-column>
+        <el-table-column prop="total_real_capi" label="实缴出资(金额/时间)" width="217"></el-table-column>
       </el-table>
     </div>
     <div class="mainStaff" v-show="showFlag.indexOf('1-3')>-1">
@@ -132,6 +136,21 @@ export default {
     }
   },
   methods: {
+    /**
+     * 进入企业详情页
+     */
+    Enterdetails(name,type) {
+      if(type=="自然人股东"){
+        sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME", item.name)
+        sessionStorage.setItem("enterpriseId", item.companyid)
+        this.$router.push({
+          path:'/companyDetails/essential'
+        })
+      }else if(type=="法人股东"){
+
+      }
+
+    },
     detaList() {
       var basicInformationId = sessionStorage.getItem("enterpriseId");
       this.$post("/company/invoke", {
@@ -146,7 +165,6 @@ export default {
           this.conList = data.data.employees;
           this.tableList = data.data.changerecords;
           this.tableDeta = data.data;
-          console.log(785144081);
           console.log(this.tableDeta);
         })
         .catch(error => {
