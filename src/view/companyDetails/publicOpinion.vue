@@ -78,11 +78,11 @@
         };
         switch(this.activeNavItem){
           case "成果奖励":
-            obj.keyWord =  `${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')} OR 奖励`
+            obj.keyWord =  `((\"${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')}\") AND (奖励))`
             //语句
             break;
           case "处罚信息" :
-            obj.keyWord =  `${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')} OR 处罚`
+            obj.keyWord =  `((\"${sessionStorage.getItem('SHANGJIAOSUOCOMPANYNAME')}\") AND (处罚))`
             //语句
             break;
           case "正面信息":
