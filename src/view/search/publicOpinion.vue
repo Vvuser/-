@@ -8,7 +8,7 @@
         <div class="i_footer">
           <div>
             <span>{{item.languageTname}}</span>
-            <span class="bord" v-for="(c_item,index) in item.tagName" :key="index">{{c_item}}</span>
+            <span class="bord" v-if="c_item" v-for="(c_item,index) in item.tagName" :key="index">{{c_item}}</span>
           </div>
           <div>
             <el-button icon="el-icon-star-off" v-if="!item.isKeep" size="mini" @click="collect(item, 0)">收藏</el-button>
@@ -44,6 +44,10 @@ export default {
   },
   watch: {
     getSeacherText() {
+      this.page= 1
+      this.list=[]
+      this.total= 0
+      this.getPOList(this.page);
       console.log(this.getSeacherText);
     }
   },
@@ -135,6 +139,11 @@ export default {
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
       }
       h3:hover{
         color: #5180ff;
@@ -152,6 +161,7 @@ export default {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         margin-bottom: 15px;
+        max-height: 60px;
       }
       .i_footer {
         display: flex;

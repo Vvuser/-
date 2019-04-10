@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="content">
         <el-input
-          placeholder="请输入企业名、人名等关键词"
+          placeholder="请输入企业名"
           v-model="searchText"
           class="input-with-select"
           style="width: 1000px;font-size: 14px;color: #969ebb"

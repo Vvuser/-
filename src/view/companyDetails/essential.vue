@@ -13,7 +13,7 @@
           <th class="basicInformationTableth3">{{item.org_no}}</th>
         </tr>
         <tr>
-          <th class="basicInformationTableth0">组册号</th>
+          <th class="basicInformationTableth0">注册号</th>
           <th class="basicInformationTableth1">{{item.reg_no}}</th>
           <th class="basicInformationTableth2">经营状态</th>
           <th class="basicInformationTableth3">{{item.status}}</th>
@@ -28,7 +28,7 @@
           <th class="basicInformationTableth0">公司类型</th>
           <th class="basicInformationTableth1">{{item.econ_kind}}</th>
           <th class="basicInformationTableth2">营业期限</th>
-          <th class="basicInformationTableth3">{{item.term_start}}-{{item.term_end}}</th>
+          <th class="basicInformationTableth3">{{item.term_start}}至{{item.term_end}}</th>
         </tr>
         <tr>
           <th class="basicInformationTableth0">法定代表人</th>
@@ -76,10 +76,9 @@
     <div v-show="showFlag.indexOf('1-3')>-1">
       <table class="mainStaffTbale">
         <tr v-for="(DataList,index) in conList" :key="index">
-          <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
-          <th class="mainStaffTbaleths1" style="font-weight: normal;">{{DataList.name}}</th>
-          <th class="mainStaffTbaleths0">{{DataList.job_title}}</th>
-          <th class="mainStaffTbaleths0" style="font-weight: normal;">{{DataList.name}}</th>
+          <th class="mainStaffTbaleths0" style="padding: 10px 0">{{DataList.job_title}}</th>
+          <th class="mainStaffTbaleths1" style="font-weight: normal;padding: 10px 0">{{DataList.name}}</th>
+
         </tr>
       </table>
     </div>
@@ -93,7 +92,11 @@
         <el-table-column prop="change_date" label="变更日期" width="115"></el-table-column>
         <el-table-column prop="change_item" label="变更事项" width="95"></el-table-column>
         <el-table-column prop="before_content" label="变更前" width="260"></el-table-column>
-        <el-table-column prop="after_content" label="变更后" width="259"></el-table-column>
+        <el-table-column prop="after_content" label="变更后" width="259">
+          <template slot-scope="scope">
+            <span>{{scope.row.after_content!=='null'?scope.row.after_content:'-'}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="BranchingStructure" v-show="showFlag.indexOf('1-5')>-1">
@@ -188,6 +191,7 @@ export default {
           this.dbckop = data.data.partners;
           this.conList = data.data.employees;
           this.tableList = data.data.changerecords;
+          console.log("工商变更",this.tableList);
           this.tableDeta = data.data;
           console.log(this.tableDeta);
         })

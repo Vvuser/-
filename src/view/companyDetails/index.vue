@@ -255,9 +255,10 @@ div{
   position: absolute;
   top: 90px;
   left: 380px;
-  width: 300px;
+  padding: 4px 10px;
+  /*width: 300px;*/
   height: 20px;
-  background: rgb(85, 123, 247);
+  background: #409EFF;
   line-height: 1;
   color: white;
   text-align: center;
@@ -291,17 +292,22 @@ div{
     margin-left: 20px;
   }
   .company-el-tag-2{
-    position: absolute;
-    top: 65px;
-    width: 50px;
+    background-color: rgba(64,158,255,.1);
+    padding: 0 10px;
+    font-size: 12px;
+    color: #409EFF;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid rgba(64,158,255,.2);
+    white-space: nowrap;
     height: 20px;
     line-height: 20px;
+
+    position: absolute;
+    top: 65px;
     margin-left: 5px;
-    border-radius: 15%;
     text-align: center;
-    background-color:rgba(64,158,255,.1);
-    color: #409EFF;
-    border: 1px solid rgba(64,158,255,.2);
   }
   & > div {
     float: right;
@@ -313,6 +319,7 @@ div{
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  padding-bottom: 40px;
   .company-content-left {
     min-width: 680px;
     background-color: #fff;
@@ -344,6 +351,13 @@ div{
     a {
       color: #838895;
       display: block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      max-height: 65px;
       font-size: 14px;
     }
     & > div {

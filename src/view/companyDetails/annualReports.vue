@@ -67,7 +67,11 @@
       <el-table :data="obj.websites" border class="annualReportsIntertable">
         <el-table-column prop="web_type" label="类型" width="80"></el-table-column>
         <el-table-column prop="web_name" label="名称" width="120"></el-table-column>
-        <el-table-column prop="web_url" label="网址" width="599"></el-table-column>
+        <el-table-column prop="web_url" label="网址" width="599">
+          <template slot-scope="scope">
+            <a href="javascript:;" @click="toUrl(scope.row.web_url)">{{scope.row.web_url}}</a>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="iconCan" v-show="showFlag.indexOf('4-3')>-1">
@@ -76,7 +80,7 @@
     </div>
     <div v-show="showFlag.indexOf('4-3')>-1">
       <el-table :data="obj.partners" border class="annualReportsIntertable2">
-        <el-table-column prop="stock_name" label="股东" width="100"></el-table-column>
+        <el-table-column prop="stock_name" label="股东"></el-table-column>
         <el-table-column prop="real_capi_items[0].real_capi" label="认缴出资额(万元)" width="130"></el-table-column>
         <el-table-column
           prop="should_capi_items[0].should_capi_date"
@@ -84,7 +88,7 @@
           width="110"
         ></el-table-column>
         <el-table-column prop="real_capi_items[0].real_capi" label="实缴出资额(万元)" width="130"></el-table-column>
-        <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间" width="80"></el-table-column>
+        <el-table-column prop="real_capi_items[0].real_capi_date" label="实缴出资时间" width="130"></el-table-column>
         <el-table-column prop="real_capi_items[0].invest_type" label="实缴出资方式" width="99"></el-table-column>
       </el-table>
     </div>
@@ -145,6 +149,10 @@ export default {
     }
   },
   methods: {
+    toUrl(url){
+      // alert(url)
+      window.open(`http://${url}`, '_blank');
+    },
     getInfo() {
       this.$post("/company/invoke", {
         url: "/reports/getReportListByName",

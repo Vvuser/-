@@ -26,7 +26,7 @@
         </el-menu>
       </div>
       <div class="contentRight">
-        <ul>
+        <ul v-if="listData.length>0">
           <li v-for="(item,index) in listData"
               :key="index">
             <div>
@@ -47,11 +47,12 @@
             <p>{{item.abst}}</p>
           </li>
         </ul>
+        <div class="footer">
+          <pagination :total="total" @getCurrentPage="getCurrentPage" :pageSize="pageSize"></pagination>
+        </div>
       </div>
     </div>
-    <div class="footer">
-      <pagination :total="total" @getCurrentPage="getCurrentPage" :pageSize="pageSize"></pagination>
-    </div>
+
   </div>
 </template>
 
@@ -67,7 +68,7 @@
     data(){
       return{
         total:0,
-        currentPage:1,
+        selectDataList:1,
         pageSize:10,
         sq:`B/${this.getSeacherText}`,
         listData:[],
@@ -201,7 +202,7 @@
         this.$post('/patent/invoke',{
           dataType: "sql",
           foo: "SEARCH-MASTER",
-          idi: "274766528119",
+          idi: "4",
           scontent: `${this.selectDataList[index].code}%30%↵data%ct%`,
           sf: "QueryFulltextAnalysis",
           showType: "second",
@@ -256,6 +257,9 @@
     },
     watch: {
       getSeacherText(){
+        this.currentPage= 1
+        this.total= 0
+        this.listData= []
         console.log(this.getSeacherText)
         this.sq=`B/${this.getSeacherText}`,
         this.getAjaxData()
@@ -353,7 +357,7 @@
     }
   }
   .footer{
-    width: 1200px;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
     padding: 30px 0;
