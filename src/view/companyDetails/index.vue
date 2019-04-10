@@ -155,9 +155,9 @@ export default {
       this.$get(`/companykeep/getcompany/${this.cId}`).then(res => {
         console.log("查询收藏",res);
         if(res.data.length>0){
-            this.collectFlag = false
+            this.collectFlag = true
         }else {
-          this.collectFlag = true
+          this.collectFlag = false
         }
       });
     },
@@ -227,7 +227,7 @@ export default {
          id: sessionStorage.getItem("enterpriseId")
        })
        .then(data => {
-         this.dataListStatuest = data.data.history_names;
+         this.dataListStatuest = data.data.history_names.toString();
        })
        .catch(error => {
        });

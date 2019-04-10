@@ -124,7 +124,8 @@
 						.then(data => {
 							console.log(data);
 							this.$message.success("取消收藏成功")
-							this.listData[index].isClick= 1
+							// this.listData[index].isClick= 1
+                            this.getAjaxData()
 						}).catch(error => {
 					console.log(error);
 					this.$message.success("取消收藏失败")

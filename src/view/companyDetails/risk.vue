@@ -103,7 +103,7 @@
     <div v-show="showFlag.indexOf('2-7')>-1">
       <el-table :data="freeze" class="tableList" border>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="be_executed_person" label="被执行人" width="100"></el-table-column>
+        <el-table-column prop="be_executed_person" label="被执行人" width="160"></el-table-column>
         <el-table-column prop="amount" label="股权数额" width="80"></el-table-column>
         <el-table-column prop="number" label="执行通知书文号"></el-table-column>
         <el-table-column prop="detail.public_date" label="起止日期">
@@ -346,32 +346,33 @@
         </tr>
       </table>
       <br><p>解冻情况</p><br>
-      <table>
+      <table v-if="freezeItem.un_freeze_details.length>0">
         <tr>
           <td class="left">执行裁定文书</td>
-          <td class="right">{{freezeItem.detail.notice_no}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].notice_no}}</td>
           <td class="left">执行通知文书号</td>
-          <td class="right">{{freezeItem.detail.adjudicate_no}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].adjudicate_no}}</td>
         </tr>
         <tr>
           <td class="left">被执行人</td>
-          <td class="right">{{freezeItem.detail.assist_name}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].assist_name}}</td>
           <td class="left">被执行人持有股权丶其它投资权益的数额</td>
-          <td class="right">{{freezeItem.detail.freeze_amount}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].freeze_amount}}</td>
         </tr>
         <tr>
           <td class="left">被执行人证件种类</td>
-          <td class="right">{{freezeItem.detail.assist_ident_type}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].assist_ident_type}}</td>
           <td class="left">被执行人证件号码</td>
-          <td class="right">{{freezeItem.detail.assist_ident_no}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].assist_ident_no}}</td>
         </tr>
         <tr>
           <td class="left">冻结期限</td>
-          <td class="right">{{freezeItem.detail.freeze_year_month}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].freeze_year_month}}</td>
           <td class="left">公示日期</td>
-          <td class="right">{{freezeItem.detail.public_date}}</td>
+          <td class="right">{{freezeItem.un_freeze_details[0].public_date}}</td>
         </tr>
       </table>
+      <p v-else>&nbsp;&nbsp;&nbsp;暂无信息</p>
       <br><p>失效情况</p><br>
       <table style="height:50px">
         <tr>
@@ -436,6 +437,20 @@ export default {
           freeze_year_month:"",
           public_date:""
         },
+        un_freeze_details:[{
+          execute_court:"",
+          assist_item:"",
+          notice_no:"",
+          adjudicate_no:"",
+          assist_name:"",
+          freeze_amount:"",
+          assist_ident_type:"",
+          assist_ident_no:"",
+          freeze_start_date:"",
+          freeze_end_date:"",
+          freeze_year_month:"",
+          public_date:""
+        }],
         lose_efficacy:{
           date:"",
           reason:""
@@ -453,6 +468,7 @@ export default {
   },
   methods: {
     freezedetail(item){
+      console.log(item);
       this.freezeDialog = true
       this.freezeItem = item
     },

@@ -62,7 +62,7 @@
         <el-table-column prop="stock_type" label="发起人/股东类型" width="150"></el-table-column>
         <el-table-column prop="name" label="发起人/股东" width="215">
           <template slot-scope="scope">
-            <p style="color: rgb(85, 123, 247); cursor: pointer;" @click="Enterdetails(scope.row.name,scope.row.stock_type)">{{ scope.row.name }}</p>
+            <p :class="{canClick:scope.row.stock_type!='自然人股东'}" @click="Enterdetails(scope.row.name,scope.row.stock_type)">{{ scope.row.name }}</p>
           </template>
         </el-table-column>
         <el-table-column prop="total_should_capi" label="认缴出资(金额/时间)" width="217"></el-table-column>
@@ -149,12 +149,25 @@ export default {
         .then(res => {
           console.log('企业详情',res);
           if(res.data.hasOwnProperty("id")){
+            var oldcompanyName= sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME")
+            var oldcompanyId= sessionStorage.getItem("enterpriseId")
+
             sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME",name)
             sessionStorage.setItem("enterpriseId", res.data.id)
-            this.$router.go(0)
+            const { href } = this.$router.resolve({
+              companyName: sessionStorage.getItem("SHANGJIAOSUOCOMPANYNAME"),
+              companyId: sessionStorage.getItem("enterpriseId"),
+              usertoken: sessionStorage.getItem("SHANGJIAOSUOUSERTOKEN"),
+            })
+            window.open(href, '_blank');
+            sessionStorage.setItem("SHANGJIAOSUOCOMPANYNAME",oldcompanyName)
+            sessionStorage.setItem("enterpriseId", oldcompanyId)
+            // this.$router.go(0)
             /*this.$router.push({
               path:'/companyDetails'
             })*/
+          }else {
+            this.$message.warning("暂无此企业相关信息")
           }
         })
       }else{
@@ -301,7 +314,10 @@ export default {
   margin-left: 30px;
   margin-top: 20px;
 }
-
+.canClick{
+    color: rgb(85, 123, 247);
+    cursor: pointer;
+}
 .block {
   margin-top: 20px;
   margin-left: 585px;
